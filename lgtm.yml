@@ -1,0 +1,6 @@
+extraction:
+  java:
+    index:
+      build_command: ./gradlew clean build
+      properties_files: true
+      xml_mode: disabled
