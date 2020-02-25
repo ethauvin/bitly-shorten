@@ -80,14 +80,14 @@ open class Bitly() {
     private var client: OkHttpClient
 
     init {
-        if (logger.isLoggable(Level.FINE)) {
+        client = if (logger.isLoggable(Level.FINE)) {
             val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
                 redactHeader("Authorization")
             }
-            client = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
+            OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
         } else {
-            client = OkHttpClient.Builder().build()
+            OkHttpClient.Builder().build()
         }
     }
 
@@ -162,36 +162,37 @@ open class Bitly() {
      * @return The response (JSON) from the API.
      */
     fun executeCall(endPoint: String, params: Map<String, String>, method: Methods = Methods.POST): String {
-        var returnValue = ""
+        var response = ""
         if (endPoint.isBlank()) {
             logger.severe("Please specify a valid API endpoint.")
         } else if (accessToken.isBlank()) {
             logger.severe("Please specify a valid API access token.")
         } else {
             val apiUrl = endPoint.toHttpUrlOrNull()
-            val builder: Request.Builder
             if (apiUrl != null) {
-                if (method == Methods.POST || method == Methods.PATCH) {
-                    val formBody = JSONObject(params).toString()
-                        .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                    builder = Request.Builder().apply {
-                        url(apiUrl.newBuilder().build())
-                        if (method == Methods.POST)
-                            post(formBody)
-                        else
-                            patch(formBody)
-                    }
-                } else if (method == Methods.DELETE) {
-                    builder = Request.Builder().url(apiUrl.newBuilder().build()).delete()
-                } else {
-                    val httpUrl = apiUrl.newBuilder().apply {
-                        params.forEach {
-                            addQueryParameter(it.key, it.value)
+                val builder = when (method) {
+                    Methods.POST, Methods.PATCH -> {
+                        val formBody = JSONObject(params).toString()
+                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                        Request.Builder().apply {
+                            url(apiUrl.newBuilder().build())
+                            if (method == Methods.POST) {
+                                post(formBody)
+                            } else {
+                                patch(formBody)
+                            }
                         }
-                    }.build()
-                    builder = Request.Builder().url(httpUrl)
-                }
-                builder.addHeader("Authorization", "Bearer $accessToken")
+                    }
+                    Methods.DELETE -> Request.Builder().url(apiUrl.newBuilder().build()).delete()
+                    else -> {
+                        val httpUrl = apiUrl.newBuilder().apply {
+                            params.forEach {
+                                addQueryParameter(it.key, it.value)
+                            }
+                        }.build()
+                        Request.Builder().url(httpUrl)
+                    }
+                }.addHeader("Authorization", "Bearer $accessToken")
 
                 val result = client.newCall(builder.build()).execute()
 
@@ -200,12 +201,12 @@ open class Bitly() {
                     if (!result.isSuccessful && body.isNotEmpty()) {
                         logApiError(body, result.code)
                     }
-                    returnValue = body
+                    response = body
                 }
             }
         }
 
-        return returnValue
+        return response
     }
 
     /**
@@ -221,27 +222,30 @@ open class Bitly() {
      */
     @JvmOverloads
     fun shorten(long_url: String, group_guid: String = "", domain: String = "", isJson: Boolean = false): String {
-        var returnValue = if (isJson) "{}" else ""
+        var bitlink = if (isJson) "{}" else ""
         if (!validateUrl(long_url)) {
             logger.severe("Please specify a valid URL to shorten.")
         } else {
             val params: HashMap<String, String> = HashMap()
-            if (group_guid.isNotBlank())
+            if (group_guid.isNotBlank()) {
                 params["group_guid"] = group_guid
-            if (domain.isNotBlank())
+            }
+            if (domain.isNotBlank()) {
                 params["domain"] = domain
+            }
             params["long_url"] = long_url
 
             val response = executeCall(buildEndPointUrl("/shorten"), params)
 
             if (response.isNotEmpty()) {
                 if (isJson) {
-                    returnValue = response
+                    bitlink = response
                 } else {
                     try {
                         val json = JSONObject(response)
-                        if (json.has("link"))
-                            returnValue = json.getString("link")
+                        if (json.has("link")) {
+                            bitlink = json.getString("link")
+                        }
                     } catch (ignore: JSONException) {
                         logger.severe("An error occurred parsing the response from bitly.")
                     }
@@ -249,19 +253,20 @@ open class Bitly() {
             }
         }
 
-        return returnValue
+        return bitlink
     }
 
     private fun logApiError(body: String, resultCode: Int) {
         try {
-            val jsonResponse = JSONObject(body)
-            if (jsonResponse.has("message")) {
-                logger.severe(jsonResponse.getString("message") + " ($resultCode)")
-            }
-            if (jsonResponse.has("description")) {
-                val description = jsonResponse.getString("description")
-                if (description.isNotBlank()) {
-                    logger.severe(description)
+            with(JSONObject(body)) {
+                if (has("message")) {
+                    logger.severe(getString("message") + " ($resultCode)")
+                }
+                if (has("description")) {
+                    val description = getString("description")
+                    if (description.isNotBlank()) {
+                        logger.severe(description)
+                    }
                 }
             }
         } catch (ignore: JSONException) {
