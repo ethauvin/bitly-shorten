@@ -32,25 +32,13 @@
 
 package net.thauvin.erik.bitly
 
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.File
-import java.net.MalformedURLException
-import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.Properties
-import java.util.logging.Level
-import java.util.logging.Logger
 
 /**
- * The HTTP methods.
+ * HTTP methods.
  */
 enum class Methods {
     DELETE, GET, PATCH, POST
@@ -62,34 +50,8 @@ enum class Methods {
  * @constructor Creates new instance.
  */
 open class Bitly() {
-    /** Constants for this package. **/
-    object Constants {
-        /** The Bitly API base URL. **/
-        const val API_BASE_URL = "https://api-ssl.bitly.com/v4"
-
-        /** The API access token environment variable. **/
-        const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
-    }
-
     /** The API access token. **/
     var accessToken: String = System.getenv(Constants.ENV_ACCESS_TOKEN) ?: ""
-
-    /** The logger instance. **/
-    val logger: Logger by lazy { Logger.getLogger(Bitly::class.java.simpleName) }
-
-    private var client: OkHttpClient
-
-    init {
-        client = if (logger.isLoggable(Level.FINE)) {
-            val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-                redactHeader("Authorization")
-            }
-            OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
-        } else {
-            OkHttpClient.Builder().build()
-        }
-    }
 
     /**
      * Creates a new instance using an [API Access Token][accessToken].
@@ -105,7 +67,7 @@ open class Bitly() {
      * Creates a new instance using a [Properties][properties] and [Property Key][key].
      *
      * @param properties The properties.
-     * @param key The property key.
+     * @param key The property key containing the [API Access Token][accessToken].
      */
     @Suppress("unused")
     @JvmOverloads
@@ -117,7 +79,7 @@ open class Bitly() {
      * Creates a new instance using a [Properties File Path][propertiesFilePath] and [Property Key][key].
      *
      * @param propertiesFilePath The properties file path.
-     * @param key The property key.
+     * @param key The property key containing the [API Access Token][accessToken].
      */
     @JvmOverloads
     constructor(propertiesFilePath: Path, key: String = Constants.ENV_ACCESS_TOKEN) : this() {
@@ -134,194 +96,24 @@ open class Bitly() {
      * Creates a new instance using a [Properties File][propertiesFile] and [Property Key][key].
      *
      * @param propertiesFile The properties file.
-     * @param key The property key.
+     * @param key The property key containing the [API Access Token][accessToken].
      */
     @Suppress("unused")
     @JvmOverloads
     constructor(propertiesFile: File, key: String = Constants.ENV_ACCESS_TOKEN) : this(propertiesFile.toPath(), key)
 
-    /**
-     * Builds the full API endpoint URL using the [Constants.API_BASE_URL].
-     *
-     * @param endPointPath The REST method path. (eg. `/shorten', '/user`)
-     */
-    fun buildEndPointUrl(endPointPath: String): String {
-        return if (endPointPath.startsWith('/')) {
-            "${Constants.API_BASE_URL}$endPointPath"
-        } else {
-            "${Constants.API_BASE_URL}/$endPointPath"
-        }
-    }
+    /** Bitlinks accessor. **/
+    fun bitlinks(): Bitlinks = Bitlinks(accessToken)
 
     /**
      * Executes an API call.
      *
-     * @param endPoint The API endpoint. (eg. `/shorten`, `/user`)
+     * @param endPoint The REST endpoint. (eg. `https://api-ssl.bitly.com/v4/shorten`)
      * @param params The request parameters kev/value map.
      * @param method The submission [Method][Methods].
      * @return The response (JSON) from the API.
      */
     fun call(endPoint: String, params: Map<String, String>, method: Methods = Methods.POST): String {
-        var response = ""
-        if (endPoint.isBlank()) {
-            logger.severe("Please specify a valid API endpoint.")
-        } else if (accessToken.isBlank()) {
-            logger.severe("Please specify a valid API access token.")
-        } else {
-            val apiUrl = endPoint.toHttpUrlOrNull()
-            if (apiUrl != null) {
-                val builder = when (method) {
-                    Methods.POST, Methods.PATCH -> {
-                        val formBody = JSONObject(params).toString()
-                            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                        Request.Builder().apply {
-                            url(apiUrl.newBuilder().build())
-                            if (method == Methods.POST) {
-                                post(formBody)
-                            } else {
-                                patch(formBody)
-                            }
-                        }
-                    }
-                    Methods.DELETE -> Request.Builder().url(apiUrl.newBuilder().build()).delete()
-                    else -> {
-                        val httpUrl = apiUrl.newBuilder().apply {
-                            params.forEach {
-                                addQueryParameter(it.key, it.value)
-                            }
-                        }.build()
-                        Request.Builder().url(httpUrl)
-                    }
-                }.addHeader("Authorization", "Bearer $accessToken")
-
-                val result = client.newCall(builder.build()).execute()
-
-                val body = result.body?.string()
-                if (body != null) {
-                    if (!result.isSuccessful && body.isNotEmpty()) {
-                        logApiError(body, result.code)
-                    }
-                    response = body
-                }
-            }
-        }
-
-        return response
-    }
-
-    /**
-     * Expands a Bitlink.
-     *
-     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/expandBitlink) for more information.
-     *
-     * @param bitlink_id The bitlink ID.
-     * @param isJson Returns the full JSON API response if `true`
-     * @return THe long URL or JSON API response.
-     */
-    @JvmOverloads
-    fun expand(bitlink_id: String, isJson: Boolean = false): String {
-        var longUrl = if (isJson) "{}" else ""
-        if (bitlink_id.isNotBlank()) {
-            val response = call(
-                buildEndPointUrl("/expand"),
-                mapOf(
-                    Pair(
-                        "bitlink_id",
-                        bitlink_id.removePrefix("http://").removePrefix("https://")
-                    )
-                ),
-                Methods.POST
-            )
-            longUrl = parseJsonResponse(response, "long_url", longUrl, isJson)
-        }
-
-        return longUrl
-    }
-
-    private fun JSONObject.getString(key: String, default: String): String {
-        return if (this.has(key))
-            this.getString(key)
-        else
-            default
-    }
-
-    /**
-     * Shortens a long URL.
-     *
-     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/createBitlink) for more information.
-     *
-     * @param long_url The long URL.
-     * @param group_guid The group UID.
-     * @param domain The domain for the short URL, defaults to `bit.ly`.
-     * @param isJson Returns the full JSON API response if `true`
-     * @return THe short URL or JSON API response.
-     */
-    @JvmOverloads
-    fun shorten(long_url: String, group_guid: String = "", domain: String = "", isJson: Boolean = false): String {
-        var bitlink = if (isJson) "{}" else ""
-        if (!validateUrl(long_url)) {
-            logger.severe("Please specify a valid URL to shorten.")
-        } else {
-            val params: HashMap<String, String> = HashMap()
-            if (group_guid.isNotBlank()) {
-                params["group_guid"] = group_guid
-            }
-            if (domain.isNotBlank()) {
-                params["domain"] = domain
-            }
-            params["long_url"] = long_url
-
-            val response = call(buildEndPointUrl("/shorten"), params)
-
-            bitlink = parseJsonResponse(response, "link", bitlink, isJson)
-        }
-
-        return bitlink
-    }
-
-    private fun logApiError(body: String, resultCode: Int) {
-        try {
-            with(JSONObject(body)) {
-                if (has("message")) {
-                    logger.severe(getString("message") + " ($resultCode)")
-                }
-                if (has("description")) {
-                    val description = getString("description")
-                    if (description.isNotBlank()) {
-                        logger.severe(description)
-                    }
-                }
-            }
-        } catch (ignore: JSONException) {
-            logger.severe("An error occurred parsing the error response from bitly.")
-        }
-    }
-
-    private fun parseJsonResponse(response: String, key: String, default: String, isJson: Boolean): String {
-        if (response.isNotEmpty()) {
-            if (isJson) {
-                return response
-            } else {
-                try {
-                    return JSONObject(response).getString(key, default)
-                } catch (ignore: JSONException) {
-                    logger.severe("An error occurred parsing the response from bitly.")
-                }
-            }
-        }
-        return default
-    }
-
-    private fun validateUrl(url: String): Boolean {
-        var isValid = url.isNotBlank()
-        if (isValid) {
-            try {
-                URL(url)
-            } catch (e: MalformedURLException) {
-                logger.log(Level.FINE, "Invalid URL: $url", e)
-                isValid = false
-            }
-        }
-        return isValid
+        return Utils.call(accessToken, endPoint, params, method)
     }
 }

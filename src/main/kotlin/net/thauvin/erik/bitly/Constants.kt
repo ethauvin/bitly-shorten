@@ -1,5 +1,5 @@
 /*
- * BitlyTest.kt
+ * Constants.kt
  *
  * Copyright (c) 2020, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
@@ -32,63 +32,13 @@
 
 package net.thauvin.erik.bitly
 
-import org.junit.Before
-import java.io.File
-import java.util.logging.Level
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+/** Constants for this package. **/
+class Constants private constructor() {
+    companion object Constants {
+        /** The Bitly API base URL. **/
+        const val API_BASE_URL = "https://api-ssl.bitly.com/v4"
 
-class BitlyTest {
-    private val bitly = with(File("local.properties")) {
-        if (exists()) {
-            Bitly(toPath())
-        } else {
-            Bitly()
-        }
-    }
-    private val blog = "https://erik.thauvin.net/blog"
-
-    @Before
-    fun before() {
-        with(Utils.logger) {
-            level = Level.FINE
-        }
-    }
-
-    @Test
-    fun `token should be specified`() {
-        val test = Bitly()
-        if (System.getenv("CI") == "true") {
-            test.accessToken = ""
-        }
-        assertEquals("", test.bitlinks().shorten(blog))
-    }
-
-    @Test
-    fun `token should be valid`() {
-        val test = Bitly().apply { accessToken = "12345679" }
-        assertEquals("{\"message\":\"FORBIDDEN\"}", test.bitlinks().shorten("https://erik.thauvin.net/blog", isJson = true))
-    }
-
-    @Test
-    fun `long url should be valid`() {
-        assertEquals("", bitly.bitlinks().shorten(""))
-    }
-
-    @Test
-    fun `shorten = expand`() {
-        val shortUrl = bitly.bitlinks().shorten(blog, domain = "bit.ly")
-        assertEquals(blog, bitly.bitlinks().expand(shortUrl))
-    }
-
-    @Test
-    fun `as json`() {
-        assertTrue(bitly.bitlinks().shorten(blog, isJson = true).startsWith("{\"created_at\":"))
-    }
-
-    @Test
-    fun `get user`() {
-        assertTrue(bitly.call(Utils.buildEndPointUrl("user"), emptyMap(), Methods.GET).contains("\"login\":"))
+        /** The API access token environment variable. **/
+        const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
     }
 }
