@@ -73,6 +73,9 @@ class BitlyTest {
     @Test
     fun `token should be specified`() {
         val test = Bitly()
+        if (System.getenv("CI") == "true") {
+            test.accessToken = ""
+        }
         assertEquals("", test.shorten("https://erik.thauvin.net/blog/"))
     }
 
