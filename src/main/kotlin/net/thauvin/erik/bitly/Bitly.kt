@@ -57,7 +57,7 @@ enum class Methods {
 }
 
 /**
- * A simple implementation of the Bitly API v4.
+ * A simple implementation of the [Bitly API v4](https://dev.bitly.com/v4/).
  *
  * @constructor Creates new instance.
  */
