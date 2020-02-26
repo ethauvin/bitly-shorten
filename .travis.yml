@@ -6,7 +6,7 @@ env:
     - CI=true
 
 install:
-  - git fetch --unshallow --tags
+#  - git fetch --unshallow --tags
 
 addons:
   sonarcloud:
