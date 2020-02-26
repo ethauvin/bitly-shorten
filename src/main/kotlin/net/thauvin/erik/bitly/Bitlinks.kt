@@ -53,7 +53,7 @@ class Bitlinks(private val accessToken: String) {
      */
     @JvmOverloads
     fun expand(bitlink_id: String, isJson: Boolean = false): String {
-        var longUrl = if (isJson) "{}" else ""
+        var longUrl = if (isJson) "{}" else Constants.EMPTY
         if (bitlink_id.isNotBlank()) {
             val response = Utils.call(
                 accessToken,
@@ -86,8 +86,13 @@ class Bitlinks(private val accessToken: String) {
      * @return THe short URL or JSON API response.
      */
     @JvmOverloads
-    fun shorten(long_url: String, group_guid: String = "", domain: String = "", isJson: Boolean = false): String {
-        var bitlink = if (isJson) "{}" else ""
+    fun shorten(
+        long_url: String,
+        group_guid: String = Constants.EMPTY,
+        domain: String = Constants.EMPTY,
+        isJson: Boolean = false
+    ): String {
+        var bitlink = if (isJson) "{}" else Constants.EMPTY
         if (!Utils.validateUrl(long_url)) {
             Utils.logger.severe("Please specify a valid URL to shorten.")
         } else {

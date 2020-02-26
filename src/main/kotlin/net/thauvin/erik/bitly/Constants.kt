@@ -40,5 +40,8 @@ class Constants private constructor() {
 
         /** The API access token environment variable. **/
         const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
+
+        /** Empty String **/
+        const val EMPTY = ""
     }
 }

@@ -60,9 +60,9 @@ class BitlyTest {
     fun `token should be specified`() {
         val test = Bitly()
         if (System.getenv("CI") == "true") {
-            test.accessToken = ""
+            test.accessToken = Constants.EMPTY
         }
-        assertEquals("", test.bitlinks().shorten(blog))
+        assertEquals(Constants.EMPTY, test.bitlinks().shorten(blog))
     }
 
     @Test
@@ -73,7 +73,7 @@ class BitlyTest {
 
     @Test
     fun `long url should be valid`() {
-        assertEquals("", bitly.bitlinks().shorten(""))
+        assertEquals(Constants.EMPTY, bitly.bitlinks().shorten(Constants.EMPTY))
     }
 
     @Test

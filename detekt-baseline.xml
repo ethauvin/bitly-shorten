@@ -2,12 +2,8 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
-    <ID>ComplexMethod:Utils.kt$Utils.Companion$call</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$bitlink_id: String</ID>
-    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$group_guid: String = ""</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$group_guid: String = Constants.EMPTY</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$long_url: String</ID>
-    <ID>NestedBlockDepth:Utils.kt$Utils.Companion$call</ID>
-    <ID>NestedBlockDepth:Utils.kt$Utils.Companion$logApiError</ID>
-    <ID>ReturnCount:Bitlinks.kt$Bitlinks$private fun parseJsonResponse(response: String, key: String, default: String, isJson: Boolean): String</ID>
   </Whitelist>
 </SmellBaseline>

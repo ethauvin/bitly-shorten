@@ -89,12 +89,8 @@ class Utils private constructor() {
             params: Map<String, String>,
             method: Methods = Methods.POST
         ): String {
-            var response = ""
-            if (endPoint.isBlank()) {
-                logger.severe("Please specify a valid API endpoint.")
-            } else if (accessToken.isBlank()) {
-                logger.severe("Please specify a valid API access token.")
-            } else {
+            var response = Constants.EMPTY
+            if (validateCall(accessToken, endPoint)) {
                 val apiUrl = endPoint.toHttpUrlOrNull()
                 if (apiUrl != null) {
                     val builder = when (method) {
