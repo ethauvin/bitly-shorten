@@ -114,17 +114,18 @@ class Bitlinks(private val accessToken: String) {
     }
 
     private fun parseJsonResponse(response: String, key: String, default: String, isJson: Boolean): String {
+        var parsed = default
         if (response.isNotEmpty()) {
             if (isJson) {
-                return response
+                parsed = response
             } else {
                 try {
-                    return JSONObject(response).getString(key, default)
+                    parsed = JSONObject(response).getString(key, default)
                 } catch (jse: JSONException) {
-                    Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from bitly.", jse)
+                    Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from Bitly.", jse)
                 }
             }
         }
-        return default
+        return parsed
     }
 }

@@ -37,6 +37,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONException
 import org.json.JSONObject
@@ -118,36 +119,45 @@ class Utils private constructor() {
                     }.addHeader("Authorization", "Bearer $accessToken")
 
                     val result = client.newCall(builder.build()).execute()
-
-                    val body = result.body?.string()
-                    if (body != null) {
-                        if (!result.isSuccessful && body.isNotEmpty()) {
-                            logApiError(body, result.code)
-                        }
-                        response = body
-                    }
+                    response = parseBody(endPoint, result)
                 }
             }
-
             return response
         }
 
-        private fun logApiError(body: String, resultCode: Int) {
-            try {
-                with(JSONObject(body)) {
-                    if (has("message")) {
-                        logger.severe(getString("message") + " ($resultCode)")
-                    }
-                    if (has("description")) {
-                        val description = getString("description")
-                        if (description.isNotBlank()) {
-                            logger.severe(description)
+        private fun parseBody(endPoint: String, result: Response): String {
+            val body = result.body?.string()
+            if (body != null) {
+                if (!result.isSuccessful && body.isNotEmpty()) {
+                    try {
+                        with(JSONObject(body)) {
+                            if (has("message")) {
+                                logger.severe(getString("message") + " (${result.code})")
+                            }
+                            if (has("description")) {
+                                logger.severe(getString("description"))
+                            }
                         }
+                    } catch (jse: JSONException) {
+                        logger.log(
+                            Level.SEVERE,
+                            "An error occurred parsing the error response from Bitly. [$endPoint]",
+                            jse
+                        )
                     }
                 }
-            } catch (jse: JSONException) {
-                logger.log(Level.SEVERE, "An error occurred parsing the error response from bitly.", jse)
+                return body
             }
+            return Constants.EMPTY
+        }
+
+        private fun validateCall(accessToken: String, endPoint: String): Boolean {
+            when {
+                endPoint.isBlank() -> logger.severe("Please specify a valid API endpoint.")
+                accessToken.isBlank() -> logger.severe("Please specify a valid API access token.")
+                else -> return true
+            }
+            return false
         }
 
         /**
