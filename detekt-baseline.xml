@@ -2,9 +2,11 @@
 <SmellBaseline>
   <Blacklist></Blacklist>
   <Whitelist>
+    <ID>ComplexMethod:Bitly.kt$Bitly$executeCall</ID>
     <ID>FunctionParameterNaming:Bitly.kt$Bitly$group_guid: String = ""</ID>
     <ID>FunctionParameterNaming:Bitly.kt$Bitly$long_url: String</ID>
     <ID>NestedBlockDepth:Bitly.kt$Bitly$executeCall</ID>
+    <ID>NestedBlockDepth:Bitly.kt$Bitly$logApiError</ID>
     <ID>NestedBlockDepth:Bitly.kt$Bitly$shorten</ID>
   </Whitelist>
 </SmellBaseline>
