@@ -219,7 +219,7 @@ bintray {
         githubRepo = gitHub
         githubReleaseNotesFile = "README.md"
         vcsUrl = "$mavenUrl.git"
-        setLabels("kotlin", "java", "bitly", "bit.ly", "shorten", "url", "link", "bitlink")
+        setLabels("bitlinks", "bitly", "bitly-api", "bitly-v4", "java", "kotlin", "shorten", "shorten-urls", "shortener", "shortener-rest", "shortener-service", "shortens-links", "shorturl", "url-shortener")
         publicDownloadNumbers = true
         version.apply {
             name = project.version as String
