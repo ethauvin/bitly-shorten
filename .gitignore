@@ -4,9 +4,6 @@
 !.vscode/settings.json
 !.vscode/tasks.json
 
-*.jar
-!gradle-wrapper.jar
-
 __pycache__
 .classpath
 .DS_Store
@@ -23,14 +20,12 @@ __pycache__
 *.class
 *.code-workspace
 *.ctxt
-*.ear
 *.iws
 *.log
 *.nar
 *.rar
 *.sublime-*
 *.tar.gz
-*.war
 *.zip
 /**/.idea_modules/
 /**/.idea/**/caches/build_file_checksums.ser

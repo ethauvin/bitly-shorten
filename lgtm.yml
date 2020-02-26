@@ -1,6 +1,8 @@
 extraction:
   java:
     index:
+      gradle:
+        version: 6.2.1
       build_command: ./gradlew clean build
       properties_files: true
       xml_mode: disabled
