@@ -18,7 +18,7 @@ plugins {
     id("org.sonarqube") version "2.8"
 }
 
-group = "net.thauvin.erik.bitly"
+group = "net.thauvin.erik"
 description = "Bitly Shortener for Kotlin/Java"
 
 val gitHub = "ethauvin/$name"
