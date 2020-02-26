@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="CompilerConfiguration">
-    <bytecodeTargetLevel>
-      <module name="bitly-shorten_main" target="13" />
-      <module name="bitly-shorten_test" target="13" />
-    </bytecodeTargetLevel>
-  </component>
-</project>
