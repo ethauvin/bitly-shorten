@@ -161,7 +161,7 @@ open class Bitly() {
      * @param method The submission [Method][Methods].
      * @return The response (JSON) from the API.
      */
-    fun executeCall(endPoint: String, params: Map<String, String>, method: Methods = Methods.POST): String {
+    fun call(endPoint: String, params: Map<String, String>, method: Methods = Methods.POST): String {
         var response = ""
         if (endPoint.isBlank()) {
             logger.severe("Please specify a valid API endpoint.")
@@ -210,13 +210,49 @@ open class Bitly() {
     }
 
     /**
+     * Expands a Bitlink.
+     *
+     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/expandBitlink) for more information.
+     *
+     * @param bitlink_id The bitlink ID.
+     * @param isJson Returns the full JSON API response if `true`
+     * @return THe long URL or JSON API response.
+     */
+    @JvmOverloads
+    fun expand(bitlink_id: String, isJson: Boolean = false): String {
+        var longUrl = if (isJson) "{}" else ""
+        if (bitlink_id.isNotBlank()) {
+            val response = call(
+                buildEndPointUrl("/expand"),
+                mapOf(
+                    Pair(
+                        "bitlink_id",
+                        bitlink_id.removePrefix("http://").removePrefix("https://")
+                    )
+                ),
+                Methods.POST
+            )
+            longUrl = parseJsonResponse(response, "long_url", longUrl, isJson)
+        }
+
+        return longUrl
+    }
+
+    private fun JSONObject.getString(key: String, default: String): String {
+        return if (this.has(key))
+            this.getString(key)
+        else
+            default
+    }
+
+    /**
      * Shortens a long URL.
      *
      * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/createBitlink) for more information.
      *
      * @param long_url The long URL.
      * @param group_guid The group UID.
-     * @param domain The domain, defaults to `bit.ly`.
+     * @param domain The domain for the short URL, defaults to `bit.ly`.
      * @param isJson Returns the full JSON API response if `true`
      * @return THe short URL or JSON API response.
      */
@@ -235,22 +271,9 @@ open class Bitly() {
             }
             params["long_url"] = long_url
 
-            val response = executeCall(buildEndPointUrl("/shorten"), params)
+            val response = call(buildEndPointUrl("/shorten"), params)
 
-            if (response.isNotEmpty()) {
-                if (isJson) {
-                    bitlink = response
-                } else {
-                    try {
-                        val json = JSONObject(response)
-                        if (json.has("link")) {
-                            bitlink = json.getString("link")
-                        }
-                    } catch (ignore: JSONException) {
-                        logger.severe("An error occurred parsing the response from bitly.")
-                    }
-                }
-            }
+            bitlink = parseJsonResponse(response, "link", bitlink, isJson)
         }
 
         return bitlink
@@ -272,6 +295,21 @@ open class Bitly() {
         } catch (ignore: JSONException) {
             logger.severe("An error occurred parsing the error response from bitly.")
         }
+    }
+
+    private fun parseJsonResponse(response: String, key: String, default: String, isJson: Boolean): String {
+        if (response.isNotEmpty()) {
+            if (isJson) {
+                return response
+            } else {
+                try {
+                    return JSONObject(response).getString(key, default)
+                } catch (ignore: JSONException) {
+                    logger.severe("An error occurred parsing the response from bitly.")
+                }
+            }
+        }
+        return default
     }
 
     private fun validateUrl(url: String): Boolean {
