@@ -37,6 +37,7 @@ import java.io.File
 import java.util.logging.Level
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 class BitlyTest {
@@ -69,7 +70,10 @@ class BitlyTest {
     @Test
     fun `token should be valid`() {
         val test = Bitly().apply { accessToken = "12345679" }
-        assertEquals("{\"message\":\"FORBIDDEN\"}", test.bitlinks().shorten("https://erik.thauvin.net/blog", isJson = true))
+        assertEquals(
+            "{\"message\":\"FORBIDDEN\"}",
+            test.bitlinks().shorten("https://erik.thauvin.net/blog", isJson = true)
+        )
     }
 
     @Test
@@ -95,11 +99,16 @@ class BitlyTest {
 
     @Test
     fun `bitlinks shorten`() {
-        assertEquals(shortUrl, Bitlinks(bitly.accessToken).shorten(longUrl, domain="bit.ly"))
+        assertEquals(shortUrl, Bitlinks(bitly.accessToken).shorten(longUrl, domain = "bit.ly"))
     }
 
     @Test
     fun `bitlinks expand`() {
         assertEquals(longUrl, Bitlinks(bitly.accessToken).expand(shortUrl))
+    }
+
+    @Test
+    fun `clicks summary`() {
+        assertNotEquals(Constants.EMPTY, bitly.bitlinks().Clicks().summary(shortUrl))
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Constants.kt
+ * Units.kt
  *
  * Copyright (c) 2020, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
@@ -32,16 +32,12 @@
 
 package net.thauvin.erik.bitly
 
-/** Constants for this package. **/
-open class Constants private constructor() {
-    companion object Constants {
-        /** The Bitly API base URL. **/
-        const val API_BASE_URL = "https://api-ssl.bitly.com/v4"
-
-        /** The API access token environment variable. **/
-        const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
-
-        /** Empty String **/
-        const val EMPTY = ""
-    }
+/** Units of time **/
+@Suppress("unused")
+enum class Units {
+    MINUTE,
+    HOUR,
+    DAY,
+    WEEK,
+    MONTH
 }

@@ -41,7 +41,35 @@ import java.util.logging.Level
  *
  * See the [Bitly API](https://dev.bitly.com/v4/#tag/Bitlinks) for more information.
  */
-class Bitlinks(private val accessToken: String) {
+open class Bitlinks(val accessToken: String) {
+    inner class Clicks {
+        fun summary(
+            bitlink: String,
+            unit: Units = Units.DAY,
+            units: Int = -1,
+            size: Int = 50,
+            unit_reference: String = Constants.EMPTY,
+            isJson: Boolean = false
+        ): String {
+            var clicks = if (isJson) "{}" else Constants.EMPTY
+            if (bitlink.isNotBlank()) {
+                val response = Utils.call(
+                    accessToken,
+                    Utils.buildEndPointUrl("/bitlinks/" + bitlink.removeHttp() + "/clicks/summary"),
+                    hashMapOf(
+                        Pair("unit", unit.toString().toLowerCase()),
+                        Pair("units", units.toString()),
+                        Pair("size", size.toString()),
+                        Pair("unit_reference", unit_reference)
+                    ),
+                    Methods.GET
+                )
+                clicks = parseJsonResponse(response, "total_clicks", clicks, isJson)
+            }
+            return clicks
+        }
+    }
+
     /**
      * Expands a Bitlink.
      *
@@ -58,7 +86,7 @@ class Bitlinks(private val accessToken: String) {
             val response = Utils.call(
                 accessToken,
                 Utils.buildEndPointUrl("/expand"),
-                mapOf(Pair("bitlink_id", bitlink_id.removePrefix("http://").removePrefix("https://"))),
+                mapOf(Pair("bitlink_id", bitlink_id.removeHttp())),
                 Methods.POST
             )
             longUrl = parseJsonResponse(response, "long_url", longUrl, isJson)
@@ -69,9 +97,29 @@ class Bitlinks(private val accessToken: String) {
 
     private fun JSONObject.getString(key: String, default: String): String {
         return if (this.has(key))
-            this.getString(key)
+            this.get(key).toString()
         else
             default
+    }
+
+    private fun parseJsonResponse(response: String, key: String, default: String, isJson: Boolean): String {
+        var parsed = default
+        if (response.isNotEmpty()) {
+            if (isJson) {
+                parsed = response
+            } else {
+                try {
+                    parsed = JSONObject(response).getString(key, default)
+                } catch (jse: JSONException) {
+                    Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from Bitly.", jse)
+                }
+            }
+        }
+        return parsed
+    }
+
+    private fun String.removeHttp(): String {
+        return this.replaceFirst(Regex("^[Hh][Tt]{2}[Pp][Ss]?://"), "")
     }
 
     /**
@@ -111,21 +159,5 @@ class Bitlinks(private val accessToken: String) {
         }
 
         return bitlink
-    }
-
-    private fun parseJsonResponse(response: String, key: String, default: String, isJson: Boolean): String {
-        var parsed = default
-        if (response.isNotEmpty()) {
-            if (isJson) {
-                parsed = response
-            } else {
-                try {
-                    parsed = JSONObject(response).getString(key, default)
-                } catch (jse: JSONException) {
-                    Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from Bitly.", jse)
-                }
-            }
-        }
-        return parsed
     }
 }

@@ -36,6 +36,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.create
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
@@ -47,20 +48,10 @@ import java.util.logging.Level
 import java.util.logging.Logger
 
 /** Useful functions. */
-class Utils private constructor() {
+open class Utils private constructor() {
     companion object {
         /** The logger instance. **/
         val logger: Logger by lazy { Logger.getLogger(Bitly::class.java.simpleName) }
-
-        private val client: OkHttpClient = if (logger.isLoggable(Level.FINE)) {
-            val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-                redactHeader("Authorization")
-            }
-            OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
-        } else {
-            OkHttpClient.Builder().build()
-        }
 
         /**
          * Builds the full API endpoint URL using the [Constants.API_BASE_URL].
@@ -118,11 +109,23 @@ class Utils private constructor() {
                         }
                     }.addHeader("Authorization", "Bearer $accessToken")
 
-                    val result = client.newCall(builder.build()).execute()
+                    val result = createHttpClient().newCall(builder.build()).execute()
                     response = parseBody(endPoint, result)
                 }
             }
             return response
+        }
+
+        private fun createHttpClient() : OkHttpClient {
+            return if (logger.isLoggable(Level.FINE)) {
+                val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                    redactHeader("Authorization")
+                }
+                OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
+            } else {
+                OkHttpClient.Builder().build()
+            }
         }
 
         private fun parseBody(endPoint: String, result: Response): String {
