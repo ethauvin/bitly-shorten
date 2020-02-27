@@ -92,7 +92,7 @@ class Bitlinks(private val accessToken: String) {
         domain: String = Constants.EMPTY,
         isJson: Boolean = false
     ): String {
-        var bitlink = if (isJson) "{}" else Constants.EMPTY
+        var bitlink = if (isJson) "{}" else long_url
         if (!Utils.validateUrl(long_url)) {
             Utils.logger.severe("Please specify a valid URL to shorten.")
         } else {
