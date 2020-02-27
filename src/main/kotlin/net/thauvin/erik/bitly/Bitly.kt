@@ -50,11 +50,16 @@ enum class Methods {
  * @constructor Creates new instance.
  */
 open class Bitly() {
-    /** The API access token. **/
-    var accessToken: String = System.getenv(Constants.ENV_ACCESS_TOKEN) ?: Constants.EMPTY
+    /** The API access token.
+     *
+     * See [Generic Access Token](https://bitly.is/accesstoken) or
+     * [Authentication](https://dev.bitly.com/v4/#section/Authentication).
+     **/
+    var accessToken: String = System.getenv(Constants.ENV_ACCESS_TOKEN)
+        ?: (System.getProperty(Constants.ENV_ACCESS_TOKEN) ?: Constants.EMPTY)
 
     /**
-     * Creates a new instance using an [API Access Token][accessToken].
+     * Creates a new instance using an [API Access Token][Bitly.accessToken].
      *
      * @param accessToken The API access token.
      */

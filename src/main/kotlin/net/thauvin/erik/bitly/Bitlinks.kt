@@ -48,8 +48,8 @@ class Bitlinks(private val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/expandBitlink) for more information.
      *
      * @param bitlink_id The bitlink ID.
-     * @param isJson Returns the full JSON API response if `true`
-     * @return THe long URL or JSON API response.
+     * @param isJson Returns the full JSON response if `true`
+     * @return The long URL or JSON response, or on error, an empty string/JSON object.
      */
     @JvmOverloads
     fun expand(bitlink_id: String, isJson: Boolean = false): String {
@@ -81,9 +81,9 @@ class Bitlinks(private val accessToken: String) {
      *
      * @param long_url The long URL.
      * @param group_guid The group UID.
-     * @param domain The domain for the short URL, defaults to `bit.ly`.
-     * @param isJson Returns the full JSON API response if `true`
-     * @return THe short URL or JSON API response.
+     * @param domain The domain for the short URL.
+     * @param isJson Returns the full JSON response if `true`
+     * @return The short URL or JSON response, or on error, the [long_url] or an empty JSON object.
      */
     @JvmOverloads
     fun shorten(

@@ -47,7 +47,8 @@ class BitlyTest {
             Bitly()
         }
     }
-    private val blog = "https://erik.thauvin.net/blog"
+    private val longUrl = "https://erik.thauvin.net/blog"
+    private val shortUrl = "http://bit.ly/380ojFd"
 
     @Before
     fun before() {
@@ -62,7 +63,7 @@ class BitlyTest {
         if (System.getenv("CI") == "true") {
             test.accessToken = Constants.EMPTY
         }
-        assertEquals(Constants.EMPTY, test.bitlinks().shorten(blog))
+        assertEquals(longUrl, test.bitlinks().shorten(longUrl))
     }
 
     @Test
@@ -78,13 +79,13 @@ class BitlyTest {
 
     @Test
     fun `shorten = expand`() {
-        val shortUrl = bitly.bitlinks().shorten(blog, domain = "bit.ly")
-        assertEquals(blog, bitly.bitlinks().expand(shortUrl))
+        val shortUrl = bitly.bitlinks().shorten(longUrl, domain = "bit.ly")
+        assertEquals(longUrl, bitly.bitlinks().expand(shortUrl))
     }
 
     @Test
     fun `as json`() {
-        assertTrue(bitly.bitlinks().shorten(blog, isJson = true).startsWith("{\"created_at\":"))
+        assertTrue(bitly.bitlinks().shorten(longUrl, isJson = true).startsWith("{\"created_at\":"))
     }
 
     @Test
