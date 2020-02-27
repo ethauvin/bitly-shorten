@@ -4,9 +4,8 @@ plugins {
     application
 }
 
-// ./gradlew run runJava
-
-defaultTasks(ApplicationPlugin.TASK_RUN_NAME)
+// ./gradlew run --args='https://erik.thauvin.net'
+// ./gradlew runJava --args='https://erik.thauvin.net'
 
 repositories {
     mavenLocal()
