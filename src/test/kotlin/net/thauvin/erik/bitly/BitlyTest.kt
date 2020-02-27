@@ -92,4 +92,14 @@ class BitlyTest {
     fun `get user`() {
         assertTrue(bitly.call(Utils.buildEndPointUrl("user"), emptyMap(), Methods.GET).contains("\"login\":"))
     }
+
+    @Test
+    fun `bitlinks shorten`() {
+        assertEquals(shortUrl, Bitlinks(bitly.accessToken).shorten(longUrl, domain="bit.ly"))
+    }
+
+    @Test
+    fun `bitlinks expand`() {
+        assertEquals(longUrl, Bitlinks(bitly.accessToken).expand(shortUrl))
+    }
 }
