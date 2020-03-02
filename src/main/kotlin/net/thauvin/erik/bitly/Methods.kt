@@ -1,5 +1,5 @@
 /*
- * Units.kt
+ * Methods.kt
  *
  * Copyright (c) 2020, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
@@ -33,13 +33,8 @@
 package net.thauvin.erik.bitly
 
 /**
- * Units of time.
+ * HTTP methods.
  */
-@Suppress("unused")
-enum class Units {
-    MINUTE,
-    HOUR,
-    DAY,
-    WEEK,
-    MONTH
+enum class Methods {
+    DELETE, GET, PATCH, POST
 }
