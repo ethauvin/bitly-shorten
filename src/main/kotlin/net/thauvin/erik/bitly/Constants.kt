@@ -43,5 +43,8 @@ open class Constants private constructor() {
 
         /** Empty String **/
         const val EMPTY = ""
+
+        /** Empty JSON Object **/
+        const val EMPTY_JSON = "{}"
     }
 }

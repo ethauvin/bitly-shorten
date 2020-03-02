@@ -36,7 +36,6 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody.Companion.create
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
@@ -116,7 +115,7 @@ open class Utils private constructor() {
             return response
         }
 
-        private fun createHttpClient() : OkHttpClient {
+        private fun createHttpClient(): OkHttpClient {
             return if (logger.isLoggable(Level.FINE)) {
                 val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
