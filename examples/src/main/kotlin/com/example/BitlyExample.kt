@@ -5,7 +5,7 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     if (args.isNotEmpty()) {
-        val bitly = Bitly(/* "YOUR_API_ACCESS_TOKEN from https://bitly.is/accesstoken" */) //
+        val bitly = Bitly(/* "YOUR_API_ACCESS_TOKEN from https://bitly.is/accesstoken" */)
         args.forEach {
             if (it.contains("bit.ly"))
                 println(it + " <-- " + bitly.bitlinks().expand(it))
