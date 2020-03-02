@@ -28,7 +28,7 @@ The Bitly API [Access Token](https://bitly.is/accesstoken) can be specified dire
 
 ```kotlin
 // Env Variable or System Property
-vak bitly = Bitly()
+val bitly = Bitly()
 
 // Properties file path
 val bitly = Bitly(File("my.properties"))
