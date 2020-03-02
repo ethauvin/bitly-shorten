@@ -32,6 +32,9 @@
 
 package net.thauvin.erik.bitly
 
+import net.thauvin.erik.bitly.Utils.Companion.isValidUrl
+import net.thauvin.erik.bitly.Utils.Companion.removeHttp
+import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.logging.Level
@@ -42,32 +45,45 @@ import java.util.logging.Level
  * See the [Bitly API](https://dev.bitly.com/v4/#tag/Bitlinks) for more information.
  */
 open class Bitlinks(val accessToken: String) {
-    inner class Clicks {
-        fun summary(
-            bitlink: String,
-            unit: Units = Units.DAY,
-            units: Int = -1,
-            size: Int = 50,
-            unit_reference: String = Constants.EMPTY,
-            isJson: Boolean = false
-        ): String {
-            var clicks = if (isJson) Constants.EMPTY_JSON else Constants.EMPTY
-            if (bitlink.isNotBlank()) {
-                val response = Utils.call(
-                    accessToken,
-                    Utils.buildEndPointUrl("/bitlinks/" + bitlink.removeHttp() + "/clicks/summary"),
-                    hashMapOf(
-                        Pair("unit", unit.toString().toLowerCase()),
-                        Pair("units", units.toString()),
-                        Pair("size", size.toString()),
-                        Pair("unit_reference", unit_reference)
-                    ),
-                    Methods.GET
-                )
-                clicks = parseJsonResponse(response, "total_clicks", clicks, isJson)
-            }
-            return clicks
+    /**
+     * Returns the click counts for a specified Bitlink.
+     *
+     * See the [Bitly API](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink) for more information.
+     *
+     * @param bitlink The bitlink.
+     * @param unit A unit of time.
+     * @param units An integer representing the time units to query data for. pass -1 to return all units available.
+     * @param size The quantity of items to be be returned.
+     * @param unit_reference An ISO-8601 timestamp, indicating the most recent time for which to pull metrics.
+     * Will default to current time.
+     * @param toJson Returns the full JSON response if `true`
+     * @return The click counts or JSON response object.
+     */
+    @JvmOverloads
+    fun clicks(
+        bitlink: String,
+        unit: Units = Units.DAY,
+        units: Int = -1,
+        size: Int = 50,
+        unit_reference: String = Constants.EMPTY,
+        toJson: Boolean = false
+    ): String {
+        var clicks = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
+        if (bitlink.isNotBlank()) {
+            val response = Utils.call(
+                accessToken,
+                ("/bitlinks/" + bitlink.removeHttp() + "/clicks/summary").toEndPoint(),
+                hashMapOf(
+                    Pair("unit", unit.toString().toLowerCase()),
+                    Pair("units", units.toString()),
+                    Pair("size", size.toString()),
+                    Pair("unit_reference", unit_reference)
+                ),
+                Methods.GET
+            )
+            clicks = parseJsonResponse(response, "total_clicks", clicks, toJson)
         }
+        return clicks
     }
 
     /**
@@ -76,20 +92,20 @@ open class Bitlinks(val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/expandBitlink) for more information.
      *
      * @param bitlink_id The bitlink ID.
-     * @param isJson Returns the full JSON response if `true`
+     * @param toJson Returns the full JSON response if `true`
      * @return The long URL or JSON response, or on error, an empty string/JSON object.
      */
     @JvmOverloads
-    fun expand(bitlink_id: String, isJson: Boolean = false): String {
-        var longUrl = if (isJson) Constants.EMPTY_JSON else Constants.EMPTY
+    fun expand(bitlink_id: String, toJson: Boolean = false): String {
+        var longUrl = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
         if (bitlink_id.isNotBlank()) {
             val response = Utils.call(
                 accessToken,
-                Utils.buildEndPointUrl("/expand"),
+                "/expand".toEndPoint(),
                 mapOf(Pair("bitlink_id", bitlink_id.removeHttp())),
                 Methods.POST
             )
-            longUrl = parseJsonResponse(response, "long_url", longUrl, isJson)
+            longUrl = parseJsonResponse(response, "long_url", longUrl, toJson)
         }
 
         return longUrl
@@ -102,10 +118,10 @@ open class Bitlinks(val accessToken: String) {
             default
     }
 
-    private fun parseJsonResponse(response: String, key: String, default: String, isJson: Boolean): String {
+    private fun parseJsonResponse(response: String, key: String, default: String, toJson: Boolean): String {
         var parsed = default
         if (response.isNotEmpty()) {
-            if (isJson) {
+            if (toJson) {
                 parsed = response
             } else {
                 try {
@@ -118,10 +134,6 @@ open class Bitlinks(val accessToken: String) {
         return parsed
     }
 
-    private fun String.removeHttp(): String {
-        return this.replaceFirst(Regex("^[Hh][Tt]{2}[Pp][Ss]?://"), "")
-    }
-
     /**
      * Shortens a long URL.
      *
@@ -130,7 +142,7 @@ open class Bitlinks(val accessToken: String) {
      * @param long_url The long URL.
      * @param group_guid The group UID.
      * @param domain The domain for the short URL.
-     * @param isJson Returns the full JSON response if `true`
+     * @param toJson Returns the full JSON response if `true`
      * @return The short URL or JSON response, or on error, the [long_url] or an empty JSON object.
      */
     @JvmOverloads
@@ -138,10 +150,10 @@ open class Bitlinks(val accessToken: String) {
         long_url: String,
         group_guid: String = Constants.EMPTY,
         domain: String = Constants.EMPTY,
-        isJson: Boolean = false
+        toJson: Boolean = false
     ): String {
-        var bitlink = if (isJson) Constants.EMPTY_JSON else long_url
-        if (!Utils.validateUrl(long_url)) {
+        var bitlink = if (toJson) Constants.EMPTY_JSON else long_url
+        if (!long_url.isValidUrl()) {
             Utils.logger.severe("Please specify a valid URL to shorten.")
         } else {
             val params: HashMap<String, String> = HashMap()
@@ -153,9 +165,9 @@ open class Bitlinks(val accessToken: String) {
             }
             params["long_url"] = long_url
 
-            val response = Utils.call(accessToken, Utils.buildEndPointUrl("/shorten"), params)
+            val response = Utils.call(accessToken, "/shorten".toEndPoint(), params)
 
-            bitlink = parseJsonResponse(response, "link", bitlink, isJson)
+            bitlink = parseJsonResponse(response, "link", bitlink, toJson)
         }
 
         return bitlink
