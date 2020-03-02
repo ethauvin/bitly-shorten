@@ -49,21 +49,8 @@ import java.util.logging.Logger
 /** Useful functions. */
 open class Utils private constructor() {
     companion object {
-        /** The logger instance. **/
+        /** The logger instance. */
         val logger: Logger by lazy { Logger.getLogger(Bitly::class.java.simpleName) }
-
-        /**
-         * Builds the full API endpoint URL using the [Constants.API_BASE_URL].
-         *
-         * @param endPointPath The REST request path. (eg. `/shorten', '/user`)
-         */
-        fun buildEndPointUrl(endPointPath: String): String {
-            return if (endPointPath.startsWith('/')) {
-                "${Constants.API_BASE_URL}$endPointPath"
-            } else {
-                "${Constants.API_BASE_URL}/$endPointPath"
-            }
-        }
 
         /**
          * Executes an API call.
@@ -74,10 +61,11 @@ open class Utils private constructor() {
          * @param method The submission [Method][Methods].
          * @return The response (JSON) from the API.
          */
+        @JvmOverloads
         fun call(
             accessToken: String,
             endPoint: String,
-            params: Map<String, String>,
+            params: Map<String, String> = emptyMap(),
             method: Methods = Methods.POST
         ): String {
             var response = Constants.EMPTY
@@ -153,26 +141,44 @@ open class Utils private constructor() {
             return Constants.EMPTY
         }
 
-        private fun validateCall(accessToken: String, endPoint: String): Boolean {
-            when {
-                endPoint.isBlank() -> logger.severe("Please specify a valid API endpoint.")
-                accessToken.isBlank() -> logger.severe("Please specify a valid API access token.")
-                else -> return true
+        /**
+         * Validates a URL.
+         */
+        fun String.isValidUrl(): Boolean {
+            if (this.isNotBlank()) {
+                try {
+                    URL(this)
+                    return true
+                } catch (e: MalformedURLException) {
+                    logger.log(Level.FINE, "Invalid URL: $this", e)
+                }
             }
             return false
         }
 
         /**
-         * Validates a URL.
+         * Removes http(s) scheme from string.
          */
-        fun validateUrl(url: String): Boolean {
-            if (url.isNotBlank()) {
-                try {
-                    URL(url)
-                    return true
-                } catch (e: MalformedURLException) {
-                    logger.log(Level.FINE, "Invalid URL: $url", e)
-                }
+        fun String.removeHttp(): String {
+            return this.replaceFirst(Regex("^[Hh][Tt]{2}[Pp][Ss]?://"), "")
+        }
+
+        /**
+         * Builds the full API endpoint URL using the [Constants.API_BASE_URL].
+         */
+        fun String.toEndPoint(): String {
+            return if (this.startsWith('/')) {
+                "${Constants.API_BASE_URL}$this"
+            } else {
+                "${Constants.API_BASE_URL}/$this"
+            }
+        }
+
+        private fun validateCall(accessToken: String, endPoint: String): Boolean {
+            when {
+                endPoint.isBlank() -> logger.severe("Please specify a valid API endpoint.")
+                accessToken.isBlank() -> logger.severe("Please specify a valid API access token.")
+                else -> return true
             }
             return false
         }

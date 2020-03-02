@@ -32,6 +32,9 @@
 
 package net.thauvin.erik.bitly
 
+import net.thauvin.erik.bitly.Utils.Companion.removeHttp
+import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
+import org.json.JSONObject
 import org.junit.Before
 import java.io.File
 import java.util.logging.Level
@@ -72,7 +75,7 @@ class BitlyTest {
         val test = Bitly().apply { accessToken = "12345679" }
         assertEquals(
             "{\"message\":\"FORBIDDEN\"}",
-            test.bitlinks().shorten("https://erik.thauvin.net/blog", isJson = true)
+            test.bitlinks().shorten("https://erik.thauvin.net/blog", toJson = true)
         )
     }
 
@@ -89,12 +92,22 @@ class BitlyTest {
 
     @Test
     fun `as json`() {
-        assertTrue(bitly.bitlinks().shorten(longUrl, isJson = true).startsWith("{\"created_at\":"))
+        assertTrue(bitly.bitlinks().shorten(longUrl, toJson = true).startsWith("{\"created_at\":"))
     }
 
     @Test
     fun `get user`() {
-        assertTrue(bitly.call(Utils.buildEndPointUrl("user"), emptyMap(), Methods.GET).contains("\"login\":"))
+        assertTrue(bitly.call("/user".toEndPoint(), method = Methods.GET).contains("\"login\":"))
+    }
+
+    @Test
+    fun `created by`() {
+        assertEquals(
+            "ethauvin",
+            JSONObject(
+                bitly.call("/bitlinks/${shortUrl.removeHttp()}".toEndPoint(), method = Methods.GET)
+            ).getString("created_by")
+        )
     }
 
     @Test
@@ -109,6 +122,6 @@ class BitlyTest {
 
     @Test
     fun `clicks summary`() {
-        assertNotEquals(Constants.EMPTY, bitly.bitlinks().Clicks().summary(shortUrl))
+        assertNotEquals(Constants.EMPTY, bitly.bitlinks().clicks(shortUrl))
     }
 }
