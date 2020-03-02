@@ -100,7 +100,9 @@ open class Bitly() {
     @JvmOverloads
     constructor(propertiesFile: File, key: String = Constants.ENV_ACCESS_TOKEN) : this(propertiesFile.toPath(), key)
 
-    /** Bitlinks accessor. **/
+    /**
+     * Bitlinks accessor.
+     */
     fun bitlinks(): Bitlinks = Bitlinks(accessToken)
 
     /**

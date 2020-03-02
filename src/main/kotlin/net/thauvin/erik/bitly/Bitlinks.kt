@@ -44,7 +44,7 @@ import java.util.logging.Level
  *
  * See the [Bitly API](https://dev.bitly.com/v4/#tag/Bitlinks) for more information.
  */
-open class Bitlinks(val accessToken: String) {
+open class Bitlinks(private val accessToken: String) {
     /**
      * Returns the click counts for a specified Bitlink.
      *
