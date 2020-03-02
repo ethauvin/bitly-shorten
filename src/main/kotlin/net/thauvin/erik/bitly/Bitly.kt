@@ -38,14 +38,7 @@ import java.nio.file.Path
 import java.util.Properties
 
 /**
- * HTTP methods.
- */
-enum class Methods {
-    DELETE, GET, PATCH, POST
-}
-
-/**
- * A simple implementation of the [Bitly API v4](https://dev.bitly.com/v4/).
+ * A simple implementation of the [Bitly Shortner API v4](https://dev.bitly.com/v4/).
  *
  * @constructor Creates new instance.
  */
@@ -118,7 +111,8 @@ open class Bitly() {
      * @param method The submission [Method][Methods].
      * @return The response (JSON) from the API.
      */
-    fun call(endPoint: String, params: Map<String, String>, method: Methods = Methods.POST): String {
+    @JvmOverloads
+    fun call(endPoint: String, params: Map<String, String> = emptyMap(), method: Methods = Methods.POST): String {
         return Utils.call(accessToken, endPoint, params, method)
     }
 }
