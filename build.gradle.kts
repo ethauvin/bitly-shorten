@@ -94,6 +94,11 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 sonarqube {
     properties {
         property("sonar.projectKey", "ethauvin_$name")
@@ -122,7 +127,7 @@ tasks {
         }
     }
 
-    withType<KotlinCompile> {
+    withType<KotlinCompile>().configureEach {
         kotlinOptions.jvmTarget = "1.8"
     }
 

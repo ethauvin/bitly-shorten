@@ -24,7 +24,7 @@ bitly.bitlinks().clicks("http://bit.ly/380ojFd")
 
 ### API Access Token
 
-The Bitly API [Access Token](https://bitly.is/accesstoken) can be specified directly as well as via the `BITLY_API_TOKEN` environment variable or properties key.
+The Bitly API [Access Token](https://bitly.is/accesstoken) can be specified directly as well as via the `BITLY_ACCESS_TOKEN` environment variable or properties key.
 
 ```kotlin
 // Env Variable or System Property
@@ -36,7 +36,7 @@ val bitly = Bitly(File("my.properties"))
 ```
 ```ini
 # my.properties
-BITLY_API_TOKEN=abc123def456ghi789jkl0
+BITLY_ACCESS_TOKEN=abc123def456ghi789jkl0
 ```
 
 ### JSON

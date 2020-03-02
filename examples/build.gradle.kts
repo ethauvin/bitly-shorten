@@ -6,6 +6,7 @@ plugins {
 
 // ./gradlew run --args='https://erik.thauvin.net'
 // ./gradlew runJava --args='https://erik.thauvin.net'
+// ./gradlew runRetrieve
 
 repositories {
     mavenLocal()
@@ -29,6 +30,12 @@ tasks {
     register("runJava", JavaExec::class) {
         group = "application"
         main = "com.example.BitlySample"
+        classpath = sourceSets["main"].runtimeClasspath
+    }
+
+    register("runRetrieve", JavaExec::class) {
+        group = "application"
+        main = "com.example.BitlyRetrieveKt"
         classpath = sourceSets["main"].runtimeClasspath
     }
 }
