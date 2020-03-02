@@ -10,6 +10,7 @@ plugins {
 repositories {
     mavenLocal()
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
