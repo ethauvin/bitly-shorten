@@ -147,9 +147,10 @@ tasks {
 
     dokka {
         outputFormat = "gfm"
-        outputDirectory = "$projectDir/docs"
+        outputDirectory = "$projectDir"
 
         configuration {
+            moduleName = "docs"
             sourceLink {
                 path = "$projectDir/src/main/kotlin"
                 url = "https://github.com/ethauvin/${project.name}/tree/master/src/main/kotlin"
