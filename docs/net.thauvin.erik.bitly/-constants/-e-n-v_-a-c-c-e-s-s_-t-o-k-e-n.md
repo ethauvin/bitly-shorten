@@ -2,7 +2,7 @@
 
 # ENV_ACCESS_TOKEN
 
-`const val ENV_ACCESS_TOKEN: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) [(source)](https://github.com/ethauvin/bitly-shorten/tree/master/src/main/kotlin/net/thauvin/erik/bitly/Constants.kt#L48)
+`const val ENV_ACCESS_TOKEN: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) [(source)](https://github.com/ethauvin/bitly-shorten/tree/master/src/main/kotlin/net/thauvin/erik/bitly/Constants.kt#L50)
 
 The API access token environment variable.
 
