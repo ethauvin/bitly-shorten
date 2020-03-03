@@ -50,9 +50,9 @@ open class Bitlinks(private val accessToken: String) {
      *
      * See the [Bitly API](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink) for more information.
      *
-     * @param bitlink The bitlink.
-     * @param unit A unit of time.
-     * @param units An integer representing the time units to query data for. pass -1 to return all units available.
+     * @param bitlink A Bitlink made of the domain and hash.
+     * @param unit A [unit of time][Units].
+     * @param units An integer representing the time units to query data for. Pass -1 to return all units available.
      * @param size The quantity of items to be be returned.
      * @param unit_reference An ISO-8601 timestamp, indicating the most recent time for which to pull metrics.
      * Will default to current time.
@@ -72,7 +72,7 @@ open class Bitlinks(private val accessToken: String) {
         if (bitlink.isNotBlank()) {
             val response = Utils.call(
                 accessToken,
-                ("/bitlinks/" + bitlink.removeHttp() + "/clicks/summary").toEndPoint(),
+                ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
                 hashMapOf(
                     Pair("unit", unit.toString().toLowerCase()),
                     Pair("units", units.toString()),
@@ -156,14 +156,14 @@ open class Bitlinks(private val accessToken: String) {
             default
     }
 
-    private fun parseJsonResponse(response: String, key: String, default: String, toJson: Boolean): String {
+    private fun parseJsonResponse(response: CallResponse, key: String, default: String, toJson: Boolean): String {
         var parsed = default
-        if (response.isNotEmpty()) {
+        if (response.body.isNotEmpty()) {
             if (toJson) {
-                parsed = response
+                parsed = response.body
             } else {
                 try {
-                    parsed = JSONObject(response).getString(key, default)
+                    parsed = JSONObject(response.body).getString(key, default)
                 } catch (jse: JSONException) {
                     Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from Bitly.", jse)
                 }
@@ -207,5 +207,62 @@ open class Bitlinks(private val accessToken: String) {
         }
 
         return bitlink
+    }
+
+    /**
+     * Updates fields in the Bitlink.
+     *
+     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/updateBitlink) for more information.
+     *
+     * @oaran bitlink A Bitlink made of the domain and hash.
+     * @param toJson Returns the full JSON response if `true`
+     * @return `true` is the update was successful, `false` otherwise, or JSON response.
+     */
+    @JvmOverloads
+    fun update(
+        bitlink: String,
+        references: Map<String, String> = emptyMap(),
+        archived: Boolean = false,
+        tags: Array<String> = emptyArray(),
+        created_at: String = Constants.EMPTY,
+        title: String = Constants.EMPTY,
+        deeplinks: Array<Map<String, String>> = emptyArray(),
+        created_by: String = Constants.EMPTY,
+        long_url: String = Constants.EMPTY,
+        client_id: String = Constants.EMPTY,
+        custom_bitlinks: Array<String> = emptyArray(),
+        link: String = Constants.EMPTY,
+        id: String = Constants.EMPTY,
+        toJson: Boolean = false
+    ): String {
+        var result = if (toJson) Constants.EMPTY_JSON else "false"
+        if (bitlink.isNotBlank()) {
+            val response = Utils.call(
+                accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
+                if (references.isNotEmpty()) put("references", references)
+                if (archived) put("archived", archived)
+                if (tags.isNotEmpty()) put("tags", tags)
+                if (created_at.isNotBlank()) put("created_at", created_at)
+                if (title.isNotBlank()) put("title", title)
+                if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
+                if (created_by.isNotBlank()) put("created_by", created_by)
+                if (long_url.isNotBlank()) put("long_url", long_url)
+                if (client_id.isNotBlank()) put("client_id", client_id)
+                if (custom_bitlinks.isNotEmpty()) put("custom_bitlinks", custom_bitlinks)
+                if (link.isNotBlank()) put("link", link)
+                if (id.isNotBlank()) put("id", id)
+            },
+                Methods.PATCH
+            )
+
+            if (response.isSuccessful) {
+                result = if (toJson) {
+                    response.body
+                } else {
+                    "true"
+                }
+            }
+        }
+        return result
     }
 }

@@ -67,8 +67,8 @@ open class Utils private constructor() {
             endPoint: String,
             params: Map<String, Any> = emptyMap(),
             method: Methods = Methods.POST
-        ): String {
-            var response = Constants.EMPTY
+        ): CallResponse {
+            val response = CallResponse()
             if (validateCall(accessToken, endPoint)) {
                 val apiUrl = endPoint.toHttpUrlOrNull()
                 if (apiUrl != null) {
@@ -99,7 +99,8 @@ open class Utils private constructor() {
                     }.addHeader("Authorization", "Bearer $accessToken")
 
                     val result = createHttpClient().newCall(builder.build()).execute()
-                    response = parseBody(endPoint, result)
+                    response.body = parseBody(endPoint, result)
+                    response.resultCode = result.code
                 }
             }
             return response

@@ -1,5 +1,5 @@
 /*
- * Constants.kt
+ * Response.kt
  *
  * Copyright (c) 2020, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
@@ -32,41 +32,16 @@
 
 package net.thauvin.erik.bitly
 
-/** Provides the constants for this package. */
-open class Constants private constructor() {
-    companion object Constants {
-        /**
-         * The Bitly API base URL.
-         *
-         * @value `https://api-ssl.bitly.com/v4`
-         */
-        const val API_BASE_URL = "https://api-ssl.bitly.com/v4"
+import org.json.JSONObject
 
-        /**
-         * The API access token environment variable.
-         *
-         * @value `BITLY_ACCESS_TOKEN`
-         */
-        const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
+/**
+ * Provides a data class to hold the JSON response.
+ */
+data class CallResponse(var body: String = Constants.EMPTY_JSON, var resultCode: Int = -1) {
+    val isSuccessful: Boolean
+        get() = resultCode in 200..299
 
-        /** Empty String. */
-        const val EMPTY = ""
-
-        /** Empty JSON Object. */
-        const val EMPTY_JSON = "{}"
-
-        /**
-         * False
-         *
-         * @value `false`
-         */
-        const val FALSE = false.toString()
-
-        /**
-         * True
-         *
-         * @value `true`
-         */
-        const val TRUE = true.toString()
+    fun toJson(): JSONObject {
+        return JSONObject(body)
     }
 }
