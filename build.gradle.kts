@@ -13,9 +13,9 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.6.0"
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "0.10.1"
-    id("org.jetbrains.kotlin.jvm") version "1.3.61"
-    id("org.jetbrains.kotlin.kapt").version("1.3.61")
-    id("org.jmailen.kotlinter") version "2.3.1"
+    id("org.jetbrains.kotlin.jvm") version "1.3.70"
+    id("org.jetbrains.kotlin.kapt").version("1.3.70")
+    id("org.jmailen.kotlinter") version "2.3.2"
     id("org.sonarqube") version "2.8"
 }
 
