@@ -131,7 +131,7 @@ class BitlyTest {
             bitly.bitlinks()
                 .create(
                     domain = "bit.ly",
-                    title = "Erik's Weblog",
+                    title = "Erik's Blog",
                     tags = arrayOf("erik", "thauvin", "blog", "weblog"),
                     long_url = longUrl
                 )
