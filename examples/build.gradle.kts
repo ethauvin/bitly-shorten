@@ -17,7 +17,6 @@ repositories {
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.json:json:20190722")
 
     implementation("net.thauvin.erik:bitly-shorten:0.9.0-beta")
 }

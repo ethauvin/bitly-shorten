@@ -64,7 +64,7 @@ bitly.bitlinks().shorten("https://www.erik.thauvin.net/blog", toJson = true)
 Non-implemented methods can also be called directly:
 
 ```kotlin
-bitly.call("/user".toEndPoint(), method = Methods.GET)
+bitly.call("/user".toEndPoint(), method = Methods.GET).toJson()
 ```
 ```json
 {
