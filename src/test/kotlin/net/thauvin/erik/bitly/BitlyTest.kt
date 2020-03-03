@@ -124,4 +124,9 @@ class BitlyTest {
     fun `clicks summary`() {
         assertNotEquals(Constants.EMPTY, bitly.bitlinks().clicks(shortUrl))
     }
+
+    @Test
+    fun `create bitlink`() {
+        assertEquals(shortUrl, bitly.bitlinks().create(domain = "bit.ly", title = "Erik's Weblog", tags = arrayOf("erik", "thauvin", "blog", "weblog"), long_url = longUrl))
+    }
 }

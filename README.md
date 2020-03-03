@@ -3,7 +3,7 @@
 
 # [Bitly](https://dev.bitly.com/v4/) Shortener for Kotlin/Java.
 
-A pretty simple and straightforward implementation of the link shortening ([bitlinks](https://dev.bitly.com/v4/#tag/Bitlinks)) abilities of the [Bitly v4 API](https://dev.bitly.com/v4).
+A simple implementation of the link shortening ([bitlinks](https://dev.bitly.com/v4/#tag/Bitlinks)) abilities of the [Bitly v4 API](https://dev.bitly.com/v4).
 
 ## Examples (TL;DR)
 
@@ -17,7 +17,10 @@ bitly.bitlinks().shorten("https://erik.thauvin.net/blog")
 bitly.bitlinks().expand("http://bit.ly/380ojFd")
 
 // Clicks Summary
-bitly.bitlinks().clicks("http://bit.ly/380ojFd")
+bitly.bitlinks().clicks("http://bit.ly/380ojFd")  
+
+// Create a bitlink
+bitly.bitlinks().create(title = "Erik's Weblog", long_url = "http://erik.thauvin.net/blog/")
 ```
 
  - View [Kotlin](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyExample.kt) or [Java](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/java/com/example/BitlySample.java) Examples.

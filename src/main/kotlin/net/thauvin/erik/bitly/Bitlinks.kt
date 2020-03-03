@@ -87,6 +87,44 @@ open class Bitlinks(private val accessToken: String) {
     }
 
     /**
+     * Converts a long url to a Bitlink and sets additional parameters.
+     *
+     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/createFullBitlink) for more information.
+     *
+     * @oaran long_url The long URL.
+     * @param toJson Returns the full JSON response if `true`
+     * @return The shorten URL or JSON response, or on error, an empty string/JSON object.
+     */
+    @JvmOverloads
+    fun create(
+        domain: String = Constants.EMPTY,
+        title: String = Constants.EMPTY,
+        group_guid: String = Constants.EMPTY,
+        tags: Array<String> = emptyArray(),
+        deeplinks: Array<Map<String, String>> = emptyArray(),
+        long_url: String,
+        toJson: Boolean = false
+    ): String {
+        var link = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
+        if (long_url.isNotBlank()) {
+            val response = Utils.call(
+                accessToken,
+                "/bitlinks".toEndPoint(),
+                mutableMapOf<String, Any>(Pair("long_url", long_url)).apply {
+                    if (domain.isNotBlank()) put("domain", domain)
+                    if (title.isNotBlank()) put("title", title)
+                    if (group_guid.isNotBlank()) put("group_guid", group_guid)
+                    if (tags.isNotEmpty()) put("tags", tags)
+                    if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
+                },
+                Methods.POST
+            )
+            link = parseJsonResponse(response, "link", link, toJson)
+        }
+        return link
+    }
+
+    /**
      * Expands a Bitlink.
      *
      * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/expandBitlink) for more information.
@@ -140,8 +178,6 @@ open class Bitlinks(private val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/createBitlink) for more information.
      *
      * @param long_url The long URL.
-     * @param group_guid The group UID.
-     * @param domain The domain for the short URL.
      * @param toJson Returns the full JSON response if `true`
      * @return The short URL or JSON response, or on error, the [long_url] or an empty JSON object.
      */

@@ -65,7 +65,7 @@ open class Utils private constructor() {
         fun call(
             accessToken: String,
             endPoint: String,
-            params: Map<String, String> = emptyMap(),
+            params: Map<String, Any> = emptyMap(),
             method: Methods = Methods.POST
         ): String {
             var response = Constants.EMPTY
@@ -86,10 +86,12 @@ open class Utils private constructor() {
                             }
                         }
                         Methods.DELETE -> Request.Builder().url(apiUrl.newBuilder().build()).delete()
-                        else -> {
+                        else -> { // Methods.GET
                             val httpUrl = apiUrl.newBuilder().apply {
                                 params.forEach {
-                                    addQueryParameter(it.key, it.value)
+                                    if (it.value is String) {
+                                        addQueryParameter(it.key, it.value.toString())
+                                    }
                                 }
                             }.build()
                             Request.Builder().url(httpUrl)
@@ -104,15 +106,14 @@ open class Utils private constructor() {
         }
 
         private fun createHttpClient(): OkHttpClient {
-            return if (logger.isLoggable(Level.FINE)) {
-                val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                    redactHeader("Authorization")
+            return OkHttpClient.Builder().apply {
+                if (logger.isLoggable(Level.FINE)) {
+                    addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                        redactHeader("Authorization")
+                    })
                 }
-                OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
-            } else {
-                OkHttpClient.Builder().build()
-            }
+            }.build()
         }
 
         private fun parseBody(endPoint: String, result: Response): String {
