@@ -235,7 +235,7 @@ open class Bitlinks(private val accessToken: String) {
         id: String = Constants.EMPTY,
         toJson: Boolean = false
     ): String {
-        var result = if (toJson) Constants.EMPTY_JSON else "false"
+        var result = if (toJson) Constants.EMPTY_JSON else Constants.FALSE
         if (bitlink.isNotBlank()) {
             val response = Utils.call(
                 accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
@@ -259,7 +259,7 @@ open class Bitlinks(private val accessToken: String) {
                 result = if (toJson) {
                     response.body
                 } else {
-                    "true"
+                    Constants.TRUE
                 }
             }
         }

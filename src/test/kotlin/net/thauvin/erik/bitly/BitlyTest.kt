@@ -141,7 +141,7 @@ class BitlyTest {
     @Test
     fun `update bitlink`() {
         assertEquals(
-            true.toString(),
+            Constants.TRUE,
             bitly.bitlinks().update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
         )
     }

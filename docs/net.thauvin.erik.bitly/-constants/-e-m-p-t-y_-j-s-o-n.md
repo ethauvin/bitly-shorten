@@ -2,7 +2,7 @@
 
 # EMPTY_JSON
 
-`const val EMPTY_JSON: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) [(source)](https://github.com/ethauvin/bitly-shorten/tree/master/src/main/kotlin/net/thauvin/erik/bitly/Constants.kt#L54)
+`const val EMPTY_JSON: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) [(source)](https://github.com/ethauvin/bitly-shorten/tree/master/src/main/kotlin/net/thauvin/erik/bitly/Constants.kt#L56)
 
 Empty JSON Object.
 

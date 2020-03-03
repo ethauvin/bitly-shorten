@@ -20,7 +20,10 @@ bitly.bitlinks().expand("http://bit.ly/380ojFd")
 bitly.bitlinks().clicks("http://bit.ly/380ojFd")  
 
 // Create a bitlink
-bitly.bitlinks().create(title = "Erik's Weblog", long_url = "http://erik.thauvin.net/blog/")
+bitly.bitlinks().create(title = "Erik's Weblog", long_url = "http://erik.thauvin.net/blog/")               
+
+// Update a bitlink
+bitly.bitlinks().update("http://bit.ly/380ojFd", title="Erik's Weblog", tags = arrayOf("blog", "weblog"))
 ```
 
  - View [Kotlin](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyExample.kt) or [Java](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/java/com/example/BitlySample.java) Examples.
