@@ -114,7 +114,7 @@ open class Bitly() {
      * @return The response (JSON) from the API.
      */
     @JvmOverloads
-    fun call(endPoint: String, params: Map<String, Any> = emptyMap(), method: Methods = Methods.POST): CallResponse {
+    fun call(endPoint: String, params: Map<String, Any> = emptyMap(), method: Methods = Methods.POST): String {
         return Utils.call(accessToken, endPoint, params, method)
     }
 }

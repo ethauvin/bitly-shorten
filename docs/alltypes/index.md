@@ -22,13 +22,6 @@ Provides access to the [Bitly API v4](https://dev.bitly.com/v4).
 
 |
 
-##### [net.thauvin.erik.bitly.CallResponse](../net.thauvin.erik.bitly/-call-response/index.md)
-
-Provides a data class to hold the JSON response.
-
-
-|
-
 ##### [net.thauvin.erik.bitly.Constants](../net.thauvin.erik.bitly/-constants/index.md)
 
 Provides the constants for this package.

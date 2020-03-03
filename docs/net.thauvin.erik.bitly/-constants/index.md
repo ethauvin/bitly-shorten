@@ -14,5 +14,3 @@ Provides the constants for this package.
 | [EMPTY](-e-m-p-t-y.md) | Empty String.`const val EMPTY: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
 | [EMPTY_JSON](-e-m-p-t-y_-j-s-o-n.md) | Empty JSON Object.`const val EMPTY_JSON: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
 | [ENV_ACCESS_TOKEN](-e-n-v_-a-c-c-e-s-s_-t-o-k-e-n.md) | The API access token environment variable.`const val ENV_ACCESS_TOKEN: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
-| [FALSE](-f-a-l-s-e.md) | False`const val FALSE: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
-| [TRUE](-t-r-u-e.md) | True`const val TRUE: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |

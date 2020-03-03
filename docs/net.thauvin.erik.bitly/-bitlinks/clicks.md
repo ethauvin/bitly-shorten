@@ -10,11 +10,11 @@ See the [Bitly API](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitli
 
 ### Parameters
 
-`bitlink` - A Bitlink made of the domain and hash.
+`bitlink` - The bitlink.
 
-`unit` - A [unit of time](../-units/index.md).
+`unit` - A unit of time.
 
-`units` - An integer representing the time units to query data for. Pass -1 to return all units available.
+`units` - An integer representing the time units to query data for. pass -1 to return all units available.
 
 `size` - The quantity of items to be be returned.
 

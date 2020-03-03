@@ -34,6 +34,7 @@ package net.thauvin.erik.bitly
 
 import net.thauvin.erik.bitly.Utils.Companion.removeHttp
 import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
+import org.json.JSONObject
 import org.junit.Before
 import java.io.File
 import java.util.logging.Level
@@ -96,16 +97,16 @@ class BitlyTest {
 
     @Test
     fun `get user`() {
-        assertTrue(bitly.call("/user".toEndPoint(), method = Methods.GET).isSuccessful)
+        assertTrue(bitly.call("/user".toEndPoint(), method = Methods.GET).contains("\"login\":"))
     }
 
     @Test
     fun `created by`() {
         assertEquals(
             "ethauvin",
-            bitly.call("/bitlinks/${shortUrl.removeHttp()}".toEndPoint(), method = Methods.GET)
-                .toJson()
-                .getString("created_by")
+            JSONObject(
+                bitly.call("/bitlinks/${shortUrl.removeHttp()}".toEndPoint(), method = Methods.GET)
+            ).getString("created_by")
         )
     }
 
@@ -135,14 +136,6 @@ class BitlyTest {
                     tags = arrayOf("erik", "thauvin", "blog", "weblog"),
                     long_url = longUrl
                 )
-        )
-    }
-
-    @Test
-    fun `update bitlink`() {
-        assertEquals(
-            Constants.TRUE,
-            bitly.bitlinks().update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
         )
     }
 }
