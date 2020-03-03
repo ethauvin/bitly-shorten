@@ -147,11 +147,11 @@ tasks {
 
     dokka {
         outputFormat = "html"
-        outputDirectory = "$buildDir/javadoc"
+        outputDirectory = "$projectDir/docs"
 
         configuration {
             sourceLink {
-                path = "src/main/kotlin"
+                path = "$projectDir/src/main/kotlin"
                 url = "https://github.com/ethauvin/${project.name}/tree/master/src/main/kotlin"
                 lineSuffix = "#L"
             }

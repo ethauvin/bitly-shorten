@@ -83,3 +83,6 @@ bitly.call("/user".toEndPoint(), method = Methods.GET)
 }
 ```
 - View [Example](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyRetrieve.kt)
+
+### More
+If all else fails, there's always more [Documentation](https://github.com/ethauvin/bitly-shorten/blob/master/docs/bitly-shorten/index.html).
