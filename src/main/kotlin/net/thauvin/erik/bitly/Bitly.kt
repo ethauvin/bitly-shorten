@@ -38,7 +38,7 @@ import java.nio.file.Path
 import java.util.Properties
 
 /**
- * A simple implementation of the [Bitly Shortner API v4](https://dev.bitly.com/v4/).
+ * Provides access to the [Bitly API v4](https://dev.bitly.com/v4).
  *
  * @constructor Creates new instance.
  */
@@ -101,7 +101,7 @@ open class Bitly() {
     constructor(propertiesFile: File, key: String = Constants.ENV_ACCESS_TOKEN) : this(propertiesFile.toPath(), key)
 
     /**
-     * Bitlinks accessor.
+     * Returns a new [Bitlinks] instance.
      */
     fun bitlinks(): Bitlinks = Bitlinks(accessToken)
 
@@ -109,12 +109,12 @@ open class Bitly() {
      * Executes an API call.
      *
      * @param endPoint The REST endpoint. (eg. `https://api-ssl.bitly.com/v4/shorten`)
-     * @param params The request parameters kev/value map.
+     * @param params The request parameters key/value map.
      * @param method The submission [Method][Methods].
      * @return The response (JSON) from the API.
      */
     @JvmOverloads
-    fun call(endPoint: String, params: Map<String, String> = emptyMap(), method: Methods = Methods.POST): String {
+    fun call(endPoint: String, params: Map<String, Any> = emptyMap(), method: Methods = Methods.POST): String {
         return Utils.call(accessToken, endPoint, params, method)
     }
 }

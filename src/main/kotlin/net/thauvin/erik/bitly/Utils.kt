@@ -46,7 +46,7 @@ import java.net.URL
 import java.util.logging.Level
 import java.util.logging.Logger
 
-/** Useful functions. */
+/** Provides useful generic functions. */
 open class Utils private constructor() {
     companion object {
         /** The logger instance. */
@@ -57,7 +57,7 @@ open class Utils private constructor() {
          *
          * @param accessToken The API access token.
          * @param endPoint The REST endpoint. (eg. `https://api-ssl.bitly.com/v4/shorten`)
-         * @param params The request parameters kev/value map.
+         * @param params The request parameters key/value map.
          * @param method The submission [Method][Methods].
          * @return The response (JSON) from the API.
          */

@@ -1,4 +1,5 @@
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.Properties
@@ -119,6 +120,25 @@ val javadocJar by tasks.creating(Jar::class) {
     group = JavaBasePlugin.DOCUMENTATION_GROUP
 }
 
+val dokkaDocs by tasks.creating(DokkaTask::class) {
+    outputFormat = "gfm"
+    outputDirectory = "$projectDir"
+
+    configuration {
+        moduleName = "docs"
+        sourceLink {
+            path = file("$projectDir/src/main/kotlin").toURI().toString().replace("file:", "")
+            url = "https://github.com/ethauvin/${project.name}/tree/master/src/main/kotlin"
+            lineSuffix = "#L"
+        }
+
+        jdkVersion = 8
+
+        includes = listOf("config/dokka/packages.md")
+        includeNonPublic = false
+    }
+}
+
 tasks {
     withType<JacocoReport> {
         reports {
@@ -146,13 +166,12 @@ tasks {
     }
 
     dokka {
-        outputFormat = "gfm"
-        outputDirectory = "$projectDir"
+        outputFormat = "html"
+        outputDirectory = "$buildDir/javadoc"
 
         configuration {
-            moduleName = "docs"
             sourceLink {
-                path = "$projectDir/src/main/kotlin"
+                path = file("$projectDir/src/main/kotlin").toURI().toString().replace("file:", "")
                 url = "https://github.com/ethauvin/${project.name}/tree/master/src/main/kotlin"
                 lineSuffix = "#L"
             }
@@ -162,6 +181,7 @@ tasks {
             includes = listOf("config/dokka/packages.md")
             includeNonPublic = false
         }
+        dependsOn(dokkaDocs)
     }
 
     val copyToDeploy by registering(Copy::class) {
@@ -226,7 +246,22 @@ bintray {
         githubRepo = gitHub
         githubReleaseNotesFile = "README.md"
         vcsUrl = "$mavenUrl.git"
-        setLabels("bitlinks", "bitly", "bitly-api", "bitly-v4", "java", "kotlin", "shorten", "shorten-urls", "shortener", "shortener-rest", "shortener-service", "shortens-links", "shorturl", "url-shortener")
+        setLabels(
+            "bitlinks",
+            "bitly",
+            "bitly-api",
+            "bitly-v4",
+            "java",
+            "kotlin",
+            "shorten",
+            "shorten-urls",
+            "shortener",
+            "shortener-rest",
+            "shortener-service",
+            "shortens-links",
+            "shorturl",
+            "url-shortener"
+        )
         publicDownloadNumbers = true
         version.apply {
             name = project.version as String

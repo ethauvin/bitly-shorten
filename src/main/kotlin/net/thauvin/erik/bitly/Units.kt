@@ -33,7 +33,7 @@
 package net.thauvin.erik.bitly
 
 /**
- * Units of time.
+ * Provides units of time definitions.
  */
 @Suppress("unused")
 enum class Units {

@@ -32,7 +32,7 @@
 
 package net.thauvin.erik.bitly
 
-/** Constants for this package. **/
+/** Provides the constants for this package. */
 open class Constants private constructor() {
     companion object Constants {
         /** The Bitly API base URL.

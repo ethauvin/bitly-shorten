@@ -33,7 +33,7 @@
 package net.thauvin.erik.bitly
 
 /**
- * HTTP methods.
+ * Provides HTTP methods definitions.
  */
 enum class Methods {
     DELETE, GET, PATCH, POST

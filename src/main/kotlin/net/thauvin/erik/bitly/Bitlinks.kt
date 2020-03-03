@@ -40,7 +40,7 @@ import org.json.JSONObject
 import java.util.logging.Level
 
 /**
- * Bitlinks methods implementation.
+ * Provides functions to create and manage [Bitlinks](https://dev.bitly.com/v4/#tag/Bitlinks).
  *
  * See the [Bitly API](https://dev.bitly.com/v4/#tag/Bitlinks) for more information.
  */
