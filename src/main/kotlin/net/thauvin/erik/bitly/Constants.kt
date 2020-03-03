@@ -47,10 +47,10 @@ open class Constants private constructor() {
          */
         const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
 
-        /** Empty String */
+        /** Empty String. */
         const val EMPTY = ""
 
-        /** Empty JSON Object */
+        /** Empty JSON Object. */
         const val EMPTY_JSON = "{}"
     }
 }
