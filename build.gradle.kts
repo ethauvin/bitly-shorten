@@ -146,7 +146,7 @@ tasks {
     }
 
     dokka {
-        outputFormat = "html"
+        outputFormat = "gfm"
         outputDirectory = "$projectDir/docs"
 
         configuration {
