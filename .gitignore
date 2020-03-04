@@ -3,7 +3,6 @@
 !.vscode/launch.json
 !.vscode/settings.json
 !.vscode/tasks.json
-
 __pycache__
 .classpath
 .DS_Store
