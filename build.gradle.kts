@@ -10,7 +10,7 @@ plugins {
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.28.0"
     id("com.jfrog.bintray") version "1.8.4"
-    id("io.gitlab.arturbosch.detekt") version "1.6.0"
+    id("io.gitlab.arturbosch.detekt") version "1.7.0-beta2"
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "0.10.1"
     id("org.jetbrains.kotlin.jvm") version "1.3.70"
@@ -32,7 +32,7 @@ var semverProcessor = "net.thauvin.erik:semver:1.2.0"
 val publicationName = "mavenJava"
 
 object VersionInfo {
-    const val okhttp = "4.4.0"
+    const val okhttp = "4.4.1"
 }
 
 val versions: VersionInfo by extra { VersionInfo }
@@ -185,7 +185,7 @@ tasks {
     }
 
     val copyToDeploy by registering(Copy::class) {
-        from(configurations.runtime) {
+        from(configurations.runtimeClasspath) {
             exclude("annotations-*.jar")
         }
         from(jar)
