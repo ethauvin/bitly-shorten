@@ -32,16 +32,10 @@
 
 package net.thauvin.erik.bitly
 
-import org.json.JSONObject
-
 /**
  * Provides a data class to hold the JSON response.
  */
 data class CallResponse(var body: String = Constants.EMPTY_JSON, var resultCode: Int = -1) {
     val isSuccessful: Boolean
         get() = resultCode in 200..299
-
-    fun toJson(): JSONObject {
-        return JSONObject(body)
-    }
 }

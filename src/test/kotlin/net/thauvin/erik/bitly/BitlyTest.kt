@@ -34,6 +34,7 @@ package net.thauvin.erik.bitly
 
 import net.thauvin.erik.bitly.Utils.Companion.removeHttp
 import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
+import org.json.JSONObject
 import org.junit.Before
 import java.io.File
 import java.util.logging.Level
@@ -103,9 +104,12 @@ class BitlyTest {
     fun `created by`() {
         assertEquals(
             "ethauvin",
-            bitly.call("/bitlinks/${shortUrl.removeHttp()}".toEndPoint(), method = Methods.GET)
-                .toJson()
-                .getString("created_by")
+            JSONObject(
+                bitly.call(
+                    "/bitlinks/${shortUrl.removeHttp()}".toEndPoint(),
+                    method = Methods.GET
+                ).body
+            ).getString("created_by")
         )
     }
 

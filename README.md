@@ -64,7 +64,10 @@ bitly.bitlinks().shorten("https://www.erik.thauvin.net/blog", toJson = true)
 Non-implemented methods can also be called directly:
 
 ```kotlin
-bitly.call("/user".toEndPoint(), method = Methods.GET).toJson()
+val response = bitly.call("/user".toEndPoint(), method = Methods.GET)
+if (response.isSuccessful) {
+    println(response.body)
+}
 ```
 ```json
 {
@@ -87,5 +90,5 @@ bitly.call("/user".toEndPoint(), method = Methods.GET).toJson()
 ```
 - View [Example](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyRetrieve.kt)
 
-### More
+### More...
 If all else fails, there's always more [Documentation](https://ethauvin.github.io/bitly-shorten/).

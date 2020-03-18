@@ -4,8 +4,8 @@ import net.thauvin.erik.bitly.Bitly;
 
 public class BitlySample {
     public static void main(String[] args) {
-        final Bitly bitly = new Bitly(/* "YOUR_API_TOKEN from https://bitly.is/accesstoken" */);
         if (args.length > 0) {
+            final Bitly bitly = new Bitly(/* "YOUR_API_TOKEN from https://bitly.is/accesstoken" */);
             for (final String arg : args) {
                 if (arg.contains("bit.ly")) {
                     System.out.println(arg + " <-- " + bitly.bitlinks().expand(arg));
