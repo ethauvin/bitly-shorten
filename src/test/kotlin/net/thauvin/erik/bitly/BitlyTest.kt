@@ -52,7 +52,7 @@ class BitlyTest {
         }
     }
     private val longUrl = "https://erik.thauvin.net/blog"
-    private val shortUrl = "http://bit.ly/380ojFd"
+    private val shortUrl = "https://bit.ly/380ojFd"
 
     @Before
     fun before() {

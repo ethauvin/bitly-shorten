@@ -2,8 +2,8 @@ package com.example;
 
 import net.thauvin.erik.bitly.Bitly;
 
-public class BitlySample {
-    public static void main(String[] args) {
+public final class BitlySample {
+    public static void main(final String[] args) {
         if (args.length > 0) {
             final Bitly bitly = new Bitly(/* "YOUR_API_TOKEN from https://bitly.is/accesstoken" */);
             for (final String arg : args) {
