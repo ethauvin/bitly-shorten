@@ -9,12 +9,12 @@ plugins {
     `java-library`
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.28.0"
-    id("com.jfrog.bintray") version "1.8.4"
-    id("io.gitlab.arturbosch.detekt") version "1.7.0-beta2"
+    id("com.jfrog.bintray") version "1.8.5"
+    id("io.gitlab.arturbosch.detekt") version "1.7.4"
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "0.10.1"
-    id("org.jetbrains.kotlin.jvm") version "1.3.70"
-    id("org.jetbrains.kotlin.kapt").version("1.3.70")
+    id("org.jetbrains.kotlin.jvm") version "1.3.72"
+    id("org.jetbrains.kotlin.kapt") version "1.3.72"
     id("org.sonarqube") version "2.8"
 }
 
@@ -31,7 +31,7 @@ var semverProcessor = "net.thauvin.erik:semver:1.2.0"
 val publicationName = "mavenJava"
 
 object VersionInfo {
-    const val okhttp = "4.4.1"
+    const val okhttp = "4.5.0"
 }
 
 val versions: VersionInfo by extra { VersionInfo }
@@ -58,7 +58,6 @@ repositories {
 dependencies {
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
@@ -68,7 +67,6 @@ dependencies {
 
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
@@ -84,7 +82,7 @@ detekt {
 }
 
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = "0.8.5"
 }
 
 java {
