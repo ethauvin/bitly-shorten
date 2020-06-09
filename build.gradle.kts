@@ -2,6 +2,7 @@ import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
+import java.util.Date
 import java.util.Properties
 
 plugins {
@@ -208,6 +209,12 @@ tasks {
 
     val bintrayUpload by existing(BintrayUploadTask::class) {
         dependsOn(publishToMavenLocal, gitTag)
+        doFirst {
+            versionName = "${project.version}"
+            versionDesc = "${project.name} ${project.version}"
+            versionVcsTag = "${project.version}"
+            versionReleased = Date().toString()
+        }
     }
 
     register("release") {
@@ -237,21 +244,22 @@ bintray {
         githubReleaseNotesFile = "README.md"
         vcsUrl = "$mavenUrl.git"
         setLabels(
-            "bitlinks",
-            "bitly",
-            "bitly-api",
-            "bitly-v4",
-            "java",
-            "kotlin",
-            "shorten",
-            "shorten-urls",
-            "shortener",
-            "shortener-rest",
-            "shortener-service",
-            "shortens-links",
-            "shorturl",
-            "url-shortener"
+                "bitlinks",
+                "bitly",
+                "bitly-api",
+                "bitly-v4",
+                "java",
+                "kotlin",
+                "shorten",
+                "shorten-urls",
+                "shortener",
+                "shortener-rest",
+                "shortener-service",
+                "shortens-links",
+                "shorturl",
+                "url-shortener"
         )
+        setLicenses("BSD 3-Clause")
         publicDownloadNumbers = true
         version.apply {
             name = project.version as String
