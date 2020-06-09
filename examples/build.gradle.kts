@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.71"
+    id("org.jetbrains.kotlin.jvm") version "1.3.72"
     id("com.github.ben-manes.versions") version "0.28.0"
     application
 }
@@ -18,8 +18,8 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("net.thauvin.erik:bitly-shorten:0.9.1-beta")
-    implementation("org.json:json:20190722")
+    implementation("net.thauvin.erik:bitly-shorten:0.9.2")
+    implementation("org.json:json:20200518")
 }
 
 application {
