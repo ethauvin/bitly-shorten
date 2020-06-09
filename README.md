@@ -45,6 +45,20 @@ val bitly = Bitly(File("my.properties"))
 BITLY_ACCESS_TOKEN=abc123def456ghi789jkl0
 ```
 
+### Gradle
+
+To use with [Gradle](https://gradle.org/), include the following dependency in your [build](https://github.com/ethauvin/bitly-shorten/blob/master/examples/build.gradle.kts) file:
+
+```gradle
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation("net.thauvin.erik:bitly-shorten:0.9.2")
+}
+```
+
 ### JSON
 
 All implemented methods can return the full API JSON responses:
