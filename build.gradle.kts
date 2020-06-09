@@ -10,12 +10,12 @@ plugins {
     `maven-publish`
     id("com.github.ben-manes.versions") version "0.28.0"
     id("com.jfrog.bintray") version "1.8.5"
-    id("io.gitlab.arturbosch.detekt") version "1.7.4"
+    id("io.gitlab.arturbosch.detekt") version "1.9.1"
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "0.10.1"
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
     id("org.jetbrains.kotlin.kapt") version "1.3.72"
-    id("org.sonarqube") version "2.8"
+    id("org.sonarqube") version "3.0"
 }
 
 group = "net.thauvin.erik"
@@ -31,7 +31,7 @@ var semverProcessor = "net.thauvin.erik:semver:1.2.0"
 val publicationName = "mavenJava"
 
 object VersionInfo {
-    const val okhttp = "4.5.0"
+    const val okhttp = "4.7.2"
 }
 
 val versions: VersionInfo by extra { VersionInfo }
@@ -63,7 +63,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:${versions.okhttp}")
     implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp}")
-    implementation("org.json:json:20190722")
+    implementation("org.json:json:20200518")
 
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
