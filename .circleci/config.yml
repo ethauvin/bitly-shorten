@@ -30,11 +30,11 @@ defaults_gradle: &defaults_gradle
         path: build/reports/
 
 jobs:
-  build_gradle_jdk13:
+  build_gradle_jdk14:
     <<: *defaults
 
     docker:
-      - image: openjdk:13-jdk
+      - image: openjdk:14-jdk
 
     <<: *defaults_gradle
 
@@ -51,5 +51,5 @@ workflows:
   gradle:
         jobs:
         - build_gradle_jdk8
-        - build_gradle_jdk13
+        - build_gradle_jdk14
 
