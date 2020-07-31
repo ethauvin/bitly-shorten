@@ -9,9 +9,9 @@ plugins {
     jacoco
     `java-library`
     `maven-publish`
-    id("com.github.ben-manes.versions") version "0.28.0"
+    id("com.github.ben-manes.versions") version "0.29.0"
     id("com.jfrog.bintray") version "1.8.5"
-    id("io.gitlab.arturbosch.detekt") version "1.9.1"
+    id("io.gitlab.arturbosch.detekt") version "1.10.0"
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "0.10.1"
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
@@ -32,7 +32,7 @@ var semverProcessor = "net.thauvin.erik:semver:1.2.0"
 val publicationName = "mavenJava"
 
 object VersionInfo {
-    const val okhttp = "4.7.2"
+    const val okhttp = "4.8.0"
 }
 
 val versions: VersionInfo by extra { VersionInfo }
