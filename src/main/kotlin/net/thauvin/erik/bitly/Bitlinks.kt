@@ -46,6 +46,12 @@ import java.util.logging.Level
  */
 open class Bitlinks(private val accessToken: String) {
     /**
+     * The last API call response.
+     */
+    var lastCallResponse = CallResponse()
+        private set
+
+    /**
      * Returns the click counts for a specified Bitlink.
      *
      * See the [Bitly API](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink) for more information.
@@ -59,6 +65,7 @@ open class Bitlinks(private val accessToken: String) {
      * @param toJson Returns the full JSON response if `true`
      * @return The click counts or JSON response object.
      */
+    @Synchronized
     @JvmOverloads
     fun clicks(
         bitlink: String,
@@ -70,7 +77,7 @@ open class Bitlinks(private val accessToken: String) {
     ): String {
         var clicks = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
         if (bitlink.isNotBlank()) {
-            val response = Utils.call(
+            lastCallResponse = Utils.call(
                 accessToken,
                 ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
                 hashMapOf(
@@ -81,7 +88,7 @@ open class Bitlinks(private val accessToken: String) {
                 ),
                 Methods.GET
             )
-            clicks = parseJsonResponse(response, "total_clicks", clicks, toJson)
+            clicks = parseJsonResponse(lastCallResponse, "total_clicks", clicks, toJson)
         }
         return clicks
     }
@@ -95,6 +102,7 @@ open class Bitlinks(private val accessToken: String) {
      * @param toJson Returns the full JSON response if `true`
      * @return The shorten URL or JSON response, or on error, an empty string/JSON object.
      */
+    @Synchronized
     @JvmOverloads
     fun create(
         domain: String = Constants.EMPTY,
@@ -107,7 +115,7 @@ open class Bitlinks(private val accessToken: String) {
     ): String {
         var link = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
         if (long_url.isNotBlank()) {
-            val response = Utils.call(
+            lastCallResponse = Utils.call(
                 accessToken,
                 "/bitlinks".toEndPoint(),
                 mutableMapOf<String, Any>(Pair("long_url", long_url)).apply {
@@ -119,7 +127,7 @@ open class Bitlinks(private val accessToken: String) {
                 },
                 Methods.POST
             )
-            link = parseJsonResponse(response, "link", link, toJson)
+            link = parseJsonResponse(lastCallResponse, "link", link, toJson)
         }
         return link
     }
@@ -133,17 +141,18 @@ open class Bitlinks(private val accessToken: String) {
      * @param toJson Returns the full JSON response if `true`
      * @return The long URL or JSON response, or on error, an empty string/JSON object.
      */
+    @Synchronized
     @JvmOverloads
     fun expand(bitlink_id: String, toJson: Boolean = false): String {
         var longUrl = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
         if (bitlink_id.isNotBlank()) {
-            val response = Utils.call(
+            lastCallResponse = Utils.call(
                 accessToken,
                 "/expand".toEndPoint(),
                 mapOf(Pair("bitlink_id", bitlink_id.removeHttp())),
                 Methods.POST
             )
-            longUrl = parseJsonResponse(response, "long_url", longUrl, toJson)
+            longUrl = parseJsonResponse(lastCallResponse, "long_url", longUrl, toJson)
         }
 
         return longUrl
@@ -181,6 +190,7 @@ open class Bitlinks(private val accessToken: String) {
      * @param toJson Returns the full JSON response if `true`
      * @return The short URL or JSON response, or on error, the [long_url] or an empty JSON object.
      */
+    @Synchronized
     @JvmOverloads
     fun shorten(
         long_url: String,
@@ -201,9 +211,9 @@ open class Bitlinks(private val accessToken: String) {
             }
             params["long_url"] = long_url
 
-            val response = Utils.call(accessToken, "/shorten".toEndPoint(), params)
+            lastCallResponse = Utils.call(accessToken, "/shorten".toEndPoint(), params)
 
-            bitlink = parseJsonResponse(response, "link", bitlink, toJson)
+            bitlink = parseJsonResponse(lastCallResponse, "link", bitlink, toJson)
         }
 
         return bitlink
@@ -218,6 +228,7 @@ open class Bitlinks(private val accessToken: String) {
      * @param toJson Returns the full JSON response if `true`
      * @return `true` is the update was successful, `false` otherwise, or JSON response.
      */
+    @Synchronized
     @JvmOverloads
     fun update(
         bitlink: String,
@@ -237,7 +248,7 @@ open class Bitlinks(private val accessToken: String) {
     ): String {
         var result = if (toJson) Constants.EMPTY_JSON else Constants.FALSE
         if (bitlink.isNotBlank()) {
-            val response = Utils.call(
+            lastCallResponse = Utils.call(
                 accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
                 if (references.isNotEmpty()) put("references", references)
                 if (archived) put("archived", archived)
@@ -255,9 +266,9 @@ open class Bitlinks(private val accessToken: String) {
                 Methods.PATCH
             )
 
-            if (response.isSuccessful) {
+            if (lastCallResponse.isSuccessful) {
                 result = if (toJson) {
-                    response.body
+                    lastCallResponse.body
                 } else {
                     Constants.TRUE
                 }

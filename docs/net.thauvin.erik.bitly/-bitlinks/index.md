@@ -14,6 +14,12 @@ See the [Bitly API](https://dev.bitly.com/v4/#tag/Bitlinks) for more information
 |---|---|
 | [&lt;init&gt;](-init-.md) | Provides functions to create and manage [Bitlinks](https://dev.bitly.com/v4/#tag/Bitlinks).`Bitlinks(accessToken: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`)` |
 
+### Properties
+
+| Name | Summary |
+|---|---|
+| [lastCallResponse](last-call-response.md) | The last API call response.`var lastCallResponse: `[`CallResponse`](../-call-response/index.md) |
+
 ### Functions
 
 | Name | Summary |
