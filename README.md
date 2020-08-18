@@ -2,7 +2,7 @@
 
 [![Known Vulnerabilities](https://snyk.io/test/github/ethauvin/bitly-shorten/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/ethauvin/bitly-shorten?targetFile=pom.xml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_bitly-shorten&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_bitly-shorten) [![Build Status](https://travis-ci.com/ethauvin/bitly-shorten.svg?branch=master)](https://travis-ci.com/ethauvin/bitly-shorten) [![CircleCI](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master)
 
-# [Bitly](https://dev.bitly.com/v4/) Shortener for Kotlin/Java
+# [Bitly](https://dev.bitly.com/v4/) Shortener for Kotlin/Java/Android
 
 A simple implementation of the link shortening ([bitlinks](https://dev.bitly.com/v4/#tag/Bitlinks)) abilities of the [Bitly v4 API](https://dev.bitly.com/v4).
 
@@ -46,7 +46,7 @@ val bitly = Bitly(File("my.properties"))
 BITLY_ACCESS_TOKEN=abc123def456ghi789jkl0
 ```
 
-### Gradle
+### Gradle, Maven, etc.
 
 To use with [Gradle](https://gradle.org/), include the following dependency in your [build](https://github.com/ethauvin/bitly-shorten/blob/master/examples/build.gradle.kts) file:
 
@@ -60,9 +60,11 @@ dependencies {
 }
 ```
 
+Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/bitly-shorten/0.9.2/jar).
+
 ### JSON
 
-All implemented methods can return the full API JSON responses:
+All implemented API calls can return the full JSON responses:
 
 ```kotlin
 bitly.bitlinks().shorten("https://www.erik.thauvin.net/blog", toJson = true)
@@ -76,7 +78,21 @@ bitly.bitlinks().shorten("https://www.erik.thauvin.net/blog", toJson = true)
 }
 ```
 
-Non-implemented methods can also be called directly:
+You can also access the last response from implemented API calls using:
+
+```kotlin
+val bitlinks = Bitlinks(apikey)
+
+val shortUrl = bitlinks.shorten(longUrl)
+
+val response = bitlinks.lastCallResponse
+
+if (response.isSuccessful) {
+    println(response.body)
+}
+```
+
+Non-implemented API calls can also be called directly:
 
 ```kotlin
 val response = bitly.call("/user".toEndPoint(), method = Methods.GET)

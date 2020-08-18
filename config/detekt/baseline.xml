@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexMethod:Bitlinks.kt$Bitlinks$ @Synchronized @JvmOverloads fun update( bitlink: String, references: Map&lt;String, String&gt; = emptyMap(), archived: Boolean = false, tags: Array&lt;String&gt; = emptyArray(), created_at: String = Constants.EMPTY, title: String = Constants.EMPTY, deeplinks: Array&lt;Map&lt;String, String&gt;&gt; = emptyArray(), created_by: String = Constants.EMPTY, long_url: String = Constants.EMPTY, client_id: String = Constants.EMPTY, custom_bitlinks: Array&lt;String&gt; = emptyArray(), link: String = Constants.EMPTY, id: String = Constants.EMPTY, toJson: Boolean = false ): String</ID>
+    <ID>ComplexMethod:Utils.kt$Utils.Companion$ @JvmOverloads fun call( accessToken: String, endPoint: String, params: Map&lt;String, Any&gt; = emptyMap(), method: Methods = Methods.POST ): CallResponse</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$bitlink_id: String</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$client_id: String = Constants.EMPTY</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$created_at: String = Constants.EMPTY</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$created_by: String = Constants.EMPTY</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$custom_bitlinks: Array&lt;String&gt; = emptyArray()</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$group_guid: String = Constants.EMPTY</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$long_url: String</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$long_url: String = Constants.EMPTY</ID>
+    <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$unit_reference: String = Constants.EMPTY</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$200</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$299</ID>
+    <ID>NestedBlockDepth:Utils.kt$Utils.Companion$ @JvmOverloads fun call( accessToken: String, endPoint: String, params: Map&lt;String, Any&gt; = emptyMap(), method: Methods = Methods.POST ): CallResponse</ID>
+    <ID>NestedBlockDepth:Utils.kt$Utils.Companion$private fun parseBody(endPoint: String, result: Response): String</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -126,7 +126,7 @@ class BitlyTest {
     @Test
     fun `bitlinks lastCallResponse`() {
         val bl = Bitlinks(bitly.accessToken)
-        bl.shorten(longUrl, domain="bit.ly")
+        bl.shorten(longUrl, domain = "bit.ly")
         assertEquals(true, bl.lastCallResponse.isSuccessful, "is successful")
         assertEquals(200, bl.lastCallResponse.resultCode, "resultCode == 200")
         assertTrue(bl.lastCallResponse.body.contains("\"link\":\"$shortUrl\""), "valid body")
