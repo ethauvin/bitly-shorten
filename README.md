@@ -4,7 +4,7 @@
 
 # [Bitly](https://dev.bitly.com/v4/) Shortener for Kotlin/Java/Android
 
-A simple implementation of the link shortening ([bitlinks](https://dev.bitly.com/v4/#tag/Bitlinks)) abilities of the [Bitly v4 API](https://dev.bitly.com/v4).
+A simple implementation of the link shortening (Bitlinks) abilities of the [Bitly v4 API](https://dev.bitly.com/api-reference).
 
 ## Examples (TL;DR)
 

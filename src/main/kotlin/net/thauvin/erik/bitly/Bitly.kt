@@ -38,7 +38,7 @@ import java.nio.file.Path
 import java.util.Properties
 
 /**
- * Provides access to the [Bitly API v4](https://dev.bitly.com/v4).
+ * Provides access to the [Bitly API v4](https://dev.bitly.com/api-reference).
  *
  * @constructor Creates new instance.
  */
@@ -46,7 +46,7 @@ open class Bitly() {
     /** The API access token.
      *
      * See [Generic Access Token](https://bitly.is/accesstoken) or
-     * [Authentication](https://dev.bitly.com/v4/#section/Authentication).
+     * [Authentication](https://dev.bitly.com/docs/getting-started/authentication).
      **/
     var accessToken: String = System.getenv(Constants.ENV_ACCESS_TOKEN)
         ?: (System.getProperty(Constants.ENV_ACCESS_TOKEN) ?: Constants.EMPTY)

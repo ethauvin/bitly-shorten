@@ -40,9 +40,9 @@ import org.json.JSONObject
 import java.util.logging.Level
 
 /**
- * Provides functions to create and manage [Bitlinks](https://dev.bitly.com/v4/#tag/Bitlinks).
+ * Provides functions to create and manage Bitlinks.
  *
- * See the [Bitly API](https://dev.bitly.com/v4/#tag/Bitlinks) for more information.
+ * See the [Bitly API](https://dev.bitly.com/api-reference) for more information.
  */
 open class Bitlinks(private val accessToken: String) {
     /**
@@ -54,7 +54,7 @@ open class Bitlinks(private val accessToken: String) {
     /**
      * Returns the click counts for a specified Bitlink.
      *
-     * See the [Bitly API](https://dev.bitly.com/v4/#operation/getClicksSummaryForBitlink) for more information.
+     * See the [Bitly API](https://dev.bitly.com/api-reference#getClicksSummaryForBitlink) for more information.
      *
      * @param bitlink A Bitlink made of the domain and hash.
      * @param unit A [unit of time][Units].
@@ -96,7 +96,7 @@ open class Bitlinks(private val accessToken: String) {
     /**
      * Converts a long url to a Bitlink and sets additional parameters.
      *
-     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/createFullBitlink) for more information.
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
      *
      * @oaran long_url The long URL.
      * @param toJson Returns the full JSON response if `true`
@@ -135,7 +135,7 @@ open class Bitlinks(private val accessToken: String) {
     /**
      * Expands a Bitlink.
      *
-     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/expandBitlink) for more information.
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference#expandBitlink) for more information.
      *
      * @param bitlink_id The bitlink ID.
      * @param toJson Returns the full JSON response if `true`
@@ -184,7 +184,7 @@ open class Bitlinks(private val accessToken: String) {
     /**
      * Shortens a long URL.
      *
-     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/createBitlink) for more information.
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference#createBitlink) for more information.
      *
      * @param long_url The long URL.
      * @param toJson Returns the full JSON response if `true`
@@ -220,9 +220,9 @@ open class Bitlinks(private val accessToken: String) {
     }
 
     /**
-     * Updates fields in the Bitlink.
+     * Updates fields in the specified Bitlink.
      *
-     * See the [Bit.ly API](https://dev.bitly.com/v4/#operation/updateBitlink) for more information.
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
      *
      * @oaran bitlink A Bitlink made of the domain and hash.
      * @param toJson Returns the full JSON response if `true`
