@@ -1,4 +1,4 @@
-[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause) [![release](https://img.shields.io/github/release/ethauvin/bitly-shorten.svg)](https://github.com/ethauvin/bitly-shorten/releases/latest) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.thauvin.erik/bitly-shorten/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.thauvin.erik/bitly-shorten) [![Download](https://api.bintray.com/packages/ethauvin/maven/bitly-shorten/images/download.svg)](https://bintray.com/ethauvin/maven/bitly-shorten/_latestVersion)
+[![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](http://opensource.org/licenses/BSD-3-Clause) [![Release](https://img.shields.io/github/release/ethauvin/bitly-shorten.svg)](https://github.com/ethauvin/bitly-shorten/releases/latest) [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/bitly-shorten.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22net.thauvin.erik%22%20AND%20a:%22bitly-shorten%22)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/ethauvin/bitly-shorten/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/ethauvin/bitly-shorten?targetFile=pom.xml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_bitly-shorten&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_bitly-shorten) [![Build Status](https://travis-ci.com/ethauvin/bitly-shorten.svg?branch=master)](https://travis-ci.com/ethauvin/bitly-shorten) [![CircleCI](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master)
 
@@ -51,16 +51,12 @@ BITLY_ACCESS_TOKEN=abc123def456ghi789jkl0
 To use with [Gradle](https://gradle.org/), include the following dependency in your [build](https://github.com/ethauvin/bitly-shorten/blob/master/examples/build.gradle.kts) file:
 
 ```gradle
-repositories {
-    jcenter()
-}
-
 dependencies {
-    implementation("net.thauvin.erik:bitly-shorten:0.9.2")
+    implementation("net.thauvin.erik:bitly-shorten:0.9.3")
 }
 ```
 
-Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/bitly-shorten/0.9.2/jar).
+Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/bitly-shorten/0.9.3/jar).
 
 ### JSON
 
