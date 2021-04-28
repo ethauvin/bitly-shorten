@@ -81,7 +81,7 @@ open class Bitlinks(private val accessToken: String) {
                 accessToken,
                 ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
                 hashMapOf(
-                    Pair("unit", unit.toString().toLowerCase()),
+                    Pair("unit", unit.toString().lowercase()),
                     Pair("units", units.toString()),
                     Pair("size", size.toString()),
                     Pair("unit_reference", unit_reference)
