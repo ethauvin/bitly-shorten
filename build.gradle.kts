@@ -12,7 +12,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.4.32"
     id("org.jetbrains.kotlin.jvm") version "1.5.0"
     id("org.jetbrains.kotlin.kapt") version "1.5.0"
-    id("org.sonarqube") version "3.1.1"
+    id("org.sonarqube") version "3.2.0"
 }
 
 group = "net.thauvin.erik"
@@ -35,7 +35,6 @@ val versions: VersionInfo by extra { VersionInfo }
 
 repositories {
     mavenCentral()
-    jcenter() // needed for dokka
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 }
 
@@ -57,6 +56,7 @@ kapt {
 }
 
 detekt {
+    toolVersion = "main-SNAPSHOT"
     baseline = project.rootDir.resolve("config/detekt/baseline.xml")
 }
 
@@ -220,7 +220,12 @@ publishing {
     repositories {
         maven {
             name = "ossrh"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            project.afterEvaluate {
+                    url = if (version.toString().contains("SNAPSHOT"))
+                            uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                          else
+                            uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            }
             credentials(PasswordCredentials::class)
         }
     }
