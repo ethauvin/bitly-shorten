@@ -26,7 +26,7 @@ tasks {
     register("runJava", JavaExec::class) {
         group = "application"
         main = "com.example.BitlySample"
-        classpath = sourceSets["main"].runtimeClasspath
+        classpath = sourceSets.main.get().runtimeClasspath
     }
 
     register("runRetrieve", JavaExec::class) {
