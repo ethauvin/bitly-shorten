@@ -19,7 +19,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "com.example.BitlyExampleKt"
+    mainClass.set("com.example.BitlyExampleKt")
 }
 
 tasks {
@@ -32,6 +32,6 @@ tasks {
     register("runRetrieve", JavaExec::class) {
         group = "application"
         main = "com.example.BitlyRetrieveKt"
-        classpath = sourceSets["main"].runtimeClasspath
+        classpath = sourceSets.main.get().runtimeClasspath
     }
 }

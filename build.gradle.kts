@@ -1,8 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     jacoco
+    java
     `java-library`
     `maven-publish`
     signing
@@ -39,6 +41,8 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+
     implementation("com.squareup.okhttp3:okhttp:${versions.okhttp}")
     implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp}")
     implementation("org.json:json:20210307")
@@ -86,12 +90,18 @@ tasks {
         kotlinOptions.jvmTarget = "1.8"
     }
 
+    withType<Test> {
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+        }
+    }
+
     withType<GenerateMavenPom> {
         destination = file("$projectDir/pom.xml")
     }
 
     jacoco {
-        toolVersion = "0.8.7-SNAPSHOT"
+        toolVersion = "0.8.7"
     }
 
     jacocoTestReport {
@@ -208,7 +218,7 @@ publishing {
                 scm {
                     connection.set("scm:git:git://github.com/$gitHub.git")
                     developerConnection.set("scm:git:git@github.com:$gitHub.git")
-                    url.set("$mavenUrl")
+                    url.set(mavenUrl)
                 }
                 issueManagement {
                     system.set("GitHub")
