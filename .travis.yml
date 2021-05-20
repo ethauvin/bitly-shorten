@@ -5,9 +5,6 @@ env:
   global:
     - CI=true
 
-#install:
-#  - git fetch --unshallow --tags
-
 addons:
   sonarcloud:
     organization: "ethauvin-github"
@@ -18,9 +15,3 @@ jdk:
 
 before_install:
   - chmod +x gradlew
-
-after_success:
-  - |
-      if [ "${TRAVIS_TEST_RESULT}" == 0 ] && [ "$TRAVIS_JDK_VERSION" == "openjdk14" ]; then
-        ./gradlew sonarqube
-      fi
