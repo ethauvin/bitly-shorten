@@ -35,6 +35,17 @@
     <system>GitHub</system>
     <url>https://github.com/ethauvin/bitly-shorten/issues</url>
   </issueManagement>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-bom</artifactId>
+        <version>1.5.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>

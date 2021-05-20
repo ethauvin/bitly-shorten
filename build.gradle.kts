@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     jacoco
@@ -9,7 +10,7 @@ plugins {
     `maven-publish`
     signing
     id("com.github.ben-manes.versions") version "0.38.0"
-    id("io.gitlab.arturbosch.detekt") version "1.16.0"
+    id("io.gitlab.arturbosch.detekt") version "1.17.0"
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "1.4.32"
     id("org.jetbrains.kotlin.jvm") version "1.5.0"
@@ -60,7 +61,7 @@ kapt {
 }
 
 detekt {
-    toolVersion = "main-SNAPSHOT"
+    //toolVersion = "main-SNAPSHOT"
     baseline = project.rootDir.resolve("config/detekt/baseline.xml")
 }
 
@@ -73,6 +74,8 @@ java {
 sonarqube {
     properties {
         property("sonar.projectKey", "ethauvin_$name")
+        property("sonar.organization", "ethauvin-github")
+        property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
     }
 }
@@ -87,12 +90,13 @@ val javadocJar by tasks.creating(Jar::class) {
 
 tasks {
     withType<KotlinCompile>().configureEach {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = java.targetCompatibility.toString()
     }
 
     withType<Test> {
         testLogging {
             exceptionFormat = TestExceptionFormat.FULL
+            events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
         }
     }
 
