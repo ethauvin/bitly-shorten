@@ -80,11 +80,11 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken,
                 ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
-                hashMapOf(
-                    Pair("unit", unit.toString().lowercase()),
-                    Pair("units", units.toString()),
-                    Pair("size", size.toString()),
-                    Pair("unit_reference", unit_reference)
+                mapOf(
+                    "unit" to  unit.toString().lowercase(),
+                    "units" to units.toString(),
+                    "size" to  size.toString(),
+                    "unit_reference" to  unit_reference
                 ),
                 Methods.GET
             )
@@ -118,7 +118,7 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken,
                 "/bitlinks".toEndPoint(),
-                mutableMapOf<String, Any>(Pair("long_url", long_url)).apply {
+                mutableMapOf<String, Any>("long_url" to  long_url).apply {
                     if (domain.isNotBlank()) put("domain", domain)
                     if (title.isNotBlank()) put("title", title)
                     if (group_guid.isNotBlank()) put("group_guid", group_guid)
@@ -149,7 +149,7 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken,
                 "/expand".toEndPoint(),
-                mapOf(Pair("bitlink_id", bitlink_id.removeHttp())),
+                mapOf("bitlink_id" to bitlink_id.removeHttp()),
                 Methods.POST
             )
             longUrl = parseJsonResponse(lastCallResponse, "long_url", longUrl, toJson)
@@ -202,14 +202,11 @@ open class Bitlinks(private val accessToken: String) {
         if (!long_url.isValidUrl()) {
             Utils.logger.severe("Please specify a valid URL to shorten.")
         } else {
-            val params: HashMap<String, String> = HashMap()
-            if (group_guid.isNotBlank()) {
-                params["group_guid"] = group_guid
+            val params = mutableMapOf<String, String>().apply {
+                if (group_guid.isNotBlank()) put("group_guid", group_guid)
+                if (domain.isNotBlank()) put("domain", domain)
+                put("long_url", long_url)
             }
-            if (domain.isNotBlank()) {
-                params["domain"] = domain
-            }
-            params["long_url"] = long_url
 
             lastCallResponse = Utils.call(accessToken, "/shorten".toEndPoint(), params)
 
