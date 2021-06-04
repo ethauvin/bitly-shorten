@@ -62,8 +62,8 @@ open class Bitlinks(private val accessToken: String) {
      * @param size The quantity of items to be be returned.
      * @param unit_reference An ISO-8601 timestamp, indicating the most recent time for which to pull metrics.
      * Will default to current time.
-     * @param toJson Returns the full JSON response if `true`
-     * @return The click counts or JSON response object.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return The click counts.
      */
     @Synchronized
     @JvmOverloads
@@ -98,9 +98,9 @@ open class Bitlinks(private val accessToken: String) {
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
      *
-     * @oaran long_url The long URL.
-     * @param toJson Returns the full JSON response if `true`
-     * @return The shorten URL or JSON response, or on error, an empty string/JSON object.
+     * @param long_url The long URL.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return The shorten URL or an empty string on error.
      */
     @Synchronized
     @JvmOverloads
@@ -138,8 +138,8 @@ open class Bitlinks(private val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#expandBitlink) for more information.
      *
      * @param bitlink_id The bitlink ID.
-     * @param toJson Returns the full JSON response if `true`
-     * @return The long URL or JSON response, or on error, an empty string/JSON object.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return The long URL or an empty string on error.
      */
     @Synchronized
     @JvmOverloads
@@ -187,8 +187,8 @@ open class Bitlinks(private val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createBitlink) for more information.
      *
      * @param long_url The long URL.
-     * @param toJson Returns the full JSON response if `true`
-     * @return The short URL or JSON response, or on error, the [long_url] or an empty JSON object.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return The short URL or the [long_url] on error.
      */
     @Synchronized
     @JvmOverloads
@@ -221,9 +221,9 @@ open class Bitlinks(private val accessToken: String) {
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
      *
-     * @oaran bitlink A Bitlink made of the domain and hash.
-     * @param toJson Returns the full JSON response if `true`
-     * @return `true` is the update was successful, `false` otherwise, or JSON response.
+     * @param bitlink A Bitlink made of the domain and hash.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return [Constants.TRUE] if the update was successful, [Constants.FALSE] otherwise.
      */
     @Synchronized
     @JvmOverloads

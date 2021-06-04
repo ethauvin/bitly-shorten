@@ -85,6 +85,11 @@ class BitlyTest {
     }
 
     @Test
+    fun `long url should not be short`() {
+        assertEquals(shortUrl, bitly.bitlinks().shorten(shortUrl))
+    }
+
+    @Test
     fun `shorten = expand`() {
         val shortUrl = bitly.bitlinks().shorten(longUrl, domain = "bit.ly")
         assertEquals(longUrl, bitly.bitlinks().expand(shortUrl))
