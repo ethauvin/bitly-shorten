@@ -132,9 +132,19 @@ class BitlyTest {
     fun `bitlinks lastCallResponse`() {
         val bl = Bitlinks(bitly.accessToken)
         bl.shorten(longUrl, domain = "bit.ly")
-        assertEquals(true, bl.lastCallResponse.isSuccessful, "is successful")
-        assertEquals(200, bl.lastCallResponse.resultCode, "resultCode == 200")
-        assertTrue(bl.lastCallResponse.body.contains("\"link\":\"$shortUrl\""), "valid body")
+        with(bl.lastCallResponse) {
+            assertEquals(true, isSuccessful, "is successful")
+            assertEquals(200, resultCode, "resultCode == 200")
+            assertTrue(body.contains("\"link\":\"$shortUrl\""), "valid body")
+        }
+
+        bl.shorten(shortUrl)
+        with(bl.lastCallResponse) {
+            assertEquals(false, isSuccessful, "is not successful")
+            assertEquals(400, resultCode, "resultCode == 400")
+            assertTrue(isBadRequest, "is bad request")
+            assertTrue(body.contains("ALREADY_A_BITLY_LINK"), "already a bitlink")
+        }
     }
 
     @Test
@@ -146,21 +156,24 @@ class BitlyTest {
     fun `create bitlink`() {
         assertEquals(
             shortUrl,
-            bitly.bitlinks()
-                .create(
-                    domain = "bit.ly",
-                    title = "Erik's Blog",
-                    tags = arrayOf("erik", "thauvin", "blog", "weblog"),
-                    long_url = longUrl
-                )
+            bitly.bitlinks().create(
+                domain = "bit.ly",
+                title = "Erik's Blog",
+                tags = arrayOf("erik", "thauvin", "blog", "weblog"),
+                long_url = longUrl
+            )
         )
     }
 
     @Test
     fun `update bitlink`() {
+        val bl = bitly.bitlinks()
         assertEquals(
             Constants.TRUE,
-            bitly.bitlinks().update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
+            bl.update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
         )
+
+        bl.update(shortUrl, link = longUrl)
+        assertTrue(bl.lastCallResponse.isUnprocessableEntity, "422 Unprocessable")
     }
 }

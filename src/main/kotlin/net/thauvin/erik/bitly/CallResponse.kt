@@ -35,7 +35,25 @@ package net.thauvin.erik.bitly
 /**
  * Provides a data class to hold the JSON response.
  */
-data class CallResponse(var body: String = Constants.EMPTY_JSON, var resultCode: Int = -1) {
+data class CallResponse(val body: String = Constants.EMPTY_JSON, val resultCode: Int = -1) {
     val isSuccessful: Boolean
         get() = resultCode in 200..299
+    val isCreated: Boolean
+        get() = resultCode == 201
+    val isBadRequest: Boolean
+        get() = resultCode == 400
+    val isUpgradeRequired: Boolean
+        get() = resultCode == 402
+    val isForbidden: Boolean
+        get() = resultCode == 403
+    val isNotFound: Boolean
+        get() = resultCode == 404
+    val isExpectationFailed: Boolean
+        get() = resultCode == 417
+    val isUnprocessableEntity: Boolean
+        get() = resultCode == 422
+    val isInternalError: Boolean
+        get() = resultCode == 500
+    val isTemporarilyUnavailable: Boolean
+        get() = resultCode == 503
 }
