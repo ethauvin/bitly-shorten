@@ -1,7 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.net.URL
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.net.URL
 
 plugins {
     id("com.github.ben-manes.versions") version "0.39.0"
@@ -138,9 +138,9 @@ tasks {
             }
         }
     }
-    
+
     dokkaJavadoc {
-         dokkaSourceSets {
+        dokkaSourceSets {
             configureEach {
                 jdkVersion.set(8)
                 includes.from("config/dokka/packages.md")
@@ -231,10 +231,10 @@ publishing {
         maven {
             name = "ossrh"
             project.afterEvaluate {
-                    url = if (version.toString().contains("SNAPSHOT"))
-                            uri("https://oss.sonatype.org/content/repositories/snapshots/")
-                          else
-                            uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                url = if (version.toString().contains("SNAPSHOT"))
+                    uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                else
+                    uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             }
             credentials(PasswordCredentials::class)
         }

@@ -35,6 +35,7 @@ package net.thauvin.erik.bitly
 /**
  * Provides a data class to hold the JSON response.
  */
+@Suppress("unused")
 data class CallResponse(val body: String = Constants.EMPTY_JSON, val resultCode: Int = -1) {
     val isSuccessful: Boolean
         get() = resultCode in 200..299

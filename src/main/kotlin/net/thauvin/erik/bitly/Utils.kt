@@ -59,7 +59,7 @@ open class Utils private constructor() {
          * @param endPoint The REST endpoint. (eg. `https://api-ssl.bitly.com/v4/shorten`)
          * @param params The request parameters key/value map.
          * @param method The submission [Method][Methods].
-         * @return The response (JSON) from the API.
+         * @return A [CallResponse] object.
          */
         @JvmOverloads
         fun call(
@@ -99,8 +99,7 @@ open class Utils private constructor() {
                     }.addHeader("Authorization", "Bearer $accessToken")
 
                     val result = createHttpClient().newCall(builder.build()).execute()
-                    response.body = parseBody(endPoint, result)
-                    response.resultCode = result.code
+                    return CallResponse(parseBody(endPoint, result), result.code)
                 }
             }
             return response
@@ -162,7 +161,7 @@ open class Utils private constructor() {
          * Removes http(s) scheme from string.
          */
         fun String.removeHttp(): String {
-            return this.replaceFirst(Regex("^[Hh][Tt]{2}[Pp][Ss]?://"), "")
+            return this.replaceFirst("^[Hh][Tt]{2}[Pp][Ss]?://".toRegex(), "")
         }
 
         /**

@@ -81,10 +81,10 @@ open class Bitlinks(private val accessToken: String) {
                 accessToken,
                 ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
                 mapOf(
-                    "unit" to  unit.toString().lowercase(),
+                    "unit" to unit.toString().lowercase(),
                     "units" to units.toString(),
-                    "size" to  size.toString(),
-                    "unit_reference" to  unit_reference
+                    "size" to size.toString(),
+                    "unit_reference" to unit_reference
                 ),
                 Methods.GET
             )
@@ -98,6 +98,8 @@ open class Bitlinks(private val accessToken: String) {
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
      *
+     * @param domain A branded short domain or `bit.ly` by default.
+     * @param group_guid A GUID for a Bitly group.
      * @param long_url The long URL.
      * @param toJson Returns the full JSON response if `true`.
      * @return The shorten URL or an empty string on error.
@@ -118,14 +120,13 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken,
                 "/bitlinks".toEndPoint(),
-                mutableMapOf<String, Any>("long_url" to  long_url).apply {
+                mutableMapOf<String, Any>("long_url" to long_url).apply {
                     if (domain.isNotBlank()) put("domain", domain)
                     if (title.isNotBlank()) put("title", title)
                     if (group_guid.isNotBlank()) put("group_guid", group_guid)
                     if (tags.isNotEmpty()) put("tags", tags)
                     if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
-                },
-                Methods.POST
+                }
             )
             link = parseJsonResponse(lastCallResponse, "link", link, toJson)
         }
@@ -149,8 +150,7 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken,
                 "/expand".toEndPoint(),
-                mapOf("bitlink_id" to bitlink_id.removeHttp()),
-                Methods.POST
+                mapOf("bitlink_id" to bitlink_id.removeHttp())
             )
             longUrl = parseJsonResponse(lastCallResponse, "long_url", longUrl, toJson)
         }
@@ -187,6 +187,8 @@ open class Bitlinks(private val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createBitlink) for more information.
      *
      * @param long_url The long URL.
+     * @param group_guid A GUID for a Bitly group.
+     * @param domain A branded short domain or `bit.ly` by default.
      * @param toJson Returns the full JSON response if `true`.
      * @return The short URL or the [long_url] on error.
      */
@@ -202,10 +204,9 @@ open class Bitlinks(private val accessToken: String) {
         if (!long_url.isValidUrl()) {
             Utils.logger.severe("Please specify a valid URL to shorten.")
         } else {
-            val params = mutableMapOf<String, String>().apply {
+            val params = mutableMapOf("long_url" to long_url).apply {
                 if (group_guid.isNotBlank()) put("group_guid", group_guid)
                 if (domain.isNotBlank()) put("domain", domain)
-                put("long_url", long_url)
             }
 
             lastCallResponse = Utils.call(accessToken, "/shorten".toEndPoint(), params)
@@ -247,19 +248,19 @@ open class Bitlinks(private val accessToken: String) {
         if (bitlink.isNotBlank()) {
             lastCallResponse = Utils.call(
                 accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
-                if (references.isNotEmpty()) put("references", references)
-                if (archived) put("archived", archived)
-                if (tags.isNotEmpty()) put("tags", tags)
-                if (created_at.isNotBlank()) put("created_at", created_at)
-                if (title.isNotBlank()) put("title", title)
-                if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
-                if (created_by.isNotBlank()) put("created_by", created_by)
-                if (long_url.isNotBlank()) put("long_url", long_url)
-                if (client_id.isNotBlank()) put("client_id", client_id)
-                if (custom_bitlinks.isNotEmpty()) put("custom_bitlinks", custom_bitlinks)
-                if (link.isNotBlank()) put("link", link)
-                if (id.isNotBlank()) put("id", id)
-            },
+                    if (references.isNotEmpty()) put("references", references)
+                    if (archived) put("archived", archived)
+                    if (tags.isNotEmpty()) put("tags", tags)
+                    if (created_at.isNotBlank()) put("created_at", created_at)
+                    if (title.isNotBlank()) put("title", title)
+                    if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
+                    if (created_by.isNotBlank()) put("created_by", created_by)
+                    if (long_url.isNotBlank()) put("long_url", long_url)
+                    if (client_id.isNotBlank()) put("client_id", client_id)
+                    if (custom_bitlinks.isNotEmpty()) put("custom_bitlinks", custom_bitlinks)
+                    if (link.isNotBlank()) put("link", link)
+                    if (id.isNotBlank()) put("id", id)
+                },
                 Methods.PATCH
             )
 

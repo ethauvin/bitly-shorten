@@ -14,7 +14,16 @@
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$long_url: String = Constants.EMPTY</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$unit_reference: String = Constants.EMPTY</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$200</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$201</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$299</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$400</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$402</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$403</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$404</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$417</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$422</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$500</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$503</ID>
     <ID>NestedBlockDepth:Utils.kt$Utils.Companion$ @JvmOverloads fun call( accessToken: String, endPoint: String, params: Map&lt;String, Any> = emptyMap(), method: Methods = Methods.POST ): CallResponse</ID>
     <ID>NestedBlockDepth:Utils.kt$Utils.Companion$private fun parseBody(endPoint: String, result: Response): String</ID>
   </CurrentIssues>
