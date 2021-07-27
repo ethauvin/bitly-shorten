@@ -21,7 +21,16 @@ $dokka.location:net.thauvin.erik.bitly/Bitly/call/#kotlin.String#kotlin.collecti
 $dokka.location:net.thauvin.erik.bitly/CallResponse///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/index.html
 $dokka.location:net.thauvin.erik.bitly/CallResponse/CallResponse/#kotlin.String#kotlin.Int/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/-call-response.html
 $dokka.location:net.thauvin.erik.bitly/CallResponse/body/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/body.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isBadRequest/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-bad-request.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isCreated/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-created.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isExpectationFailed/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-expectation-failed.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isForbidden/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-forbidden.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isInternalError/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-internal-error.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isNotFound/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-not-found.html
 $dokka.location:net.thauvin.erik.bitly/CallResponse/isSuccessful/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-successful.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isTemporarilyUnavailable/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-temporarily-unavailable.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isUnprocessableEntity/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-unprocessable-entity.html
+$dokka.location:net.thauvin.erik.bitly/CallResponse/isUpgradeRequired/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/is-upgrade-required.html
 $dokka.location:net.thauvin.erik.bitly/CallResponse/resultCode/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-call-response/result-code.html
 $dokka.location:net.thauvin.erik.bitly/Constants.Constants///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-constants/-constants/index.html
 $dokka.location:net.thauvin.erik.bitly/Constants.Constants/API_BASE_URL/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-constants/-constants/-a-p-i_-b-a-s-e_-u-r-l.html
@@ -62,6 +71,7 @@ $dokka.location:net.thauvin.erik.bitly/Units.WEEK/ordinal/#/PointingToDeclaratio
 $dokka.location:net.thauvin.erik.bitly/Units///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-units/index.html
 $dokka.location:net.thauvin.erik.bitly/Utils.Companion///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-utils/-companion/index.html
 $dokka.location:net.thauvin.erik.bitly/Utils.Companion/call/#kotlin.String#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.Any]#net.thauvin.erik.bitly.Methods/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-utils/-companion/call.html
+$dokka.location:net.thauvin.erik.bitly/Utils.Companion/isSevereLoggable/java.util.logging.Logger#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-utils/-companion/is-severe-loggable.html
 $dokka.location:net.thauvin.erik.bitly/Utils.Companion/isValidUrl/kotlin.String#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-utils/-companion/is-valid-url.html
 $dokka.location:net.thauvin.erik.bitly/Utils.Companion/logger/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-utils/-companion/logger.html
 $dokka.location:net.thauvin.erik.bitly/Utils.Companion/removeHttp/kotlin.String#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-utils/-companion/remove-http.html

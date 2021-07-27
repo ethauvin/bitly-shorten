@@ -1,7 +1,7 @@
 plugins {
     id("application")
     id("com.github.ben-manes.versions") version "0.39.0"
-    kotlin("jvm") version "1.5.10"
+    kotlin("jvm") version "1.5.21"
 }
 
 // ./gradlew run --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
@@ -25,13 +25,13 @@ application {
 tasks {
     register("runJava", JavaExec::class) {
         group = "application"
-        main = "com.example.BitlySample"
+        mainClass.set("com.example.BitlySample")
         classpath = sourceSets.main.get().runtimeClasspath
     }
 
     register("runRetrieve", JavaExec::class) {
         group = "application"
-        main = "com.example.BitlyRetrieveKt"
+        mainClass.set("com.example.BitlyRetrieveKt")
         classpath = sourceSets.main.get().runtimeClasspath
     }
 }
