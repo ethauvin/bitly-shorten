@@ -74,8 +74,8 @@ class BitlyTest {
     fun `token should be valid`() {
         val test = Bitly().apply { accessToken = "12345679" }
         assertEquals(
-            "{\"message\":\"FORBIDDEN\"}",
-            test.bitlinks().shorten("https://erik.thauvin.net/blog", toJson = true)
+                "{\"message\":\"FORBIDDEN\"}",
+                test.bitlinks().shorten("https://erik.thauvin.net/blog", toJson = true)
         )
     }
 
@@ -108,13 +108,13 @@ class BitlyTest {
     @Test
     fun `created by`() {
         assertEquals(
-            "ethauvin",
-            JSONObject(
-                bitly.call(
-                    "/bitlinks/${shortUrl.removeHttp()}".toEndPoint(),
-                    method = Methods.GET
-                ).body
-            ).getString("created_by")
+                "ethauvin",
+                JSONObject(
+                        bitly.call(
+                                "/bitlinks/${shortUrl.removeHttp()}".toEndPoint(),
+                                method = Methods.GET
+                        ).body
+                ).getString("created_by")
         )
     }
 
@@ -155,13 +155,13 @@ class BitlyTest {
     @Test
     fun `create bitlink`() {
         assertEquals(
-            shortUrl,
-            bitly.bitlinks().create(
-                domain = "bit.ly",
-                title = "Erik's Blog",
-                tags = arrayOf("erik", "thauvin", "blog", "weblog"),
-                long_url = longUrl
-            )
+                shortUrl,
+                bitly.bitlinks().create(
+                        domain = "bit.ly",
+                        title = "Erik's Blog",
+                        tags = arrayOf("erik", "thauvin", "blog", "weblog"),
+                        long_url = longUrl
+                )
         )
     }
 
@@ -169,8 +169,8 @@ class BitlyTest {
     fun `update bitlink`() {
         val bl = bitly.bitlinks()
         assertEquals(
-            Constants.TRUE,
-            bl.update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
+                Constants.TRUE,
+                bl.update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
         )
 
         bl.update(shortUrl, link = longUrl)

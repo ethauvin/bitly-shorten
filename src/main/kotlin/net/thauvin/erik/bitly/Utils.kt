@@ -50,7 +50,7 @@ import java.util.logging.Logger
 open class Utils private constructor() {
     companion object {
         /** The logger instance. */
-        val logger: Logger by lazy { Logger.getLogger(Bitly::class.java.simpleName) }
+        val logger: Logger by lazy { Logger.getLogger(Bitly::class.java.name) }
 
         /**
          * Executes an API call.
@@ -122,25 +122,34 @@ open class Utils private constructor() {
                 if (!result.isSuccessful && body.isNotEmpty()) {
                     try {
                         with(JSONObject(body)) {
-                            if (has("message")) {
-                                logger.severe(getString("message") + " (${result.code})")
-                            }
-                            if (has("description")) {
-                                logger.severe(getString("description"))
+                            if (logger.isSevereLoggable()) {
+                                if (has("message")) {
+                                    logger.severe(getString("message") + " (${result.code})")
+                                }
+                                if (has("description")) {
+                                    logger.severe(getString("description"))
+                                }
                             }
                         }
                     } catch (jse: JSONException) {
-                        logger.log(
-                            Level.SEVERE,
-                            "An error occurred parsing the error response from Bitly. [$endPoint]",
-                            jse
-                        )
+                        if (logger.isSevereLoggable()) {
+                            logger.log(
+                                Level.SEVERE,
+                                "An error occurred parsing the error response from Bitly. [$endPoint]",
+                                jse
+                            )
+                        }
                     }
                 }
                 return body
             }
             return Constants.EMPTY
         }
+
+        /**
+         * Is [Level.SEVERE] logging enabled.
+         */
+        fun Logger.isSevereLoggable(): Boolean = this.isLoggable(Level.SEVERE)
 
         /**
          * Validates a URL.
@@ -151,7 +160,9 @@ open class Utils private constructor() {
                     URL(this)
                     return true
                 } catch (e: MalformedURLException) {
-                    logger.log(Level.FINE, "Invalid URL: $this", e)
+                    if (logger.isLoggable(Level.WARNING)) {
+                        logger.log(Level.WARNING, "Invalid URL: $this", e)
+                    }
                 }
             }
             return false
@@ -177,8 +188,12 @@ open class Utils private constructor() {
 
         private fun validateCall(accessToken: String, endPoint: String): Boolean {
             when {
-                endPoint.isBlank() -> logger.severe("Please specify a valid API endpoint.")
-                accessToken.isBlank() -> logger.severe("Please specify a valid API access token.")
+                endPoint.isBlank() -> {
+                    if (logger.isSevereLoggable()) logger.severe("Please specify a valid API endpoint.")
+                }
+                accessToken.isBlank() -> {
+                    if (logger.isSevereLoggable()) logger.severe("Please specify a valid API access token.")
+                }
                 else -> return true
             }
             return false

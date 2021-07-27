@@ -32,6 +32,7 @@
 
 package net.thauvin.erik.bitly
 
+import net.thauvin.erik.bitly.Utils.Companion.isSevereLoggable
 import net.thauvin.erik.bitly.Utils.Companion.isValidUrl
 import net.thauvin.erik.bitly.Utils.Companion.removeHttp
 import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
@@ -68,25 +69,25 @@ open class Bitlinks(private val accessToken: String) {
     @Synchronized
     @JvmOverloads
     fun clicks(
-        bitlink: String,
-        unit: Units = Units.DAY,
-        units: Int = -1,
-        size: Int = 50,
-        unit_reference: String = Constants.EMPTY,
-        toJson: Boolean = false
+            bitlink: String,
+            unit: Units = Units.DAY,
+            units: Int = -1,
+            size: Int = 50,
+            unit_reference: String = Constants.EMPTY,
+            toJson: Boolean = false
     ): String {
         var clicks = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
         if (bitlink.isNotBlank()) {
             lastCallResponse = Utils.call(
-                accessToken,
-                ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
-                mapOf(
-                    "unit" to unit.toString().lowercase(),
-                    "units" to units.toString(),
-                    "size" to size.toString(),
-                    "unit_reference" to unit_reference
-                ),
-                Methods.GET
+                    accessToken,
+                    ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
+                    mapOf(
+                            "unit" to unit.toString().lowercase(),
+                            "units" to units.toString(),
+                            "size" to size.toString(),
+                            "unit_reference" to unit_reference
+                    ),
+                    Methods.GET
             )
             clicks = parseJsonResponse(lastCallResponse, "total_clicks", clicks, toJson)
         }
@@ -107,26 +108,26 @@ open class Bitlinks(private val accessToken: String) {
     @Synchronized
     @JvmOverloads
     fun create(
-        domain: String = Constants.EMPTY,
-        title: String = Constants.EMPTY,
-        group_guid: String = Constants.EMPTY,
-        tags: Array<String> = emptyArray(),
-        deeplinks: Array<Map<String, String>> = emptyArray(),
-        long_url: String,
-        toJson: Boolean = false
+            domain: String = Constants.EMPTY,
+            title: String = Constants.EMPTY,
+            group_guid: String = Constants.EMPTY,
+            tags: Array<String> = emptyArray(),
+            deeplinks: Array<Map<String, String>> = emptyArray(),
+            long_url: String,
+            toJson: Boolean = false
     ): String {
         var link = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
         if (long_url.isNotBlank()) {
             lastCallResponse = Utils.call(
-                accessToken,
-                "/bitlinks".toEndPoint(),
-                mutableMapOf<String, Any>("long_url" to long_url).apply {
-                    if (domain.isNotBlank()) put("domain", domain)
-                    if (title.isNotBlank()) put("title", title)
-                    if (group_guid.isNotBlank()) put("group_guid", group_guid)
-                    if (tags.isNotEmpty()) put("tags", tags)
-                    if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
-                }
+                    accessToken,
+                    "/bitlinks".toEndPoint(),
+                    mutableMapOf<String, Any>("long_url" to long_url).apply {
+                        if (domain.isNotBlank()) put("domain", domain)
+                        if (title.isNotBlank()) put("title", title)
+                        if (group_guid.isNotBlank()) put("group_guid", group_guid)
+                        if (tags.isNotEmpty()) put("tags", tags)
+                        if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
+                    }
             )
             link = parseJsonResponse(lastCallResponse, "link", link, toJson)
         }
@@ -148,9 +149,9 @@ open class Bitlinks(private val accessToken: String) {
         var longUrl = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
         if (bitlink_id.isNotBlank()) {
             lastCallResponse = Utils.call(
-                accessToken,
-                "/expand".toEndPoint(),
-                mapOf("bitlink_id" to bitlink_id.removeHttp())
+                    accessToken,
+                    "/expand".toEndPoint(),
+                    mapOf("bitlink_id" to bitlink_id.removeHttp())
             )
             longUrl = parseJsonResponse(lastCallResponse, "long_url", longUrl, toJson)
         }
@@ -174,7 +175,9 @@ open class Bitlinks(private val accessToken: String) {
                 try {
                     parsed = JSONObject(response.body).getString(key, default)
                 } catch (jse: JSONException) {
-                    Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from Bitly.", jse)
+                    if (Utils.logger.isSevereLoggable()) {
+                        Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from Bitly.", jse)
+                    }
                 }
             }
         }
@@ -195,14 +198,16 @@ open class Bitlinks(private val accessToken: String) {
     @Synchronized
     @JvmOverloads
     fun shorten(
-        long_url: String,
-        group_guid: String = Constants.EMPTY,
-        domain: String = Constants.EMPTY,
-        toJson: Boolean = false
+            long_url: String,
+            group_guid: String = Constants.EMPTY,
+            domain: String = Constants.EMPTY,
+            toJson: Boolean = false
     ): String {
         var bitlink = if (toJson) Constants.EMPTY_JSON else long_url
         if (!long_url.isValidUrl()) {
-            Utils.logger.severe("Please specify a valid URL to shorten.")
+            if (Utils.logger.isSevereLoggable()) {
+                Utils.logger.severe("Please specify a valid URL to shorten.")
+            }
         } else {
             val params = mutableMapOf("long_url" to long_url).apply {
                 if (group_guid.isNotBlank()) put("group_guid", group_guid)
@@ -229,39 +234,39 @@ open class Bitlinks(private val accessToken: String) {
     @Synchronized
     @JvmOverloads
     fun update(
-        bitlink: String,
-        references: Map<String, String> = emptyMap(),
-        archived: Boolean = false,
-        tags: Array<String> = emptyArray(),
-        created_at: String = Constants.EMPTY,
-        title: String = Constants.EMPTY,
-        deeplinks: Array<Map<String, String>> = emptyArray(),
-        created_by: String = Constants.EMPTY,
-        long_url: String = Constants.EMPTY,
-        client_id: String = Constants.EMPTY,
-        custom_bitlinks: Array<String> = emptyArray(),
-        link: String = Constants.EMPTY,
-        id: String = Constants.EMPTY,
-        toJson: Boolean = false
+            bitlink: String,
+            references: Map<String, String> = emptyMap(),
+            archived: Boolean = false,
+            tags: Array<String> = emptyArray(),
+            created_at: String = Constants.EMPTY,
+            title: String = Constants.EMPTY,
+            deeplinks: Array<Map<String, String>> = emptyArray(),
+            created_by: String = Constants.EMPTY,
+            long_url: String = Constants.EMPTY,
+            client_id: String = Constants.EMPTY,
+            custom_bitlinks: Array<String> = emptyArray(),
+            link: String = Constants.EMPTY,
+            id: String = Constants.EMPTY,
+            toJson: Boolean = false
     ): String {
         var result = if (toJson) Constants.EMPTY_JSON else Constants.FALSE
         if (bitlink.isNotBlank()) {
             lastCallResponse = Utils.call(
-                accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
-                    if (references.isNotEmpty()) put("references", references)
-                    if (archived) put("archived", archived)
-                    if (tags.isNotEmpty()) put("tags", tags)
-                    if (created_at.isNotBlank()) put("created_at", created_at)
-                    if (title.isNotBlank()) put("title", title)
-                    if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
-                    if (created_by.isNotBlank()) put("created_by", created_by)
-                    if (long_url.isNotBlank()) put("long_url", long_url)
-                    if (client_id.isNotBlank()) put("client_id", client_id)
-                    if (custom_bitlinks.isNotEmpty()) put("custom_bitlinks", custom_bitlinks)
-                    if (link.isNotBlank()) put("link", link)
-                    if (id.isNotBlank()) put("id", id)
-                },
-                Methods.PATCH
+                    accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
+                if (references.isNotEmpty()) put("references", references)
+                if (archived) put("archived", archived)
+                if (tags.isNotEmpty()) put("tags", tags)
+                if (created_at.isNotBlank()) put("created_at", created_at)
+                if (title.isNotBlank()) put("title", title)
+                if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
+                if (created_by.isNotBlank()) put("created_by", created_by)
+                if (long_url.isNotBlank()) put("long_url", long_url)
+                if (client_id.isNotBlank()) put("client_id", client_id)
+                if (custom_bitlinks.isNotEmpty()) put("custom_bitlinks", custom_bitlinks)
+                if (link.isNotBlank()) put("link", link)
+                if (id.isNotBlank()) put("id", id)
+            },
+                    Methods.PATCH
             )
 
             if (lastCallResponse.isSuccessful) {
