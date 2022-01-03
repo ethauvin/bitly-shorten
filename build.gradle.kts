@@ -1,21 +1,22 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.39.0"
-    id("io.gitlab.arturbosch.detekt") version "1.18.1"
-    id("jacoco")
+    id("com.github.ben-manes.versions") version "0.40.0"
+    id("io.gitlab.arturbosch.detekt") version "1.19.0"
     id("java")
     id("java-library")
     id("maven-publish")
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    id("org.jetbrains.dokka") version "1.5.30"
+    id("org.jetbrains.dokka") version "1.6.10"
+    id("org.jetbrains.kotlinx.kover") version "0.4.4"
     id("org.sonarqube") version "3.3"
     id("signing")
-    kotlin("jvm") version "1.5.31"
-    kotlin("kapt") version "1.5.31"
+    kotlin("jvm") version "1.6.10"
+    kotlin("kapt") version "1.6.10"
 }
 
 group = "net.thauvin.erik"
@@ -31,7 +32,14 @@ var semverProcessor = "net.thauvin.erik:semver:1.2.0"
 val publicationName = "mavenJava"
 
 object Versions {
-    const val OKHTTP = "4.9.1"
+    const val OKHTTP = "4.9.3"
+}
+
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
 }
 
 repositories {
@@ -44,7 +52,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
-    implementation("org.json:json:20210307")
+    implementation("org.json:json:20211205")
 
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
@@ -61,24 +69,6 @@ detekt {
     baseline = project.rootDir.resolve("config/detekt/baseline.xml")
 }
 
-kotlin {
-    // Add kapt.use.worker.api=false to gradle.properties (JDK 16+)
-    // See: https://youtrack.jetbrains.com/issue/KT-45545
-    kotlinDaemonJvmArgs = listOf(
-            "-Dfile.encoding=UTF-8",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
-            "--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
-    )
-}
-
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -91,6 +81,7 @@ sonarqube {
         property("sonar.organization", "ethauvin-github")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/report.xml")
     }
 }
 
@@ -107,6 +98,12 @@ tasks {
         kotlinOptions.jvmTarget = java.targetCompatibility.toString()
     }
 
+    withType<DependencyUpdatesTask> {
+        rejectVersionIf {
+            isNonStable(candidate.version)
+        }
+    }
+
     withType<Test> {
         testLogging {
             exceptionFormat = TestExceptionFormat.FULL
@@ -118,20 +115,8 @@ tasks {
         destination = file("$projectDir/pom.xml")
     }
 
-    jacoco {
-        toolVersion = "0.8.7"
-    }
-
-    jacocoTestReport {
-        dependsOn(test)
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-        }
-    }
-
     assemble {
-        dependsOn(javadocJar)
+        dependsOn(koverReport)
     }
 
     clean {
@@ -206,7 +191,7 @@ tasks {
     }
 
     "sonarqube" {
-        dependsOn(jacocoTestReport)
+        dependsOn(koverReport)
     }
 }
 
