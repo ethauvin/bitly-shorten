@@ -49,7 +49,7 @@ open class Bitly() {
      * [Authentication](https://dev.bitly.com/docs/getting-started/authentication).
      **/
     var accessToken: String = System.getenv(Constants.ENV_ACCESS_TOKEN)
-            ?: (System.getProperty(Constants.ENV_ACCESS_TOKEN) ?: Constants.EMPTY)
+        ?: (System.getProperty(Constants.ENV_ACCESS_TOKEN) ?: Constants.EMPTY)
 
     /**
      * Creates a new instance using an [API Access Token][accessToken].

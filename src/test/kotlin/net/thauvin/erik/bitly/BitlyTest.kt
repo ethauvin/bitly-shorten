@@ -32,16 +32,14 @@
 
 package net.thauvin.erik.bitly
 
+import net.thauvin.erik.bitly.Utils.Companion.isValidUrl
 import net.thauvin.erik.bitly.Utils.Companion.removeHttp
 import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
 import org.json.JSONObject
 import org.junit.Before
 import java.io.File
 import java.util.logging.Level
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class BitlyTest {
     private val bitly = with(File("local.properties")) {
@@ -74,8 +72,8 @@ class BitlyTest {
     fun `token should be valid`() {
         val test = Bitly().apply { accessToken = "12345679" }
         assertEquals(
-                "{\"message\":\"FORBIDDEN\"}",
-                test.bitlinks().shorten("https://erik.thauvin.net/blog", toJson = true)
+            "{\"message\":\"FORBIDDEN\"}",
+            test.bitlinks().shorten("https://erik.thauvin.net/blog", toJson = true)
         )
     }
 
@@ -87,6 +85,11 @@ class BitlyTest {
     @Test
     fun `long url should not be short`() {
         assertEquals(shortUrl, bitly.bitlinks().shorten(shortUrl))
+    }
+
+    @Test
+    fun `endPoint should be specified`() {
+        assertFalse(bitly.call("").isSuccessful)
     }
 
     @Test
@@ -102,19 +105,23 @@ class BitlyTest {
 
     @Test
     fun `get user`() {
-        assertTrue(bitly.call("/user".toEndPoint(), method = Methods.GET).isSuccessful)
+        assertTrue(bitly.call("user".toEndPoint(), method = Methods.GET).isSuccessful)
+        assertTrue(
+            Utils.call(bitly.accessToken, "/user".toEndPoint(), method = Methods.GET).isSuccessful,
+            "call(/user)"
+        )
     }
 
     @Test
     fun `created by`() {
         assertEquals(
-                "ethauvin",
-                JSONObject(
-                        bitly.call(
-                                "/bitlinks/${shortUrl.removeHttp()}".toEndPoint(),
-                                method = Methods.GET
-                        ).body
-                ).getString("created_by")
+            "ethauvin",
+            JSONObject(
+                bitly.call(
+                    "/bitlinks/${shortUrl.removeHttp()}".toEndPoint(),
+                    method = Methods.GET
+                ).body
+            ).getString("created_by")
         )
     }
 
@@ -154,14 +161,18 @@ class BitlyTest {
 
     @Test
     fun `create bitlink`() {
+        assertTrue(
+            bitly.bitlinks().create(long_url = longUrl).matches("https://\\w+.\\w{2}/\\w{7}".toRegex()),
+            "just long_url"
+        )
         assertEquals(
-                shortUrl,
-                bitly.bitlinks().create(
-                        domain = "bit.ly",
-                        title = "Erik's Blog",
-                        tags = arrayOf("erik", "thauvin", "blog", "weblog"),
-                        long_url = longUrl
-                )
+            shortUrl,
+            bitly.bitlinks().create(
+                domain = "bit.ly",
+                title = "Erik's Blog",
+                tags = arrayOf("erik", "thauvin", "blog", "weblog"),
+                long_url = longUrl
+            )
         )
     }
 
@@ -169,11 +180,21 @@ class BitlyTest {
     fun `update bitlink`() {
         val bl = bitly.bitlinks()
         assertEquals(
-                Constants.TRUE,
-                bl.update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
+            Constants.TRUE,
+            bl.update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
+        )
+
+        assertTrue(
+            bl.update(shortUrl, tags = emptyArray(), toJson = true).contains("\"tags\":[]"), "update tags toJson"
         )
 
         bl.update(shortUrl, link = longUrl)
         assertTrue(bl.lastCallResponse.isUnprocessableEntity, "422 Unprocessable")
+    }
+
+    @Test
+    fun `validate URL`() {
+        assertTrue("https://www.example.com".isValidUrl(), "valid url")
+        assertFalse("this is a test".isValidUrl(), "invalid url")
     }
 }

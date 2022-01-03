@@ -50,7 +50,7 @@ import java.util.logging.Logger
 open class Utils private constructor() {
     companion object {
         /** The logger instance. */
-        val logger: Logger by lazy { Logger.getLogger(Bitly::class.java.name) }
+        val logger: Logger by lazy { Logger.getLogger(Utils::class.java.name) }
 
         /**
          * Executes an API call.
@@ -70,8 +70,7 @@ open class Utils private constructor() {
         ): CallResponse {
             val response = CallResponse()
             if (validateCall(accessToken, endPoint)) {
-                val apiUrl = endPoint.toHttpUrlOrNull()
-                if (apiUrl != null) {
+                endPoint.toHttpUrlOrNull()?.let { apiUrl ->
                     val builder = when (method) {
                         Methods.POST, Methods.PATCH -> {
                             val formBody = JSONObject(params).toString()
@@ -117,8 +116,7 @@ open class Utils private constructor() {
         }
 
         private fun parseBody(endPoint: String, result: Response): String {
-            val body = result.body?.string()
-            if (body != null) {
+            result.body?.string()?.let { body ->
                 if (!result.isSuccessful && body.isNotEmpty()) {
                     try {
                         with(JSONObject(body)) {
