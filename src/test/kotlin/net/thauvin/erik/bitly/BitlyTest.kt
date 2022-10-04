@@ -32,6 +32,14 @@
 
 package net.thauvin.erik.bitly
 
+import assertk.all
+import assertk.assertThat
+import assertk.assertions.contains
+import assertk.assertions.isEqualTo
+import assertk.assertions.isFalse
+import assertk.assertions.isTrue
+import assertk.assertions.matches
+import assertk.assertions.prop
 import net.thauvin.erik.bitly.Utils.Companion.isValidUrl
 import net.thauvin.erik.bitly.Utils.Companion.removeHttp
 import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
@@ -39,7 +47,11 @@ import org.json.JSONObject
 import org.junit.Before
 import java.io.File
 import java.util.logging.Level
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
 
 class BitlyTest {
     private val bitly = with(File("local.properties")) {
@@ -89,7 +101,7 @@ class BitlyTest {
 
     @Test
     fun `endPoint should be specified`() {
-        assertFalse(bitly.call("").isSuccessful)
+        assertThat(bitly.call("")).prop(CallResponse::isSuccessful).isFalse()
     }
 
     @Test
@@ -105,11 +117,10 @@ class BitlyTest {
 
     @Test
     fun `get user`() {
-        assertTrue(bitly.call("user".toEndPoint(), method = Methods.GET).isSuccessful)
-        assertTrue(
-            Utils.call(bitly.accessToken, "/user".toEndPoint(), method = Methods.GET).isSuccessful,
-            "call(/user)"
-        )
+        assertThat(bitly.call("user".toEndPoint(), method = Methods.GET), "call(user)")
+            .prop(CallResponse::isSuccessful).isTrue()
+        assertThat(Utils.call(bitly.accessToken, "/user".toEndPoint(), method = Methods.GET), "call(/user)")
+            .prop(CallResponse::isSuccessful).isTrue()
     }
 
     @Test
@@ -139,18 +150,18 @@ class BitlyTest {
     fun `bitlinks lastCallResponse`() {
         val bl = Bitlinks(bitly.accessToken)
         bl.shorten(longUrl, domain = "bit.ly")
-        with(bl.lastCallResponse) {
-            assertEquals(true, isSuccessful, "is successful")
-            assertEquals(200, resultCode, "resultCode == 200")
-            assertTrue(body.contains("\"link\":\"$shortUrl\""), "valid body")
+        assertThat(bl.lastCallResponse, "shorten(longUrl)").all {
+            prop(CallResponse::isSuccessful).isTrue()
+            prop(CallResponse::resultCode).isEqualTo(200)
+            prop(CallResponse::body).contains("\"link\":\"$shortUrl\"")
         }
 
         bl.shorten(shortUrl)
-        with(bl.lastCallResponse) {
-            assertEquals(false, isSuccessful, "is not successful")
-            assertEquals(400, resultCode, "resultCode == 400")
-            assertTrue(isBadRequest, "is bad request")
-            assertTrue(body.contains("ALREADY_A_BITLY_LINK"), "already a bitlink")
+        assertThat(bl.lastCallResponse, "shorten(shortUrl)").all {
+            prop(CallResponse::isSuccessful).isFalse()
+            prop(CallResponse::resultCode).isEqualTo(400)
+            prop(CallResponse::isBadRequest).isTrue()
+            prop(CallResponse::body).contains("ALREADY_A_BITLY_LINK")
         }
     }
 
@@ -161,10 +172,8 @@ class BitlyTest {
 
     @Test
     fun `create bitlink`() {
-        assertTrue(
-            bitly.bitlinks().create(long_url = longUrl).matches("https://\\w+.\\w{2}/\\w{7}".toRegex()),
-            "just long_url"
-        )
+        assertThat(bitly.bitlinks().create(long_url = longUrl), "create(longUrl)")
+            .matches("https://\\w+.\\w{2}/\\w{7}".toRegex())
         assertEquals(
             shortUrl,
             bitly.bitlinks().create(
@@ -181,15 +190,14 @@ class BitlyTest {
         val bl = bitly.bitlinks()
         assertEquals(
             Constants.TRUE,
-            bl.update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
+            bl.update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"), archived = true)
         )
 
-        assertTrue(
-            bl.update(shortUrl, tags = emptyArray(), toJson = true).contains("\"tags\":[]"), "update tags toJson"
-        )
+        assertThat(bl.update(shortUrl, tags = emptyArray(), toJson = true), "update(tags)")
+            .contains("\"tags\":[]")
 
         bl.update(shortUrl, link = longUrl)
-        assertTrue(bl.lastCallResponse.isUnprocessableEntity, "422 Unprocessable")
+        assertThat(bl.lastCallResponse).prop(CallResponse::isUnprocessableEntity).isTrue()
     }
 
     @Test

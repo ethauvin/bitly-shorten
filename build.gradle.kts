@@ -6,17 +6,17 @@ import java.net.URL
 
 plugins {
     id("com.github.ben-manes.versions") version "0.42.0"
-    id("io.gitlab.arturbosch.detekt") version "1.20.0"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
     id("java")
     id("java-library")
     id("maven-publish")
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    id("org.jetbrains.dokka") version "1.6.21"
-    id("org.jetbrains.kotlinx.kover") version "0.5.0"
-    id("org.sonarqube") version "3.3"
+    id("org.jetbrains.dokka") version "1.7.10"
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("org.sonarqube") version "3.4.0.2513"
     id("signing")
-    kotlin("jvm") version "1.6.21"
-    kotlin("kapt") version "1.6.21"
+    kotlin("jvm") version "1.7.20"
+    kotlin("kapt") version "1.7.20"
 }
 
 group = "net.thauvin.erik"
@@ -32,7 +32,7 @@ var semverProcessor = "net.thauvin.erik:semver:1.2.0"
 val publicationName = "mavenJava"
 
 object Versions {
-    const val OKHTTP = "4.9.3"
+    const val OKHTTP = "4.10.0"
 }
 
 fun isNonStable(version: String): Boolean {
@@ -52,10 +52,12 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
-    implementation("org.json:json:20220320")
+    implementation("org.json:json:20220924")
 
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
+
 }
 
 kapt {
@@ -70,8 +72,8 @@ detekt {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
     withSourcesJar()
 }
 
@@ -81,7 +83,7 @@ sonarqube {
         property("sonar.organization", "ethauvin-github")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/report.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/xml/report.xml")
     }
 }
 
@@ -130,7 +132,6 @@ tasks {
 
         dokkaSourceSets {
             configureEach {
-                jdkVersion.set(8)
                 includes.from("config/dokka/packages.md")
                 sourceLink {
                     localDirectory.set(file("src/main/kotlin/"))
@@ -145,7 +146,6 @@ tasks {
     dokkaJavadoc {
         dokkaSourceSets {
             configureEach {
-                jdkVersion.set(8)
                 includes.from("config/dokka/packages.md")
             }
         }
@@ -155,6 +155,8 @@ tasks {
     val copyToDeploy by registering(Copy::class) {
         from(configurations.runtimeClasspath) {
             exclude("annotations-*.jar")
+            exclude("kotlin-*.jar")
+            exclude("json-*.jar")
         }
         from(jar)
         into(deployDir)
@@ -163,7 +165,7 @@ tasks {
     register("deploy") {
         description = "Copies all needed files to the $deployDir directory."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn(build, jar)
+        dependsOn(clean, wrapper, build, jar)
         outputs.dir(deployDir)
         inputs.files(copyToDeploy)
         mustRunAfter(clean)

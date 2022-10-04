@@ -30,19 +30,19 @@ defaults_gradle: &defaults_gradle
         path: build/reports/
 
 jobs:
-  build_gradle_jdk16:
+  build_gradle_jdk18:
     <<: *defaults
 
     docker:
-      - image: cimg/openjdk:16.0
+      - image: cimg/openjdk:18.0
 
     <<: *defaults_gradle
 
-  build_gradle_jdk8:
+  build_gradle_jdk11:
     <<: *defaults
 
     docker:
-      - image: cimg/openjdk:8.0
+      - image: cimg/openjdk:11.0
 
     <<: *defaults_gradle
 
@@ -50,6 +50,6 @@ workflows:
   version: 2
   gradle:
         jobs:
-        - build_gradle_jdk8
-        - build_gradle_jdk16
+        - build_gradle_jdk11
+        - build_gradle_jdk18
 

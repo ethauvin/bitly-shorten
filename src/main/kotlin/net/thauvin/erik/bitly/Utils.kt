@@ -84,6 +84,7 @@ open class Utils private constructor() {
                                 }
                             }
                         }
+
                         Methods.DELETE -> Request.Builder().url(apiUrl.newBuilder().build()).delete()
                         else -> { // Methods.GET
                             val httpUrl = apiUrl.newBuilder().apply {
@@ -189,9 +190,11 @@ open class Utils private constructor() {
                 endPoint.isBlank() -> {
                     if (logger.isSevereLoggable()) logger.severe("Please specify a valid API endpoint.")
                 }
+
                 accessToken.isBlank() -> {
                     if (logger.isSevereLoggable()) logger.severe("Please specify a valid API access token.")
                 }
+
                 else -> return true
             }
             return false

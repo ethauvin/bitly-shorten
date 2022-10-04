@@ -1,6 +1,6 @@
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause) [![Release](https://img.shields.io/github/release/ethauvin/bitly-shorten.svg)](https://github.com/ethauvin/bitly-shorten/releases/latest) [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/bitly-shorten.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22net.thauvin.erik%22%20AND%20a:%22bitly-shorten%22)
 
-[![Known Vulnerabilities](https://snyk.io/test/github/ethauvin/bitly-shorten/badge.svg?targetFile=pom.xml)](https://snyk.io/test/github/ethauvin/bitly-shorten?targetFile=pom.xml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_bitly-shorten&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_bitly-shorten) [![GitHub CI](https://github.com/ethauvin/bitly-shorten/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/bitly-shorten/actions/workflows/gradle.yml) [![CircleCI](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_bitly-shorten&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_bitly-shorten) [![GitHub CI](https://github.com/ethauvin/bitly-shorten/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/bitly-shorten/actions/workflows/gradle.yml) [![CircleCI](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master)
 
 # [Bitly](https://dev.bitly.com/v4/) Shortener for Kotlin/Java/Android
 
@@ -51,6 +51,10 @@ BITLY_ACCESS_TOKEN=abc123def456ghi789jkl0
 To use with [Gradle](https://gradle.org/), include the following dependency in your [build](https://github.com/ethauvin/bitly-shorten/blob/master/examples/build.gradle.kts) file:
 
 ```gradle
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation("net.thauvin.erik:bitly-shorten:0.9.3")
 }

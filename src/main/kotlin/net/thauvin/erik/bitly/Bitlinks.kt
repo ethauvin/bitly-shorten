@@ -254,7 +254,7 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
                     if (references.isNotEmpty()) put("references", references)
-                    if (archived) put("archived", archived)
+                    if (archived) put("archived", true)
                     if (tags.isNotEmpty()) put("tags", tags)
                     if (created_at.isNotBlank()) put("created_at", created_at)
                     if (title.isNotBlank()) put("title", title)
