@@ -201,6 +201,34 @@ class BitlyTest {
     }
 
     @Test
+    fun `update bitlink with config`() {
+        val bl = bitly.bitlinks()
+        var config = UpdateConfig.Builder().apply {
+            bitlink(shortUrl)
+            title("Erik's Weblog")
+            tags(arrayOf("blog", "weblog"))
+            archived(true)
+        }.build()
+
+        assertEquals(Constants.TRUE, bl.update(config))
+
+        config = UpdateConfig.Builder().apply {
+            bitlink(shortUrl)
+            toJson(true)
+        }.build()
+
+        assertThat(bl.update(config), "update(tags)").contains("\"tags\":[]")
+
+        config = UpdateConfig.Builder().apply {
+            bitlink(shortUrl)
+            link(longUrl)
+        }.build()
+        bl.update(config)
+
+        assertThat(bl.lastCallResponse).prop(CallResponse::isUnprocessableEntity).isTrue()
+    }
+
+    @Test
     fun `validate URL`() {
         assertTrue("https://www.example.com".isValidUrl(), "valid url")
         assertFalse("this is a test".isValidUrl(), "invalid url")

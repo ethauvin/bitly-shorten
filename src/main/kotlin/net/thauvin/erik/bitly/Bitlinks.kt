@@ -222,6 +222,35 @@ open class Bitlinks(private val accessToken: String) {
         return bitlink
     }
 
+
+    /**
+     * Updates fields in the specified Bitlink.
+     *
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
+     *
+     * @param config The update configuration.
+     * @return [Constants.TRUE] if the update was successful, [Constants.FALSE] otherwise.
+     */
+    @Synchronized
+    fun update(config: UpdateConfig): String {
+        return update(
+            config.bitlink,
+            config.references,
+            config.archived,
+            config.tags,
+            config.created_at,
+            config.title,
+            config.deepLinks,
+            config.created_by,
+            config.long_url,
+            config.client_id,
+            config.custom_bitlinks,
+            config.link,
+            config.id,
+            config.toJson
+        )
+    }
+
     /**
      * Updates fields in the specified Bitlink.
      *

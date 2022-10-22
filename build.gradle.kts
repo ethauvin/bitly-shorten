@@ -5,13 +5,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.42.0"
+    id("com.github.ben-manes.versions") version "0.43.0"
     id("io.gitlab.arturbosch.detekt") version "1.21.0"
     id("java")
     id("java-library")
     id("maven-publish")
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    id("org.jetbrains.dokka") version "1.7.10"
+    id("org.jetbrains.dokka") version "1.7.20"
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
     id("org.sonarqube") version "3.4.0.2513"
     id("signing")
@@ -57,7 +57,6 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
     testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
-
 }
 
 kapt {
