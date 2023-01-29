@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.43.0"
+    id("com.github.ben-manes.versions") version "0.44.0"
     id("io.gitlab.arturbosch.detekt") version "1.21.0"
     id("java")
     id("java-library")
@@ -13,14 +13,14 @@ plugins {
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "1.7.20"
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
-    id("org.sonarqube") version "3.4.0.2513"
+    id("org.sonarqube") version "3.5.0.2730"
     id("signing")
-    kotlin("jvm") version "1.7.20"
-    kotlin("kapt") version "1.7.20"
+    kotlin("jvm") version "1.8.0"
+    kotlin("kapt") version "1.8.0"
 }
 
 group = "net.thauvin.erik"
-description = "Bitly Shortener for Kotlin/Java"
+description = "A simple implementation of the Bitly link shortening API v4"
 
 val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
@@ -220,8 +220,8 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/$gitHub.git")
-                    developerConnection.set("scm:git:git@github.com:$gitHub.git")
+                    connection.set("scm:git://github.com/$gitHub.git")
+                    developerConnection.set("scm:git@github.com:$gitHub.git")
                     url.set(mavenUrl)
                 }
                 issueManagement {
