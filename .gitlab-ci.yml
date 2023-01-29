@@ -1,7 +1,7 @@
-image: gradle:alpine
+image: gradle:7-jdk11
 
 variables:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-XX:MaxMetaspaceSize=512m"
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -12,7 +12,7 @@ stages:
 
 build:
   stage: build
-  script: ./gradlew --build-cache assemble
+  script: gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -22,7 +22,7 @@ build:
 
 test:
   stage: test
-  script: ./gradlew check
+  script: gradle check
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull

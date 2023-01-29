@@ -1,7 +1,7 @@
 /*
  * Bitlinks.kt
  *
- * Copyright (c) 2020-2021, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2020-2022, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,7 @@
 
 package net.thauvin.erik.bitly
 
+import net.thauvin.erik.bitly.Utils.Companion.isSevereLoggable
 import net.thauvin.erik.bitly.Utils.Companion.isValidUrl
 import net.thauvin.erik.bitly.Utils.Companion.removeHttp
 import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
@@ -62,8 +63,8 @@ open class Bitlinks(private val accessToken: String) {
      * @param size The quantity of items to be be returned.
      * @param unit_reference An ISO-8601 timestamp, indicating the most recent time for which to pull metrics.
      * Will default to current time.
-     * @param toJson Returns the full JSON response if `true`
-     * @return The click counts or JSON response object.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return The click counts.
      */
     @Synchronized
     @JvmOverloads
@@ -80,11 +81,11 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken,
                 ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
-                hashMapOf(
-                    Pair("unit", unit.toString().toLowerCase()),
-                    Pair("units", units.toString()),
-                    Pair("size", size.toString()),
-                    Pair("unit_reference", unit_reference)
+                mapOf(
+                    "unit" to unit.toString().lowercase(),
+                    "units" to units.toString(),
+                    "size" to size.toString(),
+                    "unit_reference" to unit_reference
                 ),
                 Methods.GET
             )
@@ -98,9 +99,11 @@ open class Bitlinks(private val accessToken: String) {
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
      *
-     * @oaran long_url The long URL.
-     * @param toJson Returns the full JSON response if `true`
-     * @return The shorten URL or JSON response, or on error, an empty string/JSON object.
+     * @param domain A branded short domain or `bit.ly` by default.
+     * @param group_guid A GUID for a Bitly group.
+     * @param long_url The long URL.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return The shorten URL or an empty string on error.
      */
     @Synchronized
     @JvmOverloads
@@ -118,14 +121,13 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken,
                 "/bitlinks".toEndPoint(),
-                mutableMapOf<String, Any>(Pair("long_url", long_url)).apply {
+                mutableMapOf<String, Any>("long_url" to long_url).apply {
                     if (domain.isNotBlank()) put("domain", domain)
                     if (title.isNotBlank()) put("title", title)
                     if (group_guid.isNotBlank()) put("group_guid", group_guid)
                     if (tags.isNotEmpty()) put("tags", tags)
                     if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
-                },
-                Methods.POST
+                }
             )
             link = parseJsonResponse(lastCallResponse, "link", link, toJson)
         }
@@ -138,8 +140,8 @@ open class Bitlinks(private val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#expandBitlink) for more information.
      *
      * @param bitlink_id The bitlink ID.
-     * @param toJson Returns the full JSON response if `true`
-     * @return The long URL or JSON response, or on error, an empty string/JSON object.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return The long URL or an empty string on error.
      */
     @Synchronized
     @JvmOverloads
@@ -149,8 +151,7 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken,
                 "/expand".toEndPoint(),
-                mapOf(Pair("bitlink_id", bitlink_id.removeHttp())),
-                Methods.POST
+                mapOf("bitlink_id" to bitlink_id.removeHttp())
             )
             longUrl = parseJsonResponse(lastCallResponse, "long_url", longUrl, toJson)
         }
@@ -174,7 +175,9 @@ open class Bitlinks(private val accessToken: String) {
                 try {
                     parsed = JSONObject(response.body).getString(key, default)
                 } catch (jse: JSONException) {
-                    Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from Bitly.", jse)
+                    if (Utils.logger.isSevereLoggable()) {
+                        Utils.logger.log(Level.SEVERE, "An error occurred parsing the response from Bitly.", jse)
+                    }
                 }
             }
         }
@@ -187,8 +190,10 @@ open class Bitlinks(private val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createBitlink) for more information.
      *
      * @param long_url The long URL.
-     * @param toJson Returns the full JSON response if `true`
-     * @return The short URL or JSON response, or on error, the [long_url] or an empty JSON object.
+     * @param group_guid A GUID for a Bitly group.
+     * @param domain A branded short domain or `bit.ly` by default.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return The short URL or the [long_url] on error.
      */
     @Synchronized
     @JvmOverloads
@@ -200,16 +205,14 @@ open class Bitlinks(private val accessToken: String) {
     ): String {
         var bitlink = if (toJson) Constants.EMPTY_JSON else long_url
         if (!long_url.isValidUrl()) {
-            Utils.logger.severe("Please specify a valid URL to shorten.")
+            if (Utils.logger.isSevereLoggable()) {
+                Utils.logger.severe("Please specify a valid URL to shorten.")
+            }
         } else {
-            val params: HashMap<String, String> = HashMap()
-            if (group_guid.isNotBlank()) {
-                params["group_guid"] = group_guid
+            val params = mutableMapOf("long_url" to long_url).apply {
+                if (group_guid.isNotBlank()) put("group_guid", group_guid)
+                if (domain.isNotBlank()) put("domain", domain)
             }
-            if (domain.isNotBlank()) {
-                params["domain"] = domain
-            }
-            params["long_url"] = long_url
 
             lastCallResponse = Utils.call(accessToken, "/shorten".toEndPoint(), params)
 
@@ -219,14 +222,43 @@ open class Bitlinks(private val accessToken: String) {
         return bitlink
     }
 
+
     /**
      * Updates fields in the specified Bitlink.
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
      *
-     * @oaran bitlink A Bitlink made of the domain and hash.
-     * @param toJson Returns the full JSON response if `true`
-     * @return `true` is the update was successful, `false` otherwise, or JSON response.
+     * @param config The update configuration.
+     * @return [Constants.TRUE] if the update was successful, [Constants.FALSE] otherwise.
+     */
+    @Synchronized
+    fun update(config: UpdateConfig): String {
+        return update(
+            config.bitlink,
+            config.references,
+            config.archived,
+            config.tags,
+            config.created_at,
+            config.title,
+            config.deepLinks,
+            config.created_by,
+            config.long_url,
+            config.client_id,
+            config.custom_bitlinks,
+            config.link,
+            config.id,
+            config.toJson
+        )
+    }
+
+    /**
+     * Updates fields in the specified Bitlink.
+     *
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
+     *
+     * @param bitlink A Bitlink made of the domain and hash.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return [Constants.TRUE] if the update was successful, [Constants.FALSE] otherwise.
      */
     @Synchronized
     @JvmOverloads
@@ -250,19 +282,19 @@ open class Bitlinks(private val accessToken: String) {
         if (bitlink.isNotBlank()) {
             lastCallResponse = Utils.call(
                 accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
-                if (references.isNotEmpty()) put("references", references)
-                if (archived) put("archived", archived)
-                if (tags.isNotEmpty()) put("tags", tags)
-                if (created_at.isNotBlank()) put("created_at", created_at)
-                if (title.isNotBlank()) put("title", title)
-                if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
-                if (created_by.isNotBlank()) put("created_by", created_by)
-                if (long_url.isNotBlank()) put("long_url", long_url)
-                if (client_id.isNotBlank()) put("client_id", client_id)
-                if (custom_bitlinks.isNotEmpty()) put("custom_bitlinks", custom_bitlinks)
-                if (link.isNotBlank()) put("link", link)
-                if (id.isNotBlank()) put("id", id)
-            },
+                    if (references.isNotEmpty()) put("references", references)
+                    if (archived) put("archived", true)
+                    if (tags.isNotEmpty()) put("tags", tags)
+                    if (created_at.isNotBlank()) put("created_at", created_at)
+                    if (title.isNotBlank()) put("title", title)
+                    if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
+                    if (created_by.isNotBlank()) put("created_by", created_by)
+                    if (long_url.isNotBlank()) put("long_url", long_url)
+                    if (client_id.isNotBlank()) put("client_id", client_id)
+                    if (custom_bitlinks.isNotEmpty()) put("custom_bitlinks", custom_bitlinks)
+                    if (link.isNotBlank()) put("link", link)
+                    if (id.isNotBlank()) put("id", id)
+                },
                 Methods.PATCH
             )
 

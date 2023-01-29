@@ -1,7 +1,7 @@
 /*
  * Bitly.kt
  *
- * Copyright (c) 2020-2021, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2020-2022, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@ package net.thauvin.erik.bitly
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.Properties
+import java.util.*
 
 /**
  * Provides access to the [Bitly API v4](https://dev.bitly.com/api-reference).
@@ -52,7 +52,7 @@ open class Bitly() {
         ?: (System.getProperty(Constants.ENV_ACCESS_TOKEN) ?: Constants.EMPTY)
 
     /**
-     * Creates a new instance using an [API Access Token][Bitly.accessToken].
+     * Creates a new instance using an [API Access Token][accessToken].
      *
      * @param accessToken The API access token.
      */
@@ -62,9 +62,9 @@ open class Bitly() {
     }
 
     /**
-     * Creates a new instance using a [Properties][properties] and [Property Key][key].
+     * Creates a new instance using a properties and property key.
      *
-     * @param properties The properties.
+     * @param properties The properties containing the [API Access Token][accessToken].
      * @param key The property key containing the [API Access Token][accessToken].
      */
     @Suppress("unused")
@@ -74,9 +74,9 @@ open class Bitly() {
     }
 
     /**
-     * Creates a new instance using a [Properties File Path][propertiesFilePath] and [Property Key][key].
+     * Creates a new instance using a properties file path and property key.
      *
-     * @param propertiesFilePath The properties file path.
+     * @param propertiesFilePath The file path of the properties containing the [API Access Token][accessToken].
      * @param key The property key containing the [API Access Token][accessToken].
      */
     @JvmOverloads
@@ -91,9 +91,9 @@ open class Bitly() {
     }
 
     /**
-     * Creates a new instance using a [Properties File][propertiesFile] and [Property Key][key].
+     * Creates a new instance using a properties file and property key.
      *
-     * @param propertiesFile The properties file.
+     * @param propertiesFile The properties file containing the [API Access Token][accessToken].
      * @param key The property key containing the [API Access Token][accessToken].
      */
     @Suppress("unused")
@@ -111,7 +111,7 @@ open class Bitly() {
      * @param endPoint The REST endpoint. (eg. `https://api-ssl.bitly.com/v4/shorten`)
      * @param params The request parameters key/value map.
      * @param method The submission [Method][Methods].
-     * @return The response (JSON) from the API.
+     * @return A [CallResponse] object.
      */
     @JvmOverloads
     fun call(endPoint: String, params: Map<String, Any> = emptyMap(), method: Methods = Methods.POST): CallResponse {

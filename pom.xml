@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <!-- This module was also published with a richer model, Gradle metadata,  -->
   <!-- which should be used instead. Do not delete the following line which  -->
   <!-- is to indicate to Gradle or any Gradle module metadata file consumer  -->
@@ -8,9 +8,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.thauvin.erik</groupId>
   <artifactId>bitly-shorten</artifactId>
-  <version>0.9.3</version>
+  <version>0.9.4-SNAPSHOT</version>
   <name>bitly-shorten</name>
-  <description>Bitly Shortener for Kotlin/Java</description>
+  <description>A simple implementation of the Bitly link shortening API v4</description>
   <url>https://github.com/ethauvin/bitly-shorten</url>
   <licenses>
     <license>
@@ -27,37 +27,48 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git://github.com/ethauvin/bitly-shorten.git</connection>
-    <developerConnection>scm:git:git@github.com:ethauvin/bitly-shorten.git</developerConnection>
+    <connection>scm:git://github.com/ethauvin/bitly-shorten.git</connection>
+    <developerConnection>scm:git@github.com:ethauvin/bitly-shorten.git</developerConnection>
     <url>https://github.com/ethauvin/bitly-shorten</url>
   </scm>
   <issueManagement>
     <system>GitHub</system>
     <url>https://github.com/ethauvin/bitly-shorten/issues</url>
   </issueManagement>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-bom</artifactId>
+        <version>1.8.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib-jdk8</artifactId>
-      <version>1.4.31</version>
+      <version>1.8.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
-      <version>4.9.1</version>
+      <version>4.10.0</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>logging-interceptor</artifactId>
-      <version>4.9.1</version>
+      <version>4.10.0</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>20210307</version>
+      <version>20220924</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>

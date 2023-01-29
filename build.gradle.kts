@@ -1,22 +1,26 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 
 plugins {
-    jacoco
-    `java-library`
-    `maven-publish`
-    signing
-    id("com.github.ben-manes.versions") version "0.38.0"
-    id("io.gitlab.arturbosch.detekt") version "1.16.0"
+    id("com.github.ben-manes.versions") version "0.44.0"
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
+    id("java")
+    id("java-library")
+    id("maven-publish")
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    id("org.jetbrains.dokka") version "1.4.30"
-    id("org.jetbrains.kotlin.jvm") version "1.4.31"
-    id("org.jetbrains.kotlin.kapt") version "1.4.31"
-    id("org.sonarqube") version "3.1.1"
+    id("org.jetbrains.dokka") version "1.7.20"
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("org.sonarqube") version "3.5.0.2730"
+    id("signing")
+    kotlin("jvm") version "1.8.0"
+    kotlin("kapt") version "1.8.0"
 }
 
 group = "net.thauvin.erik"
-description = "Bitly Shortener for Kotlin/Java"
+description = "A simple implementation of the Bitly link shortening API v4"
 
 val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
@@ -27,26 +31,32 @@ var semverProcessor = "net.thauvin.erik:semver:1.2.0"
 
 val publicationName = "mavenJava"
 
-object VersionInfo {
-    const val okhttp = "4.9.1"
+object Versions {
+    const val OKHTTP = "4.10.0"
 }
 
-val versions: VersionInfo by extra { VersionInfo }
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
+}
 
 repositories {
     mavenCentral()
-    jcenter() // needed for dokka
+    maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 }
 
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp:${versions.okhttp}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${versions.okhttp}")
-    implementation("org.json:json:20210307")
+    implementation(platform(kotlin("bom")))
 
-    // Use the Kotlin test library.
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    // Use the Kotlin JUnit integration.
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
+    implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
+    implementation("org.json:json:20220924")
+
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
 }
 
 kapt {
@@ -56,19 +66,23 @@ kapt {
 }
 
 detekt {
+    //toolVersion = "main-SNAPSHOT"
     baseline = project.rootDir.resolve("config/detekt/baseline.xml")
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
     withSourcesJar()
 }
 
 sonarqube {
     properties {
         property("sonar.projectKey", "ethauvin_$name")
+        property("sonar.organization", "ethauvin-github")
+        property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/xml/report.xml")
     }
 }
 
@@ -81,15 +95,21 @@ val javadocJar by tasks.creating(Jar::class) {
 }
 
 tasks {
-    withType<JacocoReport> {
-        reports {
-            xml.isEnabled = true
-            html.isEnabled = true
+    withType<KotlinCompile>().configureEach {
+        kotlinOptions.jvmTarget = java.targetCompatibility.toString()
+    }
+
+    withType<DependencyUpdatesTask> {
+        rejectVersionIf {
+            isNonStable(candidate.version)
         }
     }
 
-    withType<KotlinCompile>().configureEach {
-        kotlinOptions.jvmTarget = "1.8"
+    withType<Test> {
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+            events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+        }
     }
 
     withType<GenerateMavenPom> {
@@ -97,7 +117,7 @@ tasks {
     }
 
     assemble {
-        dependsOn(javadocJar)
+        dependsOn(koverReport)
     }
 
     clean {
@@ -111,10 +131,9 @@ tasks {
 
         dokkaSourceSets {
             configureEach {
-                jdkVersion.set(8)
                 includes.from("config/dokka/packages.md")
                 sourceLink {
-                    localDirectory.set(file("/src/main/kotlin/"))
+                    localDirectory.set(file("src/main/kotlin/"))
                     remoteUrl.set(URL("https://github.com/ethauvin/${project.name}/tree/master/src/main/kotlin/"))
                     remoteLineSuffix.set("#L")
                 }
@@ -122,11 +141,10 @@ tasks {
             }
         }
     }
-    
+
     dokkaJavadoc {
-         dokkaSourceSets {
+        dokkaSourceSets {
             configureEach {
-                jdkVersion.set(8)
                 includes.from("config/dokka/packages.md")
             }
         }
@@ -136,6 +154,8 @@ tasks {
     val copyToDeploy by registering(Copy::class) {
         from(configurations.runtimeClasspath) {
             exclude("annotations-*.jar")
+            exclude("kotlin-*.jar")
+            exclude("json-*.jar")
         }
         from(jar)
         into(deployDir)
@@ -144,10 +164,10 @@ tasks {
     register("deploy") {
         description = "Copies all needed files to the $deployDir directory."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn("build", "jar")
+        dependsOn(clean, wrapper, build, jar)
         outputs.dir(deployDir)
         inputs.files(copyToDeploy)
-        mustRunAfter("clean")
+        mustRunAfter(clean)
     }
 
     val gitIsDirty by registering(Exec::class) {
@@ -168,11 +188,11 @@ tasks {
     register("release") {
         description = "Publishes version ${project.version} to local repository."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn("wrapper", "deploy", "gitTag", "publishToMavenLocal")
+        dependsOn(wrapper, "deploy", gitTag, publishToMavenLocal)
     }
 
     "sonarqube" {
-        dependsOn("jacocoTestReport")
+        dependsOn(koverReport)
     }
 }
 
@@ -200,9 +220,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/$gitHub.git")
-                    developerConnection.set("scm:git:git@github.com:$gitHub.git")
-                    url.set("$mavenUrl")
+                    connection.set("scm:git://github.com/$gitHub.git")
+                    developerConnection.set("scm:git@github.com:$gitHub.git")
+                    url.set(mavenUrl)
                 }
                 issueManagement {
                     system.set("GitHub")
@@ -214,7 +234,12 @@ publishing {
     repositories {
         maven {
             name = "ossrh"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            project.afterEvaluate {
+                url = if (version.toString().contains("SNAPSHOT"))
+                    uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                else
+                    uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            }
             credentials(PasswordCredentials::class)
         }
     }

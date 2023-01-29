@@ -1,7 +1,7 @@
 /*
  * BitlyTest.kt
  *
- * Copyright (c) 2020-2021, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2020-2022, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,15 @@
 
 package net.thauvin.erik.bitly
 
+import assertk.all
+import assertk.assertThat
+import assertk.assertions.contains
+import assertk.assertions.isEqualTo
+import assertk.assertions.isFalse
+import assertk.assertions.isTrue
+import assertk.assertions.matches
+import assertk.assertions.prop
+import net.thauvin.erik.bitly.Utils.Companion.isValidUrl
 import net.thauvin.erik.bitly.Utils.Companion.removeHttp
 import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
 import org.json.JSONObject
@@ -40,6 +49,7 @@ import java.io.File
 import java.util.logging.Level
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
@@ -85,6 +95,16 @@ class BitlyTest {
     }
 
     @Test
+    fun `long url should not be short`() {
+        assertEquals(shortUrl, bitly.bitlinks().shorten(shortUrl))
+    }
+
+    @Test
+    fun `endPoint should be specified`() {
+        assertThat(bitly.call("")).prop(CallResponse::isSuccessful).isFalse()
+    }
+
+    @Test
     fun `shorten = expand`() {
         val shortUrl = bitly.bitlinks().shorten(longUrl, domain = "bit.ly")
         assertEquals(longUrl, bitly.bitlinks().expand(shortUrl))
@@ -97,7 +117,10 @@ class BitlyTest {
 
     @Test
     fun `get user`() {
-        assertTrue(bitly.call("/user".toEndPoint(), method = Methods.GET).isSuccessful)
+        assertThat(bitly.call("user".toEndPoint(), method = Methods.GET), "call(user)")
+            .prop(CallResponse::isSuccessful).isTrue()
+        assertThat(Utils.call(bitly.accessToken, "/user".toEndPoint(), method = Methods.GET), "call(/user)")
+            .prop(CallResponse::isSuccessful).isTrue()
     }
 
     @Test
@@ -127,9 +150,19 @@ class BitlyTest {
     fun `bitlinks lastCallResponse`() {
         val bl = Bitlinks(bitly.accessToken)
         bl.shorten(longUrl, domain = "bit.ly")
-        assertEquals(true, bl.lastCallResponse.isSuccessful, "is successful")
-        assertEquals(200, bl.lastCallResponse.resultCode, "resultCode == 200")
-        assertTrue(bl.lastCallResponse.body.contains("\"link\":\"$shortUrl\""), "valid body")
+        assertThat(bl.lastCallResponse, "shorten(longUrl)").all {
+            prop(CallResponse::isSuccessful).isTrue()
+            prop(CallResponse::resultCode).isEqualTo(200)
+            prop(CallResponse::body).contains("\"link\":\"$shortUrl\"")
+        }
+
+        bl.shorten(shortUrl)
+        assertThat(bl.lastCallResponse, "shorten(shortUrl)").all {
+            prop(CallResponse::isSuccessful).isFalse()
+            prop(CallResponse::resultCode).isEqualTo(400)
+            prop(CallResponse::isBadRequest).isTrue()
+            prop(CallResponse::body).contains("ALREADY_A_BITLY_LINK")
+        }
     }
 
     @Test
@@ -139,23 +172,65 @@ class BitlyTest {
 
     @Test
     fun `create bitlink`() {
+        assertThat(bitly.bitlinks().create(long_url = longUrl), "create(longUrl)")
+            .matches("https://\\w+.\\w{2}/\\w{7}".toRegex())
         assertEquals(
             shortUrl,
-            bitly.bitlinks()
-                .create(
-                    domain = "bit.ly",
-                    title = "Erik's Blog",
-                    tags = arrayOf("erik", "thauvin", "blog", "weblog"),
-                    long_url = longUrl
-                )
+            bitly.bitlinks().create(
+                domain = "bit.ly",
+                title = "Erik's Blog",
+                tags = arrayOf("erik", "thauvin", "blog", "weblog"),
+                long_url = longUrl
+            )
         )
     }
 
     @Test
     fun `update bitlink`() {
+        val bl = bitly.bitlinks()
         assertEquals(
             Constants.TRUE,
-            bitly.bitlinks().update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
+            bl.update(shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"), archived = true)
         )
+
+        assertThat(bl.update(shortUrl, tags = emptyArray(), toJson = true), "update(tags)")
+            .contains("\"tags\":[]")
+
+        bl.update(shortUrl, link = longUrl)
+        assertThat(bl.lastCallResponse).prop(CallResponse::isUnprocessableEntity).isTrue()
+    }
+
+    @Test
+    fun `update bitlink with config`() {
+        val bl = bitly.bitlinks()
+        var config = UpdateConfig.Builder().apply {
+            bitlink(shortUrl)
+            title("Erik's Weblog")
+            tags(arrayOf("blog", "weblog"))
+            archived(true)
+        }.build()
+
+        assertEquals(Constants.TRUE, bl.update(config))
+
+        config = UpdateConfig.Builder().apply {
+            bitlink(shortUrl)
+            toJson(true)
+        }.build()
+
+        assertThat(bl.update(config), "update(tags)").contains("\"tags\":[]")
+
+        config = UpdateConfig.Builder().apply {
+            bitlink(shortUrl)
+            link(longUrl)
+        }.build()
+        bl.update(config)
+
+        assertThat(bl.lastCallResponse).prop(CallResponse::isUnprocessableEntity).isTrue()
+    }
+
+    @Test
+    fun `validate URL`() {
+        assertTrue("https://www.example.com".isValidUrl(), "valid url")
+        assertFalse("this is a test".isValidUrl(), "invalid url")
     }
 }

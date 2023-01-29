@@ -1,11 +1,18 @@
 plugins {
-  id("com.gradle.enterprise").version("3.1.1")
+  id("com.gradle.enterprise").version("3.6.3")
 }
-
-rootProject.name = "bitly-shorten"
 
 gradleEnterprise {
     buildScan {
-        // plugin configuration
+      link("GitHub", "https://github.com/ethauvin/bitly-shorten/tree/master")
+      if (!System.getenv("CI").isNullOrEmpty()) {
+          isUploadInBackground = false
+          publishOnFailure()
+          tag("CI")
+      }
+      termsOfServiceUrl = "https://gradle.com/terms-of-service"
+      termsOfServiceAgree = "yes"
     }
 }
+
+rootProject.name = "bitly-shorten"

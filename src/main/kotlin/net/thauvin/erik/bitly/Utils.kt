@@ -1,7 +1,7 @@
 /*
  * Utils.kt
  *
- * Copyright (c) 2020-2021, Erik C. Thauvin (erik@thauvin.net)
+ * Copyright (c) 2020-2022, Erik C. Thauvin (erik@thauvin.net)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ import java.util.logging.Logger
 open class Utils private constructor() {
     companion object {
         /** The logger instance. */
-        val logger: Logger by lazy { Logger.getLogger(Bitly::class.java.simpleName) }
+        val logger: Logger by lazy { Logger.getLogger(Utils::class.java.name) }
 
         /**
          * Executes an API call.
@@ -59,7 +59,7 @@ open class Utils private constructor() {
          * @param endPoint The REST endpoint. (eg. `https://api-ssl.bitly.com/v4/shorten`)
          * @param params The request parameters key/value map.
          * @param method The submission [Method][Methods].
-         * @return The response (JSON) from the API.
+         * @return A [CallResponse] object.
          */
         @JvmOverloads
         fun call(
@@ -70,8 +70,7 @@ open class Utils private constructor() {
         ): CallResponse {
             val response = CallResponse()
             if (validateCall(accessToken, endPoint)) {
-                val apiUrl = endPoint.toHttpUrlOrNull()
-                if (apiUrl != null) {
+                endPoint.toHttpUrlOrNull()?.let { apiUrl ->
                     val builder = when (method) {
                         Methods.POST, Methods.PATCH -> {
                             val formBody = JSONObject(params).toString()
@@ -85,6 +84,7 @@ open class Utils private constructor() {
                                 }
                             }
                         }
+
                         Methods.DELETE -> Request.Builder().url(apiUrl.newBuilder().build()).delete()
                         else -> { // Methods.GET
                             val httpUrl = apiUrl.newBuilder().apply {
@@ -99,8 +99,7 @@ open class Utils private constructor() {
                     }.addHeader("Authorization", "Bearer $accessToken")
 
                     val result = createHttpClient().newCall(builder.build()).execute()
-                    response.body = parseBody(endPoint, result)
-                    response.resultCode = result.code
+                    return CallResponse(parseBody(endPoint, result), result.code)
                 }
             }
             return response
@@ -118,30 +117,38 @@ open class Utils private constructor() {
         }
 
         private fun parseBody(endPoint: String, result: Response): String {
-            val body = result.body?.string()
-            if (body != null) {
+            result.body?.string()?.let { body ->
                 if (!result.isSuccessful && body.isNotEmpty()) {
                     try {
                         with(JSONObject(body)) {
-                            if (has("message")) {
-                                logger.severe(getString("message") + " (${result.code})")
-                            }
-                            if (has("description")) {
-                                logger.severe(getString("description"))
+                            if (logger.isSevereLoggable()) {
+                                if (has("message")) {
+                                    logger.severe(getString("message") + " (${result.code})")
+                                }
+                                if (has("description")) {
+                                    logger.severe(getString("description"))
+                                }
                             }
                         }
                     } catch (jse: JSONException) {
-                        logger.log(
-                            Level.SEVERE,
-                            "An error occurred parsing the error response from Bitly. [$endPoint]",
-                            jse
-                        )
+                        if (logger.isSevereLoggable()) {
+                            logger.log(
+                                Level.SEVERE,
+                                "An error occurred parsing the error response from Bitly. [$endPoint]",
+                                jse
+                            )
+                        }
                     }
                 }
                 return body
             }
             return Constants.EMPTY
         }
+
+        /**
+         * Is [Level.SEVERE] logging enabled.
+         */
+        fun Logger.isSevereLoggable(): Boolean = this.isLoggable(Level.SEVERE)
 
         /**
          * Validates a URL.
@@ -152,7 +159,9 @@ open class Utils private constructor() {
                     URL(this)
                     return true
                 } catch (e: MalformedURLException) {
-                    logger.log(Level.FINE, "Invalid URL: $this", e)
+                    if (logger.isLoggable(Level.WARNING)) {
+                        logger.log(Level.WARNING, "Invalid URL: $this", e)
+                    }
                 }
             }
             return false
@@ -162,7 +171,7 @@ open class Utils private constructor() {
          * Removes http(s) scheme from string.
          */
         fun String.removeHttp(): String {
-            return this.replaceFirst(Regex("^[Hh][Tt]{2}[Pp][Ss]?://"), "")
+            return this.replaceFirst("^[Hh][Tt]{2}[Pp][Ss]?://".toRegex(), "")
         }
 
         /**
@@ -178,8 +187,14 @@ open class Utils private constructor() {
 
         private fun validateCall(accessToken: String, endPoint: String): Boolean {
             when {
-                endPoint.isBlank() -> logger.severe("Please specify a valid API endpoint.")
-                accessToken.isBlank() -> logger.severe("Please specify a valid API access token.")
+                endPoint.isBlank() -> {
+                    if (logger.isSevereLoggable()) logger.severe("Please specify a valid API endpoint.")
+                }
+
+                accessToken.isBlank() -> {
+                    if (logger.isSevereLoggable()) logger.severe("Please specify a valid API access token.")
+                }
+
                 else -> return true
             }
             return false

@@ -20,6 +20,8 @@ public final class BitlySample {
         } else {
             System.err.println("Try specifying one or more URLs as arguments.");
         }
+
+
         System.exit(0);
     }
 }
