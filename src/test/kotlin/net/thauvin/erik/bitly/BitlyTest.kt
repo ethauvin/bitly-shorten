@@ -197,6 +197,12 @@ class BitlyTest {
 
         bl.update(shortUrl, link = longUrl)
         assertThat(bl.lastCallResponse).prop(CallResponse::isUnprocessableEntity).isTrue()
+
+        bl.update("bit.ly/407GjJU", id = "foo")
+        assertThat(bl.lastCallResponse).all {
+            prop(CallResponse::isForbidden).isTrue()
+            prop(CallResponse::resultCode).isEqualTo(403)
+        }
     }
 
     @Test
@@ -224,7 +230,10 @@ class BitlyTest {
         }.build()
         bl.update(config)
 
-        assertThat(bl.lastCallResponse).prop(CallResponse::isUnprocessableEntity).isTrue()
+        assertThat(bl.lastCallResponse).all {
+            prop(CallResponse::isUnprocessableEntity).isTrue()
+            prop(CallResponse::resultCode).isEqualTo(422)
+        }
     }
 
     @Test
