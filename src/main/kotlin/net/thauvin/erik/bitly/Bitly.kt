@@ -31,6 +31,7 @@
 
 package net.thauvin.erik.bitly
 
+import net.thauvin.erik.bitly.Utils.toEndPoint
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -107,13 +108,13 @@ open class Bitly() {
     /**
      * Executes an API call.
      *
-     * @param endPoint The REST endpoint. (eg. `https://api-ssl.bitly.com/v4/shorten`)
+     * @param endPoint The REST endpoint path. (eg. `shorten`, `expand`, etc.)
      * @param params The request parameters key/value map.
      * @param method The submission [Method][Methods].
      * @return A [CallResponse] object.
      */
     @JvmOverloads
     fun call(endPoint: String, params: Map<String, Any> = emptyMap(), method: Methods = Methods.POST): CallResponse {
-        return Utils.call(accessToken, endPoint, params, method)
+        return Utils.call(accessToken, endPoint.toEndPoint(), params, method)
     }
 }

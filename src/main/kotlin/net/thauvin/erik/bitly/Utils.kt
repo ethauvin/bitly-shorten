@@ -31,7 +31,7 @@
 
 package net.thauvin.erik.bitly
 
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -46,157 +46,146 @@ import java.util.logging.Level
 import java.util.logging.Logger
 
 /** Provides useful generic functions. */
-open class Utils private constructor() {
-    companion object {
-        /** The logger instance. */
-        val logger: Logger by lazy { Logger.getLogger(Utils::class.java.name) }
+object Utils {
+    /** The logger instance. */
+    @JvmStatic
+    val logger: Logger by lazy { Logger.getLogger(Utils::class.java.name) }
 
-        /**
-         * Executes an API call.
-         *
-         * @param accessToken The API access token.
-         * @param endPoint The REST endpoint. (eg. `https://api-ssl.bitly.com/v4/shorten`)
-         * @param params The request parameters key/value map.
-         * @param method The submission [Method][Methods].
-         * @return A [CallResponse] object.
-         */
-        @JvmOverloads
-        fun call(
-            accessToken: String,
-            endPoint: String,
-            params: Map<String, Any> = emptyMap(),
-            method: Methods = Methods.POST
-        ): CallResponse {
-            val response = CallResponse()
-            if (validateCall(accessToken, endPoint)) {
-                endPoint.toHttpUrlOrNull()?.let { apiUrl ->
-                    val builder = when (method) {
-                        Methods.POST, Methods.PATCH -> {
-                            val formBody = JSONObject(params).toString()
-                                .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-                            Request.Builder().apply {
-                                url(apiUrl.newBuilder().build())
-                                if (method == Methods.POST) {
-                                    post(formBody)
-                                } else {
-                                    patch(formBody)
-                                }
-                            }
-                        }
+    /**
+     * Executes an API call.
+     *
+     * @param accessToken The API access token.
+     * @param endPoint The REST endpoint URI. (eg. `https://api-ssl.bitly.com/v4/shorten`)
+     * @param params The request parameters key/value map.
+     * @param method The submission [Method][Methods].
+     * @return A [CallResponse] object.
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun call(
+        accessToken: String,
+        endPoint: String,
+        params: Map<String, Any> = emptyMap(),
+        method: Methods = Methods.POST
+    ): CallResponse {
+        require(endPoint.isNotBlank()) { "A valid API endpoint must be specified." }
+        require(accessToken.isNotBlank()) { "A valid API access token must be provided." }
 
-                        Methods.DELETE -> Request.Builder().url(apiUrl.newBuilder().build()).delete()
-                        else -> { // Methods.GET
-                            val httpUrl = apiUrl.newBuilder().apply {
-                                params.forEach {
-                                    if (it.value is String) {
-                                        addQueryParameter(it.key, it.value.toString())
-                                    }
-                                }
-                            }.build()
-                            Request.Builder().url(httpUrl)
-                        }
-                    }.addHeader("Authorization", "Bearer $accessToken")
-
-                    val result = createHttpClient().newCall(builder.build()).execute()
-                    return CallResponse(parseBody(endPoint, result), result.code)
-                }
-            }
-            return response
-        }
-
-        private fun createHttpClient(): OkHttpClient {
-            return OkHttpClient.Builder().apply {
-                if (logger.isLoggable(Level.FINE)) {
-                    addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                        redactHeader("Authorization")
-                    })
-                }
-            }.build()
-        }
-
-        private fun parseBody(endPoint: String, result: Response): String {
-            result.body?.string()?.let { body ->
-                if (!result.isSuccessful && body.isNotEmpty()) {
-                    try {
-                        with(JSONObject(body)) {
-                            if (logger.isSevereLoggable()) {
-                                if (has("message")) {
-                                    logger.severe(getString("message") + " (${result.code})")
-                                }
-                                if (has("description")) {
-                                    logger.severe(getString("description"))
-                                }
-                            }
-                        }
-                    } catch (jse: JSONException) {
-                        if (logger.isSevereLoggable()) {
-                            logger.log(
-                                Level.SEVERE,
-                                "An error occurred parsing the error response from Bitly. [$endPoint]",
-                                jse
-                            )
+        endPoint.toHttpUrl().let { apiUrl ->
+            val builder = when (method) {
+                Methods.POST, Methods.PATCH -> {
+                    val formBody = JSONObject(params).toString()
+                        .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+                    Request.Builder().apply {
+                        url(apiUrl.newBuilder().build())
+                        if (method == Methods.POST) {
+                            post(formBody)
+                        } else {
+                            patch(formBody)
                         }
                     }
                 }
-                return body
+
+                Methods.DELETE -> Request.Builder().url(apiUrl.newBuilder().build()).delete()
+                else -> { // Methods.GET
+                    val httpUrl = apiUrl.newBuilder().apply {
+                        params.forEach {
+                            if (it.value is String) {
+                                addQueryParameter(it.key, it.value.toString())
+                            }
+                        }
+                    }.build()
+                    Request.Builder().url(httpUrl)
+                }
+            }.addHeader("Authorization", "Bearer $accessToken")
+
+            newHttpClient().newCall(builder.build()).execute().use {
+                return parseResponse(it, endPoint)
             }
-            return Constants.EMPTY
         }
+    }
 
-        /**
-         * Is [Level.SEVERE] logging enabled.
-         */
-        fun Logger.isSevereLoggable(): Boolean = this.isLoggable(Level.SEVERE)
+    private fun newHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder().apply {
+            if (logger.isLoggable(Level.FINE)) {
+                addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                    redactHeader("Authorization")
+                })
+            }
+        }.build()
+    }
 
-        /**
-         * Validates a URL.
-         */
-        fun String.isValidUrl(): Boolean {
-            if (this.isNotBlank()) {
+    private fun parseResponse(response: Response, endPoint: String): CallResponse {
+        var message = response.message
+        var description = ""
+        var json = Constants.EMPTY_JSON
+        response.body?.string()?.let { body ->
+            json = body
+            if (!response.isSuccessful && body.isNotEmpty()) {
                 try {
-                    URL(this)
-                    return true
-                } catch (e: MalformedURLException) {
-                    if (logger.isLoggable(Level.WARNING)) {
-                        logger.log(Level.WARNING, "Invalid URL: $this", e)
+                    with(JSONObject(body)) {
+                        if (has("message")) {
+                            message = getString("message")
+                        }
+                        if (has("description")) {
+                            description = getString("description")
+                        }
+                    }
+                } catch (jse: JSONException) {
+                    if (logger.isSevereLoggable()) {
+                        logger.log(
+                            Level.SEVERE,
+                            "An error occurred parsing the error response from Bitly. [$endPoint]",
+                            jse
+                        )
                     }
                 }
             }
-            return false
         }
+        return CallResponse(json, message, description, response.code)
+    }
 
-        /**
-         * Removes http(s) scheme from string.
-         */
-        fun String.removeHttp(): String {
-            return this.replaceFirst("^[Hh][Tt]{2}[Pp][Ss]?://".toRegex(), "")
-        }
+    /**
+     * Determines if [Level.SEVERE] logging is enabled.
+     */
+    fun Logger.isSevereLoggable(): Boolean = this.isLoggable(Level.SEVERE)
 
-        /**
-         * Builds the full API endpoint URL using the [Constants.API_BASE_URL].
-         */
-        fun String.toEndPoint(): String {
-            return if (this.startsWith('/')) {
-                "${Constants.API_BASE_URL}$this"
-            } else {
-                "${Constants.API_BASE_URL}/$this"
+    /**
+     * Validates a URL.
+     */
+    @JvmStatic
+    fun String.isValidUrl(): Boolean {
+        if (this.isNotBlank()) {
+            try {
+                URL(this)
+                return true
+            } catch (e: MalformedURLException) {
+                if (logger.isLoggable(Level.WARNING)) {
+                    logger.log(Level.WARNING, "Invalid URL: $this", e)
+                }
             }
         }
+        return false
+    }
 
-        private fun validateCall(accessToken: String, endPoint: String): Boolean {
-            when {
-                endPoint.isBlank() -> {
-                    if (logger.isSevereLoggable()) logger.severe("Please specify a valid API endpoint.")
-                }
+    /**
+     * Removes http(s) scheme from string.
+     */
+    @JvmStatic
+    fun String.removeHttp(): String {
+        return this.replaceFirst("^[Hh][Tt]{2}[Pp][Ss]?://".toRegex(), "")
+    }
 
-                accessToken.isBlank() -> {
-                    if (logger.isSevereLoggable()) logger.severe("Please specify a valid API access token.")
-                }
-
-                else -> return true
-            }
-            return false
+    /**
+     * Builds the full API endpoint URL using the [Constants.API_BASE_URL].
+     */
+    @JvmStatic
+    fun String.toEndPoint(): String {
+        return if (this.isBlank() || this.startsWith("http", true)) {
+            this
+        } else {
+            "${Constants.API_BASE_URL}/${this.removePrefix("/")}"
         }
     }
 }

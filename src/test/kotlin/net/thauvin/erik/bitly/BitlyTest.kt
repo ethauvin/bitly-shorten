@@ -34,22 +34,27 @@ package net.thauvin.erik.bitly
 import assertk.all
 import assertk.assertThat
 import assertk.assertions.contains
+import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
+import assertk.assertions.isNotEqualTo
 import assertk.assertions.isTrue
 import assertk.assertions.matches
 import assertk.assertions.prop
-import net.thauvin.erik.bitly.Utils.Companion.isValidUrl
-import net.thauvin.erik.bitly.Utils.Companion.removeHttp
-import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
+import assertk.assertions.startsWith
+import net.thauvin.erik.bitly.Utils.isValidUrl
+import net.thauvin.erik.bitly.Utils.removeHttp
+import net.thauvin.erik.bitly.Utils.toEndPoint
+import net.thauvin.erik.bitly.config.CreateConfig
+import net.thauvin.erik.bitly.config.UpdateConfig
 import org.json.JSONObject
 import org.junit.Before
 import java.io.File
 import java.util.logging.Level
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 class BitlyTest {
@@ -76,7 +81,12 @@ class BitlyTest {
         if (System.getenv("CI") == "true") {
             test.accessToken = Constants.EMPTY
         }
-        assertEquals(longUrl, test.bitlinks().shorten(longUrl))
+        assertFailsWith(IllegalArgumentException::class) {
+            test.bitlinks().shorten(longUrl)
+        }
+        assertFailsWith(IllegalArgumentException::class, "Utils.call()") {
+            Utils.call("", "foo")
+        }
     }
 
     @Test
@@ -100,7 +110,19 @@ class BitlyTest {
 
     @Test
     fun `endPoint should be specified`() {
-        assertThat(bitly.call("")).prop(CallResponse::isSuccessful).isFalse()
+        assertFailsWith(IllegalArgumentException::class, "bitly.call()") {
+            bitly.call("")
+        }
+        assertFailsWith(IllegalArgumentException::class, "Utils.call()") {
+            Utils.call("1234568", "")
+        }
+    }
+
+    @Test
+    fun `endPoint conversion`() {
+        assertThat(Constants.API_BASE_URL.toEndPoint()).isEqualTo(Constants.API_BASE_URL)
+        assertThat("path".toEndPoint()).isEqualTo("${Constants.API_BASE_URL}/path")
+        assertThat("/path".toEndPoint()).isEqualTo("${Constants.API_BASE_URL}/path")
     }
 
     @Test
@@ -110,16 +132,18 @@ class BitlyTest {
     }
 
     @Test
-    fun `as json`() {
+    fun `shorten as json`() {
         assertTrue(bitly.bitlinks().shorten(longUrl, toJson = true).startsWith("{\"created_at\":"))
     }
 
     @Test
     fun `get user`() {
-        assertThat(bitly.call("user".toEndPoint(), method = Methods.GET), "call(user)")
+        assertThat(bitly.call("user", method = Methods.GET), "call(user)")
             .prop(CallResponse::isSuccessful).isTrue()
-        assertThat(Utils.call(bitly.accessToken, "/user".toEndPoint(), method = Methods.GET), "call(/user)")
-            .prop(CallResponse::isSuccessful).isTrue()
+        assertThat(Utils.call(bitly.accessToken, "user".toEndPoint(), method = Methods.GET), "call(/user)").all {
+            prop(CallResponse::isSuccessful).isTrue()
+            prop(CallResponse::body).contains("login")
+        }
     }
 
     @Test
@@ -128,7 +152,7 @@ class BitlyTest {
             "ethauvin",
             JSONObject(
                 bitly.call(
-                    "/bitlinks/${shortUrl.removeHttp()}".toEndPoint(),
+                    "/bitlinks/${shortUrl.removeHttp()}",
                     method = Methods.GET
                 ).body
             ).getString("created_by")
@@ -151,22 +175,31 @@ class BitlyTest {
         bl.shorten(longUrl, domain = "bit.ly")
         assertThat(bl.lastCallResponse, "shorten(longUrl)").all {
             prop(CallResponse::isSuccessful).isTrue()
-            prop(CallResponse::resultCode).isEqualTo(200)
+            prop(CallResponse::statusCode).isEqualTo(200)
             prop(CallResponse::body).contains("\"link\":\"$shortUrl\"")
+            prop(CallResponse::message).isEmpty()
         }
 
         bl.shorten(shortUrl)
         assertThat(bl.lastCallResponse, "shorten(shortUrl)").all {
             prop(CallResponse::isSuccessful).isFalse()
-            prop(CallResponse::resultCode).isEqualTo(400)
+            prop(CallResponse::statusCode).isEqualTo(400)
             prop(CallResponse::isBadRequest).isTrue()
-            prop(CallResponse::body).contains("ALREADY_A_BITLY_LINK")
+            prop(CallResponse::message).isEqualTo("ALREADY_A_BITLY_LINK")
+            prop(CallResponse::description).isEqualTo("The value provided is invalid.")
         }
     }
 
     @Test
     fun `clicks summary`() {
-        assertNotEquals(Constants.EMPTY, bitly.bitlinks().clicks(shortUrl))
+        val bl = bitly.bitlinks()
+        assertThat(bl.clicks(shortUrl)).isNotEqualTo(Constants.EMPTY)
+        bl.clicks(shortUrl, unit = Units.MONTH, units = 6)
+        assertThat(bl.lastCallResponse).all {
+            prop(CallResponse::isUpgradeRequired)
+            prop(CallResponse::statusCode).isEqualTo(402)
+            prop(CallResponse::description).startsWith("Metrics")
+        }
     }
 
     @Test
@@ -233,7 +266,9 @@ class BitlyTest {
         bl.update("bit.ly/407GjJU", id = "foo")
         assertThat(bl.lastCallResponse).all {
             prop(CallResponse::isForbidden).isTrue()
-            prop(CallResponse::resultCode).isEqualTo(403)
+            prop(CallResponse::statusCode).isEqualTo(403)
+            prop(CallResponse::message).isEqualTo("FORBIDDEN")
+            prop(CallResponse::description).contains("forbidden")
         }
     }
 
@@ -264,7 +299,9 @@ class BitlyTest {
 
         assertThat(bl.lastCallResponse).all {
             prop(CallResponse::isUnprocessableEntity).isTrue()
-            prop(CallResponse::resultCode).isEqualTo(422)
+            prop(CallResponse::statusCode).isEqualTo(422)
+            prop(CallResponse::message).isEqualTo("UNPROCESSABLE_ENTITY")
+            prop(CallResponse::description).contains("JSON")
         }
     }
 
