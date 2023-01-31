@@ -32,40 +32,22 @@
 package net.thauvin.erik.bitly
 
 /** Provides the constants for this package. */
-open class Constants private constructor() {
-    companion object Constants {
-        /**
-         * The Bitly API base URL.
-         *
-         * @value `https://api-ssl.bitly.com/v4`
-         */
-        const val API_BASE_URL = "https://api-ssl.bitly.com/v4"
+object Constants {
+    /** The Bitly API base URL. */
+    const val API_BASE_URL = "https://api-ssl.bitly.com/v4"
 
-        /**
-         * The API access token environment variable.
-         *
-         * @value `BITLY_ACCESS_TOKEN`
-         */
-        const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
+    /** The API access token environment variable. */
+    const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
 
-        /** Empty String. */
-        const val EMPTY = ""
+    /** Empty String. */
+    const val EMPTY = ""
 
-        /** Empty JSON Object. */
-        const val EMPTY_JSON = "{}"
+    /** Empty JSON Object. */
+    const val EMPTY_JSON = "{}"
 
-        /**
-         * False
-         *
-         * @value `false`
-         */
-        const val FALSE = false.toString()
+    /** False */
+    const val FALSE = false.toString()
 
-        /**
-         * True
-         *
-         * @value `true`
-         */
-        const val TRUE = true.toString()
-    }
+    /** True */
+    const val TRUE = true.toString()
 }
