@@ -29,8 +29,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.thauvin.erik.bitly
+package net.thauvin.erik.bitly.config
 
+import net.thauvin.erik.bitly.Constants
+
+/**
+ * Provides a builder to update a Bitlink.
+ */
 class UpdateConfig private constructor(
     val bitlink: String,
     val references: Map<String, String>,
@@ -47,7 +52,12 @@ class UpdateConfig private constructor(
     val id: String,
     val toJson: Boolean,
 ) {
-    @Suppress("unused")
+    /**
+     * Configures the update parameters of a Bitlink.
+     *
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
+     **/
+    @Suppress("unused", "ArrayInDataClass")
     data class Builder(
         var bitlink: String = Constants.EMPTY,
         var references: Map<String, String> = emptyMap(),
@@ -95,47 +105,5 @@ class UpdateConfig private constructor(
             id,
             toJson
         )
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as Builder
-
-            if (bitlink != other.bitlink) return false
-            if (references != other.references) return false
-            if (archived != other.archived) return false
-            if (!tags.contentEquals(other.tags)) return false
-            if (created_at != other.created_at) return false
-            if (title != other.title) return false
-            if (!deeplinks.contentEquals(other.deeplinks)) return false
-            if (created_by != other.created_by) return false
-            if (long_url != other.long_url) return false
-            if (client_id != other.client_id) return false
-            if (!custom_bitlinks.contentEquals(other.custom_bitlinks)) return false
-            if (link != other.link) return false
-            if (id != other.id) return false
-            if (toJson != other.toJson) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = bitlink.hashCode()
-            result = 31 * result + references.hashCode()
-            result = 31 * result + archived.hashCode()
-            result = 31 * result + tags.contentHashCode()
-            result = 31 * result + created_at.hashCode()
-            result = 31 * result + title.hashCode()
-            result = 31 * result + deeplinks.contentHashCode()
-            result = 31 * result + created_by.hashCode()
-            result = 31 * result + long_url.hashCode()
-            result = 31 * result + client_id.hashCode()
-            result = 31 * result + custom_bitlinks.contentHashCode()
-            result = 31 * result + link.hashCode()
-            result = 31 * result + id.hashCode()
-            result = 31 * result + toJson.hashCode()
-            return result
-        }
     }
 }

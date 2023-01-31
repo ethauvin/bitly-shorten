@@ -185,6 +185,38 @@ class BitlyTest {
     }
 
     @Test
+    fun `create bitlink with config`() {
+        var config = CreateConfig.Builder().apply {
+            long_url = longUrl
+        }.build()
+        assertThat(bitly.bitlinks().create(config), "create(config)")
+            .matches("https://\\w+.\\w{2}/\\w{7}".toRegex())
+
+        config = CreateConfig.Builder().apply {
+            domain = "bit.ly"
+            title = "Erik's Blog"
+            tags = arrayOf("erik", "thauvin", "blog", "weblog")
+            long_url = longUrl
+        }.build()
+        assertEquals(
+            shortUrl,
+            bitly.bitlinks().create(config)
+        )
+    }
+
+    @Test
+    fun `shorten with invalid domain`() {
+        val bl = bitly.bitlinks()
+        bl.shorten("https://www.examples.com", domain = "foo.com")
+        assertThat(bl.lastCallResponse).all {
+            prop(CallResponse::isSuccessful).isFalse()
+            prop(CallResponse::isBadRequest).isTrue()
+            prop(CallResponse::message).isEqualTo("INVALID_ARG_DOMAIN")
+            prop(CallResponse::description).contains("invalid")
+        }
+    }
+
+    @Test
     fun `update bitlink`() {
         val bl = bitly.bitlinks()
         assertEquals(

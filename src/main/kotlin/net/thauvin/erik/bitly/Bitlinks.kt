@@ -31,10 +31,12 @@
 
 package net.thauvin.erik.bitly
 
-import net.thauvin.erik.bitly.Utils.Companion.isSevereLoggable
-import net.thauvin.erik.bitly.Utils.Companion.isValidUrl
-import net.thauvin.erik.bitly.Utils.Companion.removeHttp
-import net.thauvin.erik.bitly.Utils.Companion.toEndPoint
+import net.thauvin.erik.bitly.Utils.isSevereLoggable
+import net.thauvin.erik.bitly.Utils.isValidUrl
+import net.thauvin.erik.bitly.Utils.removeHttp
+import net.thauvin.erik.bitly.Utils.toEndPoint
+import net.thauvin.erik.bitly.config.CreateConfig
+import net.thauvin.erik.bitly.config.UpdateConfig
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.logging.Level
@@ -79,7 +81,7 @@ open class Bitlinks(private val accessToken: String) {
         if (bitlink.isNotBlank()) {
             lastCallResponse = Utils.call(
                 accessToken,
-                ("/bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
+                ("bitlinks/${bitlink.removeHttp()}/clicks/summary").toEndPoint(),
                 mapOf(
                     "unit" to unit.toString().lowercase(),
                     "units" to units.toString(),
@@ -98,14 +100,34 @@ open class Bitlinks(private val accessToken: String) {
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
      *
+     * @param config The parameters' configuration.
+     * @return The shortened URL or an empty string on error.
+     */
+    @Synchronized
+    fun create(config: CreateConfig): String {
+        return create(
+            config.domain,
+            config.title,
+            config.group_guid,
+            config.tags,
+            config.deepLinks,
+            config.long_url,
+            config.toJson
+        )
+    }
+
+    /**
+     * Converts a long url to a Bitlink and sets additional parameters.
+     *
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
+     *
      * @param domain A branded short domain or `bit.ly` by default.
      * @param group_guid A GUID for a Bitly group.
      * @param long_url The long URL.
      * @param toJson Returns the full JSON response if `true`.
-     * @return The shorten URL or an empty string on error.
+     * @return The shortened URL or an empty string on error.
      */
     @Synchronized
-    @JvmOverloads
     fun create(
         domain: String = Constants.EMPTY,
         title: String = Constants.EMPTY,
@@ -119,7 +141,7 @@ open class Bitlinks(private val accessToken: String) {
         if (long_url.isNotBlank()) {
             lastCallResponse = Utils.call(
                 accessToken,
-                "/bitlinks".toEndPoint(),
+                "bitlinks".toEndPoint(),
                 mutableMapOf<String, Any>("long_url" to long_url).apply {
                     if (domain.isNotBlank()) put("domain", domain)
                     if (title.isNotBlank()) put("title", title)
@@ -149,7 +171,7 @@ open class Bitlinks(private val accessToken: String) {
         if (bitlink_id.isNotBlank()) {
             lastCallResponse = Utils.call(
                 accessToken,
-                "/expand".toEndPoint(),
+                "expand".toEndPoint(),
                 mapOf("bitlink_id" to bitlink_id.removeHttp())
             )
             longUrl = parseJsonResponse(lastCallResponse, "long_url", longUrl, toJson)
@@ -213,7 +235,7 @@ open class Bitlinks(private val accessToken: String) {
                 if (domain.isNotBlank()) put("domain", domain)
             }
 
-            lastCallResponse = Utils.call(accessToken, "/shorten".toEndPoint(), params)
+            lastCallResponse = Utils.call(accessToken, "shorten".toEndPoint(), params)
 
             bitlink = parseJsonResponse(lastCallResponse, "link", bitlink, toJson)
         }
@@ -223,11 +245,11 @@ open class Bitlinks(private val accessToken: String) {
 
 
     /**
-     * Updates fields in the specified Bitlink.
+     * Updates parameters in the specified Bitlink.
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
      *
-     * @param config The update configuration.
+     * @param config The parameters' configuration.
      * @return [Constants.TRUE] if the update was successful, [Constants.FALSE] otherwise.
      */
     @Synchronized
@@ -251,7 +273,7 @@ open class Bitlinks(private val accessToken: String) {
     }
 
     /**
-     * Updates fields in the specified Bitlink.
+     * Updates parameters in the specified Bitlink.
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
      *
@@ -260,7 +282,6 @@ open class Bitlinks(private val accessToken: String) {
      * @return [Constants.TRUE] if the update was successful, [Constants.FALSE] otherwise.
      */
     @Synchronized
-    @JvmOverloads
     fun update(
         bitlink: String,
         references: Map<String, String> = emptyMap(),
@@ -280,7 +301,7 @@ open class Bitlinks(private val accessToken: String) {
         var result = if (toJson) Constants.EMPTY_JSON else Constants.FALSE
         if (bitlink.isNotBlank()) {
             lastCallResponse = Utils.call(
-                accessToken, "/bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
+                accessToken, "bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
                     if (references.isNotEmpty()) put("references", references)
                     if (archived) put("archived", true)
                     if (tags.isNotEmpty()) put("tags", tags)
