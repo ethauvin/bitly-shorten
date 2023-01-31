@@ -71,8 +71,17 @@ Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](htt
 
 ## Java
 
-To make it easier to use the library with Java, an update configuration builder is available:
+To make it easier to use the library with Java, configuration builders are available:
 
+```java
+var config = new CreateConfig.Builder()
+        .title("Erik's Weblog")
+        .tags(new String[] { "blog", "weblog"})
+        .long_url("https://erik.thauvin.net/blog")
+        .build();
+
+bitly.bitlinks().create(config);
+```
 ```java
 var config = new UpdateConfig.Builder()
         .bitlink("https://bit.ly/380ojFd")
@@ -82,6 +91,7 @@ var config = new UpdateConfig.Builder()
 
 bitly.bitlinks().update(config);
 ```
+
 ### JSON
 
 All implemented API calls can return the full JSON responses:
@@ -102,20 +112,20 @@ You can also access the last response from implemented API calls using:
 
 ```kotlin
 val bitlinks = Bitlinks(apikey)
-
 val shortUrl = bitlinks.shorten(longUrl)
-
 val response = bitlinks.lastCallResponse
 
 if (response.isSuccessful) {
     println(response.body)
+} else {
+    println("${response.message}: ${response.description} (${response.statusCode})")
 }
 ```
 
-Non-implemented API calls can also be called directly:
+Non-implemented API endpoints can also be called directly:
 
 ```kotlin
-val response = bitly.call("/user".toEndPoint(), method = Methods.GET)
+val response = bitly.call("/user", method = Methods.GET)
 if (response.isSuccessful) {
     println(response.body)
 }

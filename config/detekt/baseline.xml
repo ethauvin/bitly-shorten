@@ -2,8 +2,10 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>ComplexMethod:Bitlinks.kt$Bitlinks$@Synchronized @JvmOverloads fun update( bitlink: String, references: Map&lt;String, String> = emptyMap(), archived: Boolean = false, tags: Array&lt;String> = emptyArray(), created_at: String = Constants.EMPTY, title: String = Constants.EMPTY, deeplinks: Array&lt;Map&lt;String, String>> = emptyArray(), created_by: String = Constants.EMPTY, long_url: String = Constants.EMPTY, client_id: String = Constants.EMPTY, custom_bitlinks: Array&lt;String> = emptyArray(), link: String = Constants.EMPTY, id: String = Constants.EMPTY, toJson: Boolean = false ): String</ID>
-    <ID>ComplexMethod:UpdateConfig.kt$UpdateConfig.Builder$override fun equals(other: Any?): Boolean</ID>
+    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig$val group_guid: String</ID>
+    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig$val long_url: String</ID>
+    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig.Builder$var group_guid: String = Constants.EMPTY</ID>
+    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig.Builder$var long_url: String = Constants.EMPTY</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig$val client_id: String</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig$val created_at: String</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig$val created_by: String</ID>
@@ -14,6 +16,8 @@
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$var created_by: String = Constants.EMPTY</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$var custom_bitlinks: Array&lt;String> = emptyArray()</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$var long_url: String = Constants.EMPTY</ID>
+    <ID>CyclomaticComplexMethod:Bitlinks.kt$Bitlinks$@Synchronized fun update( bitlink: String, references: Map&lt;String, String> = emptyMap(), archived: Boolean = false, tags: Array&lt;String> = emptyArray(), created_at: String = Constants.EMPTY, title: String = Constants.EMPTY, deeplinks: Array&lt;Map&lt;String, String>> = emptyArray(), created_by: String = Constants.EMPTY, long_url: String = Constants.EMPTY, client_id: String = Constants.EMPTY, custom_bitlinks: Array&lt;String> = emptyArray(), link: String = Constants.EMPTY, id: String = Constants.EMPTY, toJson: Boolean = false ): String</ID>
+    <ID>FunctionNaming:CreateConfig.kt$CreateConfig.Builder$fun group_guid(group_guid: String)</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$bitlink_id: String</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$client_id: String = Constants.EMPTY</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$created_at: String = Constants.EMPTY</ID>
@@ -23,6 +27,8 @@
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$long_url: String</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$long_url: String = Constants.EMPTY</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$unit_reference: String = Constants.EMPTY</ID>
+    <ID>FunctionParameterNaming:CreateConfig.kt$CreateConfig.Builder$group_guid: String</ID>
+    <ID>FunctionParameterNaming:CreateConfig.kt$CreateConfig.Builder$long_url: String</ID>
     <ID>FunctionParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$client_id: String</ID>
     <ID>FunctionParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$created_at: String</ID>
     <ID>FunctionParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$created_by: String</ID>
@@ -31,6 +37,7 @@
     <ID>LongParameterList:Bitlinks.kt$Bitlinks$( bitlink: String, references: Map&lt;String, String> = emptyMap(), archived: Boolean = false, tags: Array&lt;String> = emptyArray(), created_at: String = Constants.EMPTY, title: String = Constants.EMPTY, deeplinks: Array&lt;Map&lt;String, String>> = emptyArray(), created_by: String = Constants.EMPTY, long_url: String = Constants.EMPTY, client_id: String = Constants.EMPTY, custom_bitlinks: Array&lt;String> = emptyArray(), link: String = Constants.EMPTY, id: String = Constants.EMPTY, toJson: Boolean = false )</ID>
     <ID>LongParameterList:Bitlinks.kt$Bitlinks$( bitlink: String, unit: Units = Units.DAY, units: Int = -1, size: Int = 50, unit_reference: String = Constants.EMPTY, toJson: Boolean = false )</ID>
     <ID>LongParameterList:Bitlinks.kt$Bitlinks$( domain: String = Constants.EMPTY, title: String = Constants.EMPTY, group_guid: String = Constants.EMPTY, tags: Array&lt;String> = emptyArray(), deeplinks: Array&lt;Map&lt;String, String>> = emptyArray(), long_url: String, toJson: Boolean = false )</ID>
+    <ID>LongParameterList:CreateConfig.kt$CreateConfig$( val domain: String, val title: String, val group_guid: String, val tags: Array&lt;String>, val deepLinks: Array&lt;Map&lt;String, String>>, val long_url: String, val toJson: Boolean )</ID>
     <ID>LongParameterList:UpdateConfig.kt$UpdateConfig$( val bitlink: String, val references: Map&lt;String, String>, val archived: Boolean, val tags: Array&lt;String>, val created_at: String, val title: String, val deepLinks: Array&lt;Map&lt;String, String>>, val created_by: String, val long_url: String, val client_id: String, val custom_bitlinks: Array&lt;String>, val link: String, val id: String, val toJson: Boolean, )</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$200</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$201</ID>
@@ -39,15 +46,15 @@
     <ID>MagicNumber:CallResponse.kt$CallResponse$402</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$403</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$404</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$410</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$417</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$422</ID>
+    <ID>MagicNumber:CallResponse.kt$CallResponse$429</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$500</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$503</ID>
     <ID>NestedBlockDepth:Bitlinks.kt$Bitlinks$private fun parseJsonResponse(response: CallResponse, key: String, default: String, toJson: Boolean): String</ID>
-    <ID>NestedBlockDepth:Utils.kt$Utils.Companion$@JvmOverloads fun call( accessToken: String, endPoint: String, params: Map&lt;String, Any> = emptyMap(), method: Methods = Methods.POST ): CallResponse</ID>
-    <ID>NestedBlockDepth:Utils.kt$Utils.Companion$private fun parseBody(endPoint: String, result: Response): String</ID>
+    <ID>NestedBlockDepth:Utils.kt$Utils$@JvmStatic @JvmOverloads fun call( accessToken: String, endPoint: String, params: Map&lt;String, Any> = emptyMap(), method: Methods = Methods.POST ): CallResponse</ID>
+    <ID>NestedBlockDepth:Utils.kt$Utils$private fun parseResponse(response: Response, endPoint: String): CallResponse</ID>
     <ID>TooManyFunctions:UpdateConfig.kt$UpdateConfig$Builder</ID>
-    <ID>UtilityClassWithPublicConstructor:Constants.kt$Constants</ID>
-    <ID>UtilityClassWithPublicConstructor:Utils.kt$Utils</ID>
   </CurrentIssues>
 </SmellBaseline>

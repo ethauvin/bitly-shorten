@@ -45,9 +45,13 @@ import java.net.URL
 import java.util.logging.Level
 import java.util.logging.Logger
 
-/** Provides useful generic functions. */
+/**
+ * Provides useful generic functions.
+ */
 object Utils {
-    /** The logger instance. */
+    /**
+     *  The logger instance.
+     */
     @JvmStatic
     val logger: Logger by lazy { Logger.getLogger(Utils::class.java.name) }
 

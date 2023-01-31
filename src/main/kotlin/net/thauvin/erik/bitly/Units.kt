@@ -36,9 +36,5 @@ package net.thauvin.erik.bitly
  */
 @Suppress("unused")
 enum class Units {
-    MINUTE,
-    HOUR,
-    DAY,
-    WEEK,
-    MONTH
+    MINUTE, HOUR, DAY, WEEK, MONTH
 }

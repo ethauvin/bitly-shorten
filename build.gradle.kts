@@ -6,7 +6,7 @@ import java.net.URL
 
 plugins {
     id("com.github.ben-manes.versions") version "0.44.0"
-    id("io.gitlab.arturbosch.detekt") version "1.21.0"
+    id("io.gitlab.arturbosch.detekt") version "1.22.0"
     id("java")
     id("java-library")
     id("maven-publish")

@@ -7,3 +7,7 @@ A simple implementation of the [Bitly](https://bit.ly/) link shortening (Bitlink
 # Package net.thauvin.erik.bitly
 
 Provides the classes necessary to access the [Bitly API v4](https://dev.bitly.com/api-reference).
+
+# Package net.thauvin.erik.bitly.config
+
+Provides configuration builders.
