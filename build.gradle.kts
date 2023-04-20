@@ -5,18 +5,18 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.44.0"
+    id("com.github.ben-manes.versions") version "0.46.0"
     id("io.gitlab.arturbosch.detekt") version "1.22.0"
     id("java")
     id("java-library")
     id("maven-publish")
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    id("org.jetbrains.dokka") version "1.7.20"
+    id("org.jetbrains.dokka") version "1.8.10"
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
-    id("org.sonarqube") version "3.5.0.2730"
+    id("org.sonarqube") version "4.0.0.2929"
     id("signing")
-    kotlin("jvm") version "1.8.0"
-    kotlin("kapt") version "1.8.0"
+    kotlin("jvm") version "1.8.20"
+    kotlin("kapt") version "1.8.20"
 }
 
 group = "net.thauvin.erik"
@@ -36,7 +36,7 @@ object Versions {
 }
 
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
@@ -52,7 +52,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
-    implementation("org.json:json:20220924")
+    implementation("org.json:json:20230227")
 
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
@@ -127,6 +127,7 @@ tasks {
     }
 
     dokkaHtml {
+        dependsOn("kaptKotlin")
         outputDirectory.set(file("$projectDir/docs"))
 
         dokkaSourceSets {
@@ -191,7 +192,7 @@ tasks {
         dependsOn(wrapper, "deploy", gitTag, publishToMavenLocal)
     }
 
-    "sonarqube" {
+    "sonar" {
         dependsOn(koverReport)
     }
 }
@@ -220,8 +221,8 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git://github.com/$gitHub.git")
-                    developerConnection.set("scm:git@github.com:$gitHub.git")
+                    connection.set("scm:git:https://github.com/$gitHub.git")
+                    developerConnection.set("scm:git:git@github.com:$gitHub.git")
                     url.set(mavenUrl)
                 }
                 issueManagement {

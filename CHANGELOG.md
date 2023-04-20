@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.0](https://github.com/ethauvin/bitly-shorten/tree/1.0.0) (2023-01-31)
+
+[Full Changelog](https://github.com/ethauvin/bitly-shorten/compare/0.9.3...1.0.0)
+
+**Implemented enhancements:**
+
+- Add create config builder [\#10](https://github.com/ethauvin/bitly-shorten/issues/10)
+- Add update config builder [\#8](https://github.com/ethauvin/bitly-shorten/issues/8)
+- Implement additional HTTP status code in CallResponse. [\#3](https://github.com/ethauvin/bitly-shorten/issues/3)
+
 ## [0.9.3](https://github.com/ethauvin/bitly-shorten/tree/0.9.3) (2021-03-21)
 
 [Full Changelog](https://github.com/ethauvin/bitly-shorten/compare/0.9.2...0.9.3)
