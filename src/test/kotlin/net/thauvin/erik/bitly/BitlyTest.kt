@@ -261,15 +261,10 @@ class BitlyTest {
             .contains("\"tags\":[]")
 
         bl.update(shortUrl, link = longUrl)
-        assertThat(bl.lastCallResponse).prop(CallResponse::isUnprocessableEntity).isTrue()
+        assertThat(bl.lastCallResponse).prop(CallResponse::isSuccessful).isTrue()
 
-        bl.update("bit.ly/407GjJU", id = "foo")
-        assertThat(bl.lastCallResponse).all {
-            prop(CallResponse::isForbidden).isTrue()
-            prop(CallResponse::statusCode).isEqualTo(403)
-            prop(CallResponse::message).isEqualTo("FORBIDDEN")
-            prop(CallResponse::description).contains("forbidden")
-        }
+        assertEquals(Constants.FALSE,  bl.update("bit.ly/407GjJU", id = "foo"))
+
     }
 
     @Test
@@ -295,14 +290,9 @@ class BitlyTest {
             bitlink(shortUrl)
             link(longUrl)
         }.build()
-        bl.update(config)
 
-        assertThat(bl.lastCallResponse).all {
-            prop(CallResponse::isUnprocessableEntity).isTrue()
-            prop(CallResponse::statusCode).isEqualTo(422)
-            prop(CallResponse::message).isEqualTo("UNPROCESSABLE_ENTITY")
-            prop(CallResponse::description).contains("JSON")
-        }
+        assertEquals(Constants.TRUE, bl.update(config))
+
     }
 
     @Test
