@@ -182,7 +182,7 @@ open class Bitlinks(private val accessToken: String) {
 
     private fun JSONObject.getString(key: String, default: String): String {
         return if (this.has(key))
-            this.get(key).toString()
+            this[key].toString()
         else
             default
     }
