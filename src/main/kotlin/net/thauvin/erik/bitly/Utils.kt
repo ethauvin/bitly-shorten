@@ -147,6 +147,7 @@ object Utils {
                 }
             }
         }
+        response.close()
         return CallResponse(json, message, description, response.code)
     }
 
