@@ -41,7 +41,7 @@ jobs:
         env:
           BITLY_ACCESS_TOKEN: ${{ secrets.BITLY_ACCESS_TOKEN }}
         with:
-          arguments: build check --stacktrace
+          arguments: build check --stacktrace --scan
 
       - name: SonarCloud
         if: success() && matrix.java-version == env.SONAR_JDK

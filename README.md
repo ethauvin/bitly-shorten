@@ -27,13 +27,13 @@ bitly.bitlinks().expand("https://bit.ly/380ojFd")
 bitly.bitlinks().clicks("https://bit.ly/380ojFd")
 
 // Create a bitlink
-bitly.bitlinks().create(title = "Erik's Weblog", long_url = "https://erik.thauvin.net/blog/")
+bitly.bitlinks().create(title="Erik's Weblog", long_url = "https://erik.thauvin.net/blog/")
 
 // Update a bitlink
-bitly.bitlinks().update("https://bit.ly/380ojFd", title="Erik's Weblog", tags = arrayOf("blog", "weblog"))
+bitly.bitlinks().update("https://bit.ly/380ojFd", title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
 ```
 
- - View [Kotlin](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyExample.kt) or [Java](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/java/com/example/BitlySample.java) Examples.
+- View [Kotlin](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyExample.kt) or [Java](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/java/com/example/BitlySample.java) Examples.
 
 ### API Access Token
 
@@ -47,12 +47,13 @@ val bitly = Bitly()
 val bitly = Bitly(File("my.properties"))
 
 ```
+
 ```ini
 # my.properties
 BITLY_ACCESS_TOKEN=abc123def456ghi789jkl0
 ```
 
-### Gradle, Maven, etc.
+### Gradle, Maven, etc…
 
 To use with [Gradle](https://gradle.org/), include the following dependency in your [build](https://github.com/ethauvin/bitly-shorten/blob/master/examples/build.gradle.kts) file:
 
@@ -63,7 +64,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.thauvin.erik:bitly-shorten:0.9.3")
+    implementation("net.thauvin.erik:bitly-shorten:1.0.0")
 }
 ```
 
@@ -82,6 +83,7 @@ var config = new CreateConfig.Builder()
 
 bitly.bitlinks().create(config);
 ```
+
 ```java
 var config = new UpdateConfig.Builder()
         .bitlink("https://bit.ly/380ojFd")
@@ -99,6 +101,7 @@ All implemented API calls can return the full JSON responses:
 ```kotlin
 bitly.bitlinks().shorten("https://www.erik.thauvin.net/blog", toJson = true)
 ```
+
 ```json
 {
     "created_at": "2020-02-26T06:50:08+0000",
@@ -130,6 +133,7 @@ if (response.isSuccessful) {
     println(response.body)
 }
 ```
+
 ```json
 {
     "created": "2009-06-12T19:00:45+0000",
@@ -149,7 +153,9 @@ if (response.isSuccessful) {
     "default_group_guid": "ABCde1f23gh"
 }
 ```
+
 - View [Example](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyRetrieve.kt)
 
-### More...
+### More…
+
 If all else fails, there's always more [Documentation](https://ethauvin.github.io/bitly-shorten/).

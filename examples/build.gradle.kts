@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.thauvin.erik:bitly-shorten:0.9.4-SNAPSHOT")
+    implementation("net.thauvin.erik:bitly-shorten:1.0.0")
     implementation("org.json:json:20230618")
 }
 

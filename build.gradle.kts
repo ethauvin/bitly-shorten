@@ -25,6 +25,7 @@ description = "A simple implementation of the Bitly link shortening API v4"
 val gitHub = "ethauvin/$name"
 val mavenUrl = "https://github.com/$gitHub"
 val deployDir = "deploy"
+val docsDir = "docs"
 var isRelease = "release" in gradle.startParameter.taskNames
 
 var semverProcessor = "net.thauvin.erik:semver:1.2.0"
@@ -132,12 +133,12 @@ tasks {
     clean {
         doLast {
             project.delete(fileTree(deployDir))
+            project.delete(files(docsDir))
         }
     }
 
     dokkaHtml {
-        dependsOn("kaptKotlin")
-        outputDirectory.set(file("$projectDir/docs"))
+        outputDirectory.set(file(docsDir))
 
         dokkaSourceSets {
             configureEach {
@@ -150,6 +151,7 @@ tasks {
 
             }
         }
+        mustRunAfter("kaptKotlin")
     }
 
     dokkaJavadoc {
