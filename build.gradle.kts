@@ -5,18 +5,18 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.47.0"
-    id("io.gitlab.arturbosch.detekt") version "1.23.0"
+    id("com.github.ben-manes.versions") version "0.48.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("java")
     id("java-library")
     id("maven-publish")
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    id("org.jetbrains.dokka") version "1.8.20"
-    id("org.jetbrains.kotlinx.kover") version "0.7.2"
-    id("org.sonarqube") version "4.2.1.3168"
+    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.kotlinx.kover") version "0.7.3"
+    id("org.sonarqube") version "4.3.1.3277"
     id("signing")
-    kotlin("jvm") version "1.8.22"
-    kotlin("kapt") version "1.8.22"
+    kotlin("jvm") version "1.9.10"
+    kotlin("kapt") version "1.9.10"
 }
 
 group = "net.thauvin.erik"
@@ -51,12 +51,13 @@ dependencies {
     implementation(platform(kotlin("bom")))
 
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
+    implementation("com.squareup.okio:okio:3.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
     implementation("org.json:json:20230618")
 
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
-    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.26.1")
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.27.0")
 }
 
 kapt {
@@ -93,7 +94,7 @@ sonarqube {
         property("sonar.organization", "ethauvin-github")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/kover/report.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${layout.buildDirectory.get()}/repo  rts/kover/report.xml")
     }
 }
 
@@ -173,7 +174,7 @@ tasks {
     register("deploy") {
         description = "Copies all needed files to the $deployDir directory."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn(clean, wrapper, build, jar)
+        dependsOn(clean, build, jar)
         outputs.dir(deployDir)
         inputs.files(copyToDeploy)
         mustRunAfter(clean)
@@ -197,7 +198,7 @@ tasks {
     register("release") {
         description = "Publishes version ${project.version} to local repository."
         group = PublishingPlugin.PUBLISH_TASK_GROUP
-        dependsOn(wrapper, "deploy", gitTag, publishToMavenLocal)
+        dependsOn("deploy", gitTag, publishToMavenLocal)
     }
 }
 

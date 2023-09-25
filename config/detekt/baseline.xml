@@ -4,18 +4,18 @@
   <CurrentIssues>
     <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig$val group_guid: String</ID>
     <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig$val long_url: String</ID>
-    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig.Builder$var group_guid: String = Constants.EMPTY</ID>
-    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig.Builder$var long_url: String = Constants.EMPTY</ID>
+    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig.Builder$private var group_guid: String = Constants.EMPTY</ID>
+    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig.Builder$private var long_url: String = Constants.EMPTY</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig$val client_id: String</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig$val created_at: String</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig$val created_by: String</ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig$val custom_bitlinks: Array&lt;String></ID>
     <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig$val long_url: String</ID>
-    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$var client_id: String = Constants.EMPTY</ID>
-    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$var created_at: String = Constants.EMPTY</ID>
-    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$var created_by: String = Constants.EMPTY</ID>
-    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$var custom_bitlinks: Array&lt;String> = emptyArray()</ID>
-    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$var long_url: String = Constants.EMPTY</ID>
+    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$private var client_id: String = Constants.EMPTY</ID>
+    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$private var created_at: String = Constants.EMPTY</ID>
+    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$private var created_by: String = Constants.EMPTY</ID>
+    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$private var custom_bitlinks: Array&lt;String> = emptyArray()</ID>
+    <ID>ConstructorParameterNaming:UpdateConfig.kt$UpdateConfig.Builder$private var long_url: String = Constants.EMPTY</ID>
     <ID>CyclomaticComplexMethod:Bitlinks.kt$Bitlinks$@Synchronized fun update( bitlink: String, references: Map&lt;String, String> = emptyMap(), archived: Boolean = false, tags: Array&lt;String> = emptyArray(), created_at: String = Constants.EMPTY, title: String = Constants.EMPTY, deeplinks: Array&lt;Map&lt;String, String>> = emptyArray(), created_by: String = Constants.EMPTY, long_url: String = Constants.EMPTY, client_id: String = Constants.EMPTY, custom_bitlinks: Array&lt;String> = emptyArray(), link: String = Constants.EMPTY, id: String = Constants.EMPTY, toJson: Boolean = false ): String</ID>
     <ID>FunctionNaming:CreateConfig.kt$CreateConfig.Builder$fun group_guid(group_guid: String)</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$bitlink_id: String</ID>
@@ -56,5 +56,7 @@
     <ID>NestedBlockDepth:Utils.kt$Utils$@JvmStatic @JvmOverloads fun call( accessToken: String, endPoint: String, params: Map&lt;String, Any> = emptyMap(), method: Methods = Methods.POST ): CallResponse</ID>
     <ID>NestedBlockDepth:Utils.kt$Utils$private fun parseResponse(response: Response, endPoint: String): CallResponse</ID>
     <ID>TooManyFunctions:UpdateConfig.kt$UpdateConfig$Builder</ID>
+    <ID>WildcardImport:BitlyTest.kt$import assertk.assertions.*</ID>
+    <ID>WildcardImport:BitlyTest.kt$import kotlin.test.*</ID>
   </CurrentIssues>
 </SmellBaseline>

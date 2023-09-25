@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("application")
-    id("com.github.ben-manes.versions") version "0.47.0"
-    kotlin("jvm") version "1.8.20"
+    id("com.github.ben-manes.versions") version "0.48.0"
+    kotlin("jvm") version "1.9.10"
 }
 
 // ./gradlew run --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     implementation("net.thauvin.erik:bitly-shorten:0.9.4-SNAPSHOT")
-    implementation("org.json:json:20230227")
+    implementation("org.json:json:20230618")
 }
 
 application {
