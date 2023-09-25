@@ -1,8 +1,8 @@
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause)
-[![Kotlin](https://img.shields.io/badge/kotlin-1.8.22-7f52ff)](https://kotlinlang.org/)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.9.10-7f52ff)](https://kotlinlang.org/)
 [![Nexus Snapshot](https://img.shields.io/nexus/s/net.thauvin.erik/bitly-shorten?label=snapshot&server=https%3A%2F%2Foss.sonatype.org%2F)](https://oss.sonatype.org/content/repositories/snapshots/net/thauvin/erik/bitly-shorten/)
 [![Release](https://img.shields.io/github/release/ethauvin/bitly-shorten.svg)](https://github.com/ethauvin/bitly-shorten/releases/latest)
-[![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/bitly-shorten.svg?label=maven%20central)](https://search.maven.org/search?q=g:%22net.thauvin.erik%22%20AND%20a:%22bitly-shorten%22)
+[![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/bitly-shorten.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/bitly-shorten)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_bitly-shorten&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_bitly-shorten)
 [![GitHub CI](https://github.com/ethauvin/bitly-shorten/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/bitly-shorten/actions/workflows/gradle.yml)
@@ -67,7 +67,7 @@ dependencies {
 }
 ```
 
-Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://search.maven.org/artifact/net.thauvin.erik/bitly-shorten/0.9.3/jar).
+Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](https://central.sonatype.com/artifact/net.thauvin.erik/bitly-shorten).
 
 ## Java
 
@@ -77,7 +77,7 @@ To make it easier to use the library with Java, configuration builders are avail
 var config = new CreateConfig.Builder()
         .title("Erik's Weblog")
         .tags(new String[] { "blog", "weblog"})
-        .long_url("https://erik.thauvin.net/blog")
+        .longUrl("https://erik.thauvin.net/blog")
         .build();
 
 bitly.bitlinks().create(config);

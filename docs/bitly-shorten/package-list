@@ -4,19 +4,12 @@ $dokka.location:net.thauvin.erik.bitly.config////PointingToDeclaration/bitly-sh
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/index.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/Builder/#kotlin.String#kotlin.String#kotlin.String#kotlin.Array[kotlin.String]#kotlin.Array[kotlin.collections.Map[kotlin.String,kotlin.String]]#kotlin.String#kotlin.Boolean/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/-builder.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/build/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/build.html
-$dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/deeplinks/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/deeplinks.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/deeplinks/#kotlin.Array[kotlin.collections.Map[kotlin.String,kotlin.String]]/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/deeplinks.html
-$dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/domain/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/domain.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/domain/#kotlin.String/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/domain.html
-$dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/group_guid/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/group_guid.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/group_guid/#kotlin.String/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/group_guid.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/longUrl/#kotlin.String/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/long-url.html
-$dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/long_url/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/long_url.html
-$dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/tags/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/tags.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/tags/#kotlin.Array[kotlin.String]/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/tags.html
-$dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/title/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/title.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/title/#kotlin.String/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/title.html
-$dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/toJson/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/to-json.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/toJson/#kotlin.Boolean/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/-builder/to-json.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/index.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig/deepLinks/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly.config/-create-config/deep-links.html
@@ -122,6 +115,7 @@ $dokka.location:net.thauvin.erik.bitly/Methods.GET///PointingToDeclaration/{"org
 $dokka.location:net.thauvin.erik.bitly/Methods.PATCH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}bitly-shorten/net.thauvin.erik.bitly/-methods/-p-a-t-c-h/index.html
 $dokka.location:net.thauvin.erik.bitly/Methods.POST///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}bitly-shorten/net.thauvin.erik.bitly/-methods/-p-o-s-t/index.html
 $dokka.location:net.thauvin.erik.bitly/Methods///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-methods/index.html
+$dokka.location:net.thauvin.erik.bitly/Methods/entries/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-methods/entries.html
 $dokka.location:net.thauvin.erik.bitly/Methods/valueOf/#kotlin.String/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-methods/value-of.html
 $dokka.location:net.thauvin.erik.bitly/Methods/values/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-methods/values.html
 $dokka.location:net.thauvin.erik.bitly/Units.DAY///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}bitly-shorten/net.thauvin.erik.bitly/-units/-d-a-y/index.html
@@ -130,6 +124,7 @@ $dokka.location:net.thauvin.erik.bitly/Units.MINUTE///PointingToDeclaration/{"or
 $dokka.location:net.thauvin.erik.bitly/Units.MONTH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}bitly-shorten/net.thauvin.erik.bitly/-units/-m-o-n-t-h/index.html
 $dokka.location:net.thauvin.erik.bitly/Units.WEEK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}bitly-shorten/net.thauvin.erik.bitly/-units/-w-e-e-k/index.html
 $dokka.location:net.thauvin.erik.bitly/Units///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-units/index.html
+$dokka.location:net.thauvin.erik.bitly/Units/entries/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-units/entries.html
 $dokka.location:net.thauvin.erik.bitly/Units/valueOf/#kotlin.String/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-units/value-of.html
 $dokka.location:net.thauvin.erik.bitly/Units/values/#/PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-units/values.html
 $dokka.location:net.thauvin.erik.bitly/Utils///PointingToDeclaration/bitly-shorten/net.thauvin.erik.bitly/-utils/index.html
