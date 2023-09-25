@@ -52,17 +52,17 @@ class CreateConfig private constructor(
      **/
     @Suppress("unused", "ArrayInDataClass")
     data class Builder(
-        var domain: String = Constants.EMPTY,
-        var title: String = Constants.EMPTY,
-        var group_guid: String = Constants.EMPTY,
-        var tags: Array<String> = emptyArray(),
-        var deeplinks: Array<Map<String, String>> = emptyArray(),
-        var long_url: String = Constants.EMPTY,
-        var toJson: Boolean = false
+        private var domain: String = Constants.EMPTY,
+        private var title: String = Constants.EMPTY,
+        private var group_guid: String = Constants.EMPTY,
+        private var tags: Array<String> = emptyArray(),
+        private var deeplinks: Array<Map<String, String>> = emptyArray(),
+        private var long_url: String = Constants.EMPTY,
+        private var toJson: Boolean = false
     ) {
         fun domain(domain: String) = apply { this.domain = domain }
         fun title(title: String) = apply { this.title = title }
-        fun group_guid(group_guid: String) = apply { this.group_guid = group_guid }
+        fun groupGuid(group_guid: String) = apply { this.group_guid = group_guid }
         fun tags(tags: Array<String>) = apply { this.tags = tags }
         fun deeplinks(deeplinks: Array<Map<String, String>>) = apply { this.deeplinks = deeplinks }
         fun longUrl(long_url: String) = apply { this.long_url = long_url }

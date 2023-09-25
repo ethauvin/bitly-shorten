@@ -59,32 +59,32 @@ class UpdateConfig private constructor(
      **/
     @Suppress("unused", "ArrayInDataClass")
     data class Builder(
-        var bitlink: String = Constants.EMPTY,
-        var references: Map<String, String> = emptyMap(),
-        var archived: Boolean = false,
-        var tags: Array<String> = emptyArray(),
-        var created_at: String = Constants.EMPTY,
-        var title: String = Constants.EMPTY,
-        var deeplinks: Array<Map<String, String>> = emptyArray(),
-        var created_by: String = Constants.EMPTY,
-        var long_url: String = Constants.EMPTY,
-        var client_id: String = Constants.EMPTY,
-        var custom_bitlinks: Array<String> = emptyArray(),
-        var link: String = Constants.EMPTY,
-        var id: String = Constants.EMPTY,
-        var toJson: Boolean = false
+        private var bitlink: String = Constants.EMPTY,
+        private var references: Map<String, String> = emptyMap(),
+        private var archived: Boolean = false,
+        private var tags: Array<String> = emptyArray(),
+        private var created_at: String = Constants.EMPTY,
+        private var title: String = Constants.EMPTY,
+        private var deeplinks: Array<Map<String, String>> = emptyArray(),
+        private var created_by: String = Constants.EMPTY,
+        private var long_url: String = Constants.EMPTY,
+        private var client_id: String = Constants.EMPTY,
+        private var custom_bitlinks: Array<String> = emptyArray(),
+        private var link: String = Constants.EMPTY,
+        private var id: String = Constants.EMPTY,
+        private var toJson: Boolean = false
     ) {
         fun bitlink(bitlink: String) = apply { this.bitlink = bitlink }
         fun references(references: Map<String, String>) = apply { this.references = references }
         fun archived(archived: Boolean) = apply { this.archived = archived }
         fun tags(tags: Array<String>) = apply { this.tags = tags }
-        fun createdAt(created_at: String) = apply { this.created_at = created_at }
+        fun createdAt(createdAt: String) = apply { this.created_at = createdAt }
         fun title(title: String) = apply { this.title = title }
-        fun deeplinks(deeplinks: Array<Map<String, String>>) = apply { this.deeplinks = deeplinks }
-        fun createdBy(created_by: String) = apply { this.created_by = created_by }
-        fun longUrl(long_url: String) = apply { this.long_url = long_url }
-        fun clientId(client_id: String) = apply { this.client_id = client_id }
-        fun customBitlinks(custom_bitlinks: Array<String>) = apply { this.custom_bitlinks = custom_bitlinks }
+        fun deepLinks(deepLinks: Array<Map<String, String>>) = apply { this.deeplinks = deepLinks }
+        fun createdBy(createdBy: String) = apply { this.created_by = createdBy }
+        fun longUrl(longUrl: String) = apply { this.long_url = longUrl }
+        fun clientId(clientId: String) = apply { this.client_id = clientId }
+        fun customBitlinks(customBitlinks: Array<String>) = apply { this.custom_bitlinks = customBitlinks }
         fun link(link: String) = apply { this.link = link }
         fun id(id: String) = apply { this.id = id }
         fun toJson(toJson: Boolean) = apply { this.toJson = toJson }

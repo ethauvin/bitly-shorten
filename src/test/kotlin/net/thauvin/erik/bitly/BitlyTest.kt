@@ -33,15 +33,7 @@ package net.thauvin.erik.bitly
 
 import assertk.all
 import assertk.assertThat
-import assertk.assertions.contains
-import assertk.assertions.isEmpty
-import assertk.assertions.isEqualTo
-import assertk.assertions.isFalse
-import assertk.assertions.isNotEqualTo
-import assertk.assertions.isTrue
-import assertk.assertions.matches
-import assertk.assertions.prop
-import assertk.assertions.startsWith
+import assertk.assertions.*
 import net.thauvin.erik.bitly.Utils.isValidUrl
 import net.thauvin.erik.bitly.Utils.removeHttp
 import net.thauvin.erik.bitly.Utils.toEndPoint
@@ -51,11 +43,7 @@ import org.json.JSONObject
 import org.junit.Before
 import java.io.File
 import java.util.logging.Level
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class BitlyTest {
     private val bitly = with(File("local.properties")) {
@@ -219,18 +207,15 @@ class BitlyTest {
 
     @Test
     fun `create bitlink with config`() {
-        var config = CreateConfig.Builder().apply {
-            long_url = longUrl
-        }.build()
+        var config = CreateConfig.Builder().longUrl(longUrl).build()
         assertThat(bitly.bitlinks().create(config), "create(config)")
             .matches("https://\\w+.\\w{2}/\\w{7}".toRegex())
 
-        config = CreateConfig.Builder().apply {
-            domain = "bit.ly"
-            title = "Erik's Blog"
-            tags = arrayOf("erik", "thauvin", "blog", "weblog")
-            long_url = longUrl
-        }.build()
+        config = CreateConfig.Builder()
+            .domain("bit.ly")
+            .title("Erik's Blog")
+            .tags(arrayOf("erik", "thauvin", "blog", "weblog"))
+            .longUrl(longUrl).build()
         assertEquals(
             shortUrl,
             bitly.bitlinks().create(config)
@@ -263,36 +248,34 @@ class BitlyTest {
         bl.update(shortUrl, link = longUrl)
         assertThat(bl.lastCallResponse).prop(CallResponse::isSuccessful).isTrue()
 
-        assertEquals(Constants.FALSE,  bl.update("bit.ly/407GjJU", id = "foo"))
-
+        assertEquals(Constants.FALSE, bl.update("bit.ly/407GjJU", id = "foo"))
     }
 
     @Test
     fun `update bitlink with config`() {
         val bl = bitly.bitlinks()
-        var config = UpdateConfig.Builder().apply {
-            bitlink(shortUrl)
-            title("Erik's Weblog")
-            tags(arrayOf("blog", "weblog"))
-            archived(true)
-        }.build()
+        var config = UpdateConfig.Builder()
+            .bitlink(shortUrl)
+            .title("Erik's Weblog")
+            .tags(arrayOf("blog", "weblog"))
+            .archived(true)
+            .build()
 
         assertEquals(Constants.TRUE, bl.update(config))
 
-        config = UpdateConfig.Builder().apply {
-            bitlink(shortUrl)
-            toJson(true)
-        }.build()
+        config = UpdateConfig.Builder()
+            .bitlink(shortUrl)
+            .toJson(true)
+            .build()
 
         assertThat(bl.update(config), "update(tags)").contains("\"tags\":[]")
 
-        config = UpdateConfig.Builder().apply {
-            bitlink(shortUrl)
-            link(longUrl)
-        }.build()
+        config = UpdateConfig.Builder()
+            .bitlink(shortUrl)
+            .link(longUrl)
+            .build()
 
         assertEquals(Constants.TRUE, bl.update(config))
-
     }
 
     @Test
