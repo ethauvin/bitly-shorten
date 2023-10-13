@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.thauvin.erik</groupId>
   <artifactId>bitly-shorten</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>bitly-shorten</name>
   <description>A simple implementation of the Bitly link shortening API v4</description>
   <url>https://github.com/ethauvin/bitly-shorten</url>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>com.squareup.okio</groupId>
       <artifactId>okio-jvm</artifactId>
-      <version>3.5.0</version>
+      <version>3.6.0</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>

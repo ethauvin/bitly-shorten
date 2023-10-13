@@ -2,18 +2,17 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.net.URL
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.48.0"
+    id("com.github.ben-manes.versions") version "0.49.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.1"
     id("java")
     id("java-library")
     id("maven-publish")
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "1.9.0"
-    id("org.jetbrains.kotlinx.kover") version "0.7.3"
-    id("org.sonarqube") version "4.3.1.3277"
+    id("org.jetbrains.kotlinx.kover") version "0.7.4"
+    id("org.sonarqube") version "4.4.1.3373"
     id("signing")
     kotlin("jvm") version "1.9.10"
     kotlin("kapt") version "1.9.10"
@@ -52,7 +51,7 @@ dependencies {
     implementation(platform(kotlin("bom")))
 
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
-    implementation("com.squareup.okio:okio:3.5.0")
+    implementation("com.squareup.okio:okio:3.6.0")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
     implementation("org.json:json:20230618")
 
@@ -145,7 +144,7 @@ tasks {
                 includes.from("config/dokka/packages.md")
                 sourceLink {
                     localDirectory.set(file("src/main/kotlin/"))
-                    remoteUrl.set(URL("https://github.com/ethauvin/${project.name}/tree/master/src/main/kotlin/"))
+                    remoteUrl.set(uri("https://github.com/ethauvin/${project.name}/tree/master/src/main/kotlin/").toURL())
                     remoteLineSuffix.set("#L")
                 }
 

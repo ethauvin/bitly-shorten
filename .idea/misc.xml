@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisProjectProfileManager">
     <option name="PROJECT_PROFILE" />
@@ -12,6 +13,12 @@
     <option name="languageLevel" value="ES6" />
   </component>
   <component name="PDMPlugin">
+    <option name="customRuleSets">
+      <list>
+        <option value="K:\java\semver\config\pmd.xml" />
+        <option value="$PROJECT_DIR$/../../java/bld-exec/config/pmd.xml" />
+      </list>
+    </option>
     <option name="skipTestSources" value="false" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="18" project-jdk-type="JavaSDK">
