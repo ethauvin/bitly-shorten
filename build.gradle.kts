@@ -10,7 +10,7 @@ plugins {
     id("java-library")
     id("maven-publish")
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.dokka") version "1.9.10"
     id("org.jetbrains.kotlinx.kover") version "0.7.4"
     id("org.sonarqube") version "4.4.1.3373"
     id("signing")
@@ -32,7 +32,7 @@ var semverProcessor = "net.thauvin.erik:semver:1.2.0"
 val publicationName = "mavenJava"
 
 object Versions {
-    const val OKHTTP = "4.11.0"
+    const val OKHTTP = "4.12.0"
 }
 
 fun isNonStable(version: String): Boolean {
@@ -51,9 +51,8 @@ dependencies {
     implementation(platform(kotlin("bom")))
 
     implementation("com.squareup.okhttp3:okhttp:${Versions.OKHTTP}")
-    implementation("com.squareup.okio:okio:3.6.0")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}")
-    implementation("org.json:json:20230618")
+    implementation("org.json:json:20231013")
 
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))

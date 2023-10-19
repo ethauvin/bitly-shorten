@@ -56,25 +56,19 @@
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
-      <version>4.11.0</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.okio</groupId>
-      <artifactId>okio-jvm</artifactId>
-      <version>3.6.0</version>
+      <version>4.12.0</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>logging-interceptor</artifactId>
-      <version>4.11.0</version>
+      <version>4.12.0</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>20230618</version>
+      <version>20231013</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>
