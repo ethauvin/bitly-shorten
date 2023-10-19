@@ -41,7 +41,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.MalformedURLException
-import java.net.URL
+import java.net.URI
+import java.net.URISyntaxException
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -163,9 +164,9 @@ object Utils {
     fun String.isValidUrl(): Boolean {
         if (this.isNotBlank()) {
             try {
-                URL(this)
+                URI(this)
                 return true
-            } catch (e: MalformedURLException) {
+            } catch (e: URISyntaxException) {
                 if (logger.isLoggable(Level.WARNING)) {
                     logger.log(Level.WARNING, "Invalid URL: $this", e)
                 }
