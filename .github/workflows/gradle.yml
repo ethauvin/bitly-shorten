@@ -35,6 +35,8 @@ jobs:
         run: ./bld compile
 
       - name: Run tests with bld
+        env:
+          BITLY_ACCESS_TOKEN: ${{ secrets.BITLY_ACCESS_TOKEN }}
         run: ./bld jacoco
 
       - name: Remove pom.xml
