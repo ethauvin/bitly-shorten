@@ -1,5 +1,5 @@
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause)
-[![Kotlin](https://img.shields.io/badge/kotlin-1.9.10-7f52ff)](https://kotlinlang.org/)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.9.20-7f52ff)](https://kotlinlang.org/)
 [![Nexus Snapshot](https://img.shields.io/nexus/s/net.thauvin.erik/bitly-shorten?label=snapshot&server=https%3A%2F%2Foss.sonatype.org%2F)](https://oss.sonatype.org/content/repositories/snapshots/net/thauvin/erik/bitly-shorten/)
 [![Release](https://img.shields.io/github/release/ethauvin/bitly-shorten.svg)](https://github.com/ethauvin/bitly-shorten/releases/latest)
 [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/bitly-shorten.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/bitly-shorten)
@@ -53,9 +53,21 @@ val bitly = Bitly(File("my.properties"))
 BITLY_ACCESS_TOKEN=abc123def456ghi789jkl0
 ```
 
+### bld
+
+To use with [bld](https://rife2.com/bld), include the following dependency in your [build](https://github.com/ethauvin/bitly-shorten/blob/master/examples/bld/src/bld/java/com/example/CryptoPriceExampleBuild.java) file:
+
+```java
+repositories = List.of(MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
+
+scope(compile)
+    .include(dependency("net.thauvin.erik:bitly-shorten:1.0.0"));
+```
+Be sure to use the [bld Kotlin extension](https://github.com/rife2/bld-kotlin) in your project.
+
 ### Gradle, Maven, etc…
 
-To use with [Gradle](https://gradle.org/), include the following dependency in your [build](https://github.com/ethauvin/bitly-shorten/blob/master/examples/build.gradle.kts) file:
+To use with [Gradle](https://gradle.org/), include the following dependency in your [build](https://github.com/ethauvin/bitly-shorten/blob/master/examples/gradle/build.gradle.kts) file:
 
 ```gradle
 repositories {

@@ -41,6 +41,7 @@ import net.thauvin.erik.bitly.config.CreateConfig
 import net.thauvin.erik.bitly.config.UpdateConfig
 import org.json.JSONObject
 import org.junit.Before
+import org.junit.jupiter.api.BeforeAll
 import java.io.File
 import java.util.logging.Level
 import kotlin.test.*
@@ -55,13 +56,6 @@ class BitlyTest {
     }
     private val longUrl = "https://erik.thauvin.net/blog"
     private val shortUrl = "https://bit.ly/380ojFd"
-
-    @Before
-    fun before() {
-        with(Utils.logger) {
-            level = Level.FINE
-        }
-    }
 
     @Test
     fun `token should be specified`() {
@@ -282,5 +276,15 @@ class BitlyTest {
     fun `validate URL`() {
         assertTrue("https://www.example.com".isValidUrl(), "valid url")
         assertFalse("this is a test".isValidUrl(), "invalid url")
+    }
+
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun before() {
+            with(Utils.logger) {
+                level = Level.FINE
+            }
+        }
     }
 }

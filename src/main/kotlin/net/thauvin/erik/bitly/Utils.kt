@@ -40,7 +40,6 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONException
 import org.json.JSONObject
-import java.net.MalformedURLException
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.logging.Level
