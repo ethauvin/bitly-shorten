@@ -92,13 +92,13 @@ public class BitlyShortenBuild extends Project {
                 .execute();
     }
 
-    @BuildCommand(value = "dokka-html", summary = "Generates documentation in HTML format")
-    public void dokkaHtml() throws ExitStatusException, IOException, InterruptedException {
+    @BuildCommand(summary = "Generates documentation in HTML format")
+    public void docs() throws ExitStatusException, IOException, InterruptedException {
         var kotlin = new File(srcMainDirectory(), "kotlin").getAbsolutePath();
         new DokkaOperation()
                 .fromProject(this)
                 .loggingLevel(LoggingLevel.INFO)
-                .moduleName("Bitly-Shorten")
+                .moduleName("Bitly Shorten")
                 .moduleVersion(version.toString())
                 .outputDir("docs")
                 .outputFormat(OutputFormat.HTML)
@@ -109,6 +109,7 @@ public class BitlyShortenBuild extends Project {
                                 .srcLink(kotlin, "https://github.com/ethauvin/" + name +
                                         "/tree/master/src/main/kotlin/", "#L")
                                 .includes("config/dokka/packages.md")
+                                .jdkVersion(javaRelease)
                 )
                 .execute();
     }
@@ -125,7 +126,7 @@ public class BitlyShortenBuild extends Project {
         new DokkaOperation()
                 .fromProject(this)
                 .loggingLevel(LoggingLevel.INFO)
-                .moduleName("Bitly-Shorten")
+                .moduleName("Bitly Shorten")
                 .moduleVersion(version.toString())
                 .outputDir(new File(buildDirectory(), "javadoc"))
                 .outputFormat(OutputFormat.JAVADOC)

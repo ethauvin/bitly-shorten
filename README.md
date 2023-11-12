@@ -33,7 +33,7 @@ bitly.bitlinks().create(title="Erik's Weblog", long_url = "https://erik.thauvin.
 bitly.bitlinks().update("https://bit.ly/380ojFd", title = "Erik's Weblog", tags = arrayOf("blog", "weblog"))
 ```
 
-- View [Kotlin](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyExample.kt) or [Java](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/java/com/example/BitlySample.java) Examples.
+- View [bld](https://github.com/ethauvin/bitly-shorten/blob/master/examples/bld) or [Gradle](https://github.com/ethauvin/bitly-shorten/blob/master/examples/gradle) Examples.
 
 ### API Access Token
 
