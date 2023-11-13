@@ -5,7 +5,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/bitly-shorten.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/bitly-shorten)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ethauvin_bitly-shorten&metric=alert_status)](https://sonarcloud.io/dashboard?id=ethauvin_bitly-shorten)
-[![GitHub CI](https://github.com/ethauvin/bitly-shorten/actions/workflows/gradle.yml/badge.svg)](https://github.com/ethauvin/bitly-shorten/actions/workflows/gradle.yml)
+[![GitHub CI](https://github.com/ethauvin/bitly-shorten/actions/workflows/bld.yml/badge.svg)](https://github.com/ethauvin/bitly-shorten/actions/workflows/bld.yml)
 [![CircleCI](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master.svg?style=shield)](https://circleci.com/gh/ethauvin/bitly-shorten/tree/master)
 
 # [Bitly](https://dev.bitly.com/v4/) Shortener for Kotlin, Java & Android
