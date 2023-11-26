@@ -5,6 +5,7 @@ import rife.bld.extension.CompileKotlinOperation;
 import rife.bld.operations.RunOperation;
 import rife.bld.BaseProject;
 
+import java.util.List;
 
 import static rife.bld.dependencies.Repository.*;
 import static rife.bld.dependencies.Scope.compile;
@@ -23,7 +24,7 @@ public class ExampleBuild extends BaseProject {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
 
         scope(compile)
-                .include(dependency("net.thauvin.erik:bitly-shorten:1.0.0"))
+                .include(dependency("net.thauvin.erik:bitly-shorten:1.0.1"))
                 .include(dependency("org.json:json:20231013"));
     }
 

@@ -59,7 +59,7 @@ public class BitlyShortenBuild extends Project {
     public BitlyShortenBuild() {
         pkg = "net.thauvin.erik";
         name = "bitly-shorten";
-        version = version(1, 0, 1, "SNAPSHOT");
+        version = version(1, 0, 1);
 
         javaRelease = 11;
         downloadSources = true;
@@ -70,7 +70,6 @@ public class BitlyShortenBuild extends Project {
         final var kotlin = version(1, 9, 21);
         scope(compile)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
-                .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-common", kotlin))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-jdk7", kotlin))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlin))
                 .include(dependency("com.squareup.okhttp3", "okhttp", okHttp))

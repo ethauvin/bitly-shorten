@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.thauvin.erik</groupId>
   <artifactId>bitly-shorten</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>bitly-shorten</name>
   <description>A simple implementation of the Bitly link shortening API v4</description>
   <url>https://github.com/ethauvin/bitly-shorten</url>
@@ -18,12 +18,6 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
-      <version>1.9.21</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-stdlib-common</artifactId>
       <version>1.9.21</version>
       <scope>compile</scope>
     </dependency>
