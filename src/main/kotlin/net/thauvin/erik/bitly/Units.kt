@@ -34,7 +34,6 @@ package net.thauvin.erik.bitly
 /**
  * Provides units of time definitions.
  */
-@Suppress("unused")
 enum class Units {
     MINUTE, HOUR, DAY, WEEK, MONTH
 }

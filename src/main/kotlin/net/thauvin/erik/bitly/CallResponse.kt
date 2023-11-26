@@ -39,7 +39,6 @@ package net.thauvin.erik.bitly
  * @param description Bitly error description, if any.
  * @param statusCode HTTP status code,
  */
-@Suppress("unused")
 data class CallResponse(
     val body: String = Constants.EMPTY_JSON,
     val message: String = "",

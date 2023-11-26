@@ -57,7 +57,7 @@ class UpdateConfig private constructor(
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
      **/
-    @Suppress("unused", "ArrayInDataClass")
+    @Suppress("ArrayInDataClass")
     data class Builder(
         private var bitlink: String = Constants.EMPTY,
         private var references: Map<String, String> = emptyMap(),

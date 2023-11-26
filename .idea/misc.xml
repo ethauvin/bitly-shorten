@@ -5,6 +5,8 @@
     <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="dokkaHtml" />
     <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="jacoco" />
     <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="docs" />
+    <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="detekt" />
+    <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="detektBaseline" />
   </component>
   <component name="PDMPlugin">
     <option name="customRuleSets">

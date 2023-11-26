@@ -50,7 +50,7 @@ class CreateConfig private constructor(
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
      **/
-    @Suppress("unused", "ArrayInDataClass")
+    @Suppress("ArrayInDataClass")
     data class Builder(
         private var domain: String = Constants.EMPTY,
         private var title: String = Constants.EMPTY,

@@ -40,7 +40,6 @@ import net.thauvin.erik.bitly.Utils.toEndPoint
 import net.thauvin.erik.bitly.config.CreateConfig
 import net.thauvin.erik.bitly.config.UpdateConfig
 import org.json.JSONObject
-import org.junit.Before
 import org.junit.jupiter.api.BeforeAll
 import java.io.File
 import java.util.logging.Level

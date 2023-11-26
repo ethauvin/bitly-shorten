@@ -56,7 +56,6 @@ open class Bitly() {
      *
      * @param accessToken The API access token.
      */
-    @Suppress("unused")
     constructor(accessToken: String) : this() {
         this.accessToken = accessToken
     }
@@ -67,7 +66,6 @@ open class Bitly() {
      * @param properties The properties containing the [API Access Token][accessToken].
      * @param key The property key containing the [API Access Token][accessToken].
      */
-    @Suppress("unused")
     @JvmOverloads
     constructor(properties: Properties, key: String = Constants.ENV_ACCESS_TOKEN) : this() {
         accessToken = properties.getProperty(key, accessToken)
@@ -96,7 +94,6 @@ open class Bitly() {
      * @param propertiesFile The properties file containing the [API Access Token][accessToken].
      * @param key The property key containing the [API Access Token][accessToken].
      */
-    @Suppress("unused")
     @JvmOverloads
     constructor(propertiesFile: File, key: String = Constants.ENV_ACCESS_TOKEN) : this(propertiesFile.toPath(), key)
 
