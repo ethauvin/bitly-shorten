@@ -24,8 +24,8 @@ public class ExampleBuild extends BaseProject {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
 
         scope(compile)
-                .include(dependency("net.thauvin.erik:bitly-shorten:1.0.1"))
-                .include(dependency("org.json:json:20231013"));
+                .include(dependency("net.thauvin.erik:bitly-shorten:1.0.2-SNAPSHOT"))
+                .include(dependency("org.json:json:20240205"));
     }
 
     public static void main(String[] args) {
