@@ -56,6 +56,7 @@ import static rife.bld.dependencies.Scope.compile;
 import static rife.bld.dependencies.Scope.test;
 
 public class BitlyShortenBuild extends Project {
+    final File srcMainKotlin = new File(srcMainDirectory(), "kotlin");
     public BitlyShortenBuild() {
         pkg = "net.thauvin.erik";
         name = "bitly-shorten";
@@ -67,7 +68,7 @@ public class BitlyShortenBuild extends Project {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
         var okHttp = version(4, 12, 0);
-        final var kotlin = version(1, 9, 22);
+        final var kotlin = version(1, 9, 24);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
@@ -115,7 +116,7 @@ public class BitlyShortenBuild extends Project {
                 .signKey(property("sign.key"))
                 .signPassphrase(property("sign.passphrase"));
 
-        jarSourcesOperation().sourceDirectories(new File(srcMainDirectory(), "kotlin"));
+        jarSourcesOperation().sourceDirectories(srcMainKotlin);
     }
 
     public static void main(String[] args) {
@@ -149,7 +150,6 @@ public class BitlyShortenBuild extends Project {
 
     @BuildCommand(summary = "Generates documentation in HTML format")
     public void docs() throws ExitStatusException, IOException, InterruptedException {
-        var kotlin = new File(srcMainDirectory(), "kotlin").getAbsolutePath();
         new DokkaOperation()
                 .fromProject(this)
                 .loggingLevel(LoggingLevel.INFO)
@@ -159,8 +159,8 @@ public class BitlyShortenBuild extends Project {
                 .outputFormat(OutputFormat.HTML)
                 .sourceSet(
                         new SourceSet()
-                                .src(kotlin)
-                                .srcLink(kotlin, "https://github.com/ethauvin/" + name +
+                                .src(srcMainKotlin.getAbsolutePath())
+                                .srcLink(srcMainKotlin.getAbsolutePath(), "https://github.com/ethauvin/" + name +
                                         "/tree/master/src/main/kotlin/", "#L")
                                 .includes("config/dokka/packages.md")
                                 .jdkVersion(javaRelease)
