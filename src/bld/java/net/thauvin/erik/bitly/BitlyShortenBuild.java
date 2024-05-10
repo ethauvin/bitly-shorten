@@ -1,7 +1,7 @@
 /*
  * BitlyShortenBuild.java
  *
- * Copyright 2020-2023 Erik C. Thauvin (erik@thauvin.net)
+ * Copyright 2020-2024 Erik C. Thauvin (erik@thauvin.net)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,6 @@ import rife.bld.extension.DetektOperation;
 import rife.bld.extension.JacocoReportOperation;
 import rife.bld.extension.dokka.DokkaOperation;
 import rife.bld.extension.dokka.LoggingLevel;
-import rife.bld.extension.dokka.OutputFormat;
 import rife.bld.extension.dokka.SourceSet;
 import rife.bld.operations.exceptions.ExitStatusException;
 import rife.bld.publish.PomBuilder;
