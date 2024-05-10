@@ -83,7 +83,7 @@ public class BitlyShortenBuild extends Project {
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
                 .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 10, 2)))
                 .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 10, 2)))
-                .include(dependency("com.willowtreeapps.assertk", "assertk-jvm", version(0, 28, 0)));
+                .include(dependency("com.willowtreeapps.assertk", "assertk-jvm", version(0, 28, 1)));
 
         publishOperation()
                 .repository(version.isSnapshot() ? repository(SONATYPE_SNAPSHOTS_LEGACY.location())
