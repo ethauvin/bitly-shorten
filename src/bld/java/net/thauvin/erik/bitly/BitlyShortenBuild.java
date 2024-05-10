@@ -57,6 +57,7 @@ import static rife.bld.dependencies.Scope.test;
 
 public class BitlyShortenBuild extends Project {
     final File srcMainKotlin = new File(srcMainDirectory(), "kotlin");
+
     public BitlyShortenBuild() {
         pkg = "net.thauvin.erik";
         name = "bitly-shorten";
@@ -74,7 +75,7 @@ public class BitlyShortenBuild extends Project {
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-common", kotlin))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlin))
-                //
+                // OkHttp
                 .include(dependency("com.squareup.okhttp3", "okhttp", okHttp))
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp))
                 // JSON
@@ -172,6 +173,7 @@ public class BitlyShortenBuild extends Project {
     public void jacoco() throws IOException {
         new JacocoReportOperation()
                 .fromProject(this)
+                .sourceFiles(srcMainKotlin)
                 .execute();
     }
 
