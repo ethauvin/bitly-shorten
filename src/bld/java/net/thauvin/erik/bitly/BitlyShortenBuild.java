@@ -38,6 +38,7 @@ import rife.bld.extension.DetektOperation;
 import rife.bld.extension.JacocoReportOperation;
 import rife.bld.extension.dokka.DokkaOperation;
 import rife.bld.extension.dokka.LoggingLevel;
+import rife.bld.extension.dokka.OutputFormat;
 import rife.bld.extension.dokka.SourceSet;
 import rife.bld.operations.exceptions.ExitStatusException;
 import rife.bld.publish.PomBuilder;
