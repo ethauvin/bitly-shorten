@@ -39,6 +39,8 @@ import net.thauvin.erik.bitly.config.CreateConfig
 import net.thauvin.erik.bitly.config.UpdateConfig
 import org.json.JSONException
 import org.json.JSONObject
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.util.logging.Level
 
 /**
@@ -288,6 +290,42 @@ open class Bitlinks(private val accessToken: String) {
                     if (tags.isNotEmpty()) put("tags", tags)
                     if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
                 },
+                Methods.PATCH
+            )
+
+            if (lastCallResponse.isSuccessful) {
+                result = if (toJson) {
+                    lastCallResponse.body
+                } else {
+                    Constants.TRUE
+                }
+            }
+        }
+        return result
+    }
+
+    /**
+     * Move a keyword (or custom back-half) to a different Bitlink (domains must match).
+     *
+     * See the [Bit.ly API](https://dev.bitly.com/api-reference/#updateCustomBitlink) for more information.
+     *
+     * @param custom_bitlink A Custom Bitlink made of the domain and keyword.
+     * @param toJson Returns the full JSON response if `true`.
+     * @return [Constants.TRUE] if the update was successful, [Constants.FALSE] otherwise.
+     */
+    @Synchronized
+    @JvmOverloads
+    fun updateCustom(
+        custom_bitlink: String,
+        bitlink_id: String,
+        toJson: Boolean = false
+    ): String {
+        var result = if (toJson) Constants.EMPTY_JSON else Constants.FALSE
+        if (custom_bitlink.isNotBlank() && bitlink_id.isNotBlank()) {
+            lastCallResponse = Utils.call(
+                accessToken,
+                "custom_bitlinks/${custom_bitlink.removeHttp()}".toEndPoint(),
+                mutableMapOf<String, Any>().apply { put("bitlink_id", bitlink_id) },
                 Methods.PATCH
             )
 

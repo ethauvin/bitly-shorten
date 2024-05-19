@@ -61,7 +61,7 @@ public class BitlyShortenBuild extends Project {
     public BitlyShortenBuild() {
         pkg = "net.thauvin.erik";
         name = "bitly-shorten";
-        version = version(1, 0, 2, "SNAPSHOT");
+        version = version(2, 0, 0);
 
         javaRelease = 11;
         downloadSources = true;

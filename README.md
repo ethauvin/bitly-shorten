@@ -90,18 +90,16 @@ Instructions for using with Maven, Ivy, etc. can be found on [Maven Central](htt
 To make it easier to use the library with Java, configuration builders are available:
 
 ```java
-var config = new CreateConfig.Builder()
+var config = new CreateConfig.Builder("https://erik.thauvin.net/blog")
         .title("Erik's Weblog")
         .tags(new String[] { "blog", "weblog"})
-        .longUrl("https://erik.thauvin.net/blog")
         .build();
 
 bitly.bitlinks().create(config);
 ```
 
 ```java
-var config = new UpdateConfig.Builder()
-        .bitlink("https://bit.ly/380ojFd")
+var config = new UpdateConfig.Builder("https://bit.ly/380ojFd")
         .title("Erik's Weblog")
         .tags(new String[] { "blog", "weblog"})
         .build();
@@ -171,7 +169,7 @@ if (response.isSuccessful) {
 }
 ```
 
-- View [Example](https://github.com/ethauvin/bitly-shorten/blob/master/examples/src/main/kotlin/com/example/BitlyRetrieve.kt)
+- View [Example](https://github.com/ethauvin/bitly-shorten/blob/master/examples/bld/src/main/kotlin/com/example/BitlyRetrieve.kt)
 
 ## Contributing
 

@@ -31,6 +31,7 @@
 
 package net.thauvin.erik.bitly
 
+import DisableOnCi
 import assertk.all
 import assertk.assertThat
 import assertk.assertions.*
@@ -225,6 +226,16 @@ class BitlyTest {
             prop(CallResponse::message).isEqualTo("INVALID_ARG_DOMAIN")
             prop(CallResponse::description).contains("invalid")
         }
+    }
+
+    @Test
+    @DisableOnCi
+    fun `update custom bitlink`() {
+        val bl = bitly.bitlinks()
+        assertEquals(
+            Constants.TRUE,
+            bl.updateCustom("https://thauv.in/2NwtljT", "thauv.in/2NwtljT")
+        )
     }
 
     @Test
