@@ -68,17 +68,17 @@ class UpdateConfig private constructor(builder: Builder) {
         /**
          * A Bitlink made of the domain and hash.
          */
-        fun bitlink(bitlink: String) = apply { this.bitlink = bitlink }
+        fun bitlink(bitlink: String): Builder = apply { this.bitlink = bitlink }
 
-        fun title(title: String) = apply { this.title = title }
-        fun archived(archived: Boolean) = apply { this.archived = archived }
-        fun tags(tags: Array<String>) = apply { this.tags = tags }
-        fun deepLinks(deepLinks: Array<Map<String, String>>) = apply { this.deeplinks = deepLinks }
+        fun title(title: String): Builder = apply { this.title = title }
+        fun archived(archived: Boolean): Builder = apply { this.archived = archived }
+        fun tags(tags: Array<String>): Builder = apply { this.tags = tags }
+        fun deepLinks(deepLinks: Array<Map<String, String>>): Builder = apply { this.deeplinks = deepLinks }
 
         /**
          * Returns the full JSON response if `true`.
          */
-        fun toJson(toJson: Boolean) = apply { this.toJson = toJson }
+        fun toJson(toJson: Boolean): Builder = apply { this.toJson = toJson }
 
         /**
          * Builds the configuration.

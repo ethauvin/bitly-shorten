@@ -71,28 +71,28 @@ class CreateConfig private constructor(builder: Builder) {
         /**
          * A branded short domain or `bit.ly` by default.
          */
-        fun domain(domain: String) = apply { this.domain = domain }
+        fun domain(domain: String): Builder = apply { this.domain = domain }
 
         /**
          * Always include a specific group and custom domain in your shorten calls.
          */
-        fun groupGuid(group_guid: String) = apply { this.group_guid = group_guid }
+        fun groupGuid(group_guid: String): Builder = apply { this.group_guid = group_guid }
 
-        fun title(title: String) = apply { this.title = title }
+        fun title(title: String): Builder = apply { this.title = title }
 
-        fun tags(tags: Array<String>) = apply { this.tags = tags }
+        fun tags(tags: Array<String>): Builder = apply { this.tags = tags }
 
-        fun deeplinks(deeplinks: Array<Map<String, String>>) = apply { this.deeplinks = deeplinks }
+        fun deeplinks(deeplinks: Array<Map<String, String>>): Builder = apply { this.deeplinks = deeplinks }
 
         /**
          * The long URL.
          */
-        fun longUrl(long_url: String) = apply { this.long_url = long_url }
+        fun longUrl(long_url: String): Builder = apply { this.long_url = long_url }
 
         /**
          * Returns the full JSON response if `true`.
          */
-        fun toJson(toJson: Boolean) = apply { this.toJson = toJson }
+        fun toJson(toJson: Boolean): Builder = apply { this.toJson = toJson }
 
         /**
          * Builds the configuration.
