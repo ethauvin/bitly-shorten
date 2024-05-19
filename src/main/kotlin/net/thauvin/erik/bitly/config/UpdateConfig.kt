@@ -36,74 +36,53 @@ import net.thauvin.erik.bitly.Constants
 /**
  * Provides a builder to update a Bitlink.
  */
-class UpdateConfig private constructor(
-    val bitlink: String,
-    val references: Map<String, String>,
-    val archived: Boolean,
-    val tags: Array<String>,
-    val created_at: String,
-    val title: String,
-    val deepLinks: Array<Map<String, String>>,
-    val created_by: String,
-    val long_url: String,
-    val client_id: String,
-    val custom_bitlinks: Array<String>,
-    val link: String,
-    val id: String,
-    val toJson: Boolean,
-) {
+class UpdateConfig private constructor(builder: Builder) {
+    val bitlink: String
+    val title: String
+    val archived: Boolean
+    val tags: Array<String>
+    val deepLinks: Array<Map<String, String>>
+    val toJson: Boolean
+
+    init {
+        bitlink = builder.bitlink
+        title = builder.title
+        archived = builder.archived
+        tags = builder.tags
+        deepLinks = builder.deeplinks
+        toJson = builder.toJson
+    }
+
     /**
      * Configures the update parameters of a Bitlink.
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
      **/
-    @Suppress("ArrayInDataClass")
-    data class Builder(
-        private var bitlink: String = Constants.EMPTY,
-        private var references: Map<String, String> = emptyMap(),
-        private var archived: Boolean = false,
-        private var tags: Array<String> = emptyArray(),
-        private var created_at: String = Constants.EMPTY,
-        private var title: String = Constants.EMPTY,
-        private var deeplinks: Array<Map<String, String>> = emptyArray(),
-        private var created_by: String = Constants.EMPTY,
-        private var long_url: String = Constants.EMPTY,
-        private var client_id: String = Constants.EMPTY,
-        private var custom_bitlinks: Array<String> = emptyArray(),
-        private var link: String = Constants.EMPTY,
-        private var id: String = Constants.EMPTY,
-        private var toJson: Boolean = false
-    ) {
+    data class Builder(var bitlink: String) {
+        var title: String = Constants.EMPTY
+        var archived: Boolean = false
+        var tags: Array<String> = emptyArray()
+        var deeplinks: Array<Map<String, String>> = emptyArray()
+        var toJson: Boolean = false
+
+        /**
+         * A Bitlink made of the domain and hash.
+         */
         fun bitlink(bitlink: String) = apply { this.bitlink = bitlink }
-        fun references(references: Map<String, String>) = apply { this.references = references }
+
+        fun title(title: String) = apply { this.title = title }
         fun archived(archived: Boolean) = apply { this.archived = archived }
         fun tags(tags: Array<String>) = apply { this.tags = tags }
-        fun createdAt(createdAt: String) = apply { this.created_at = createdAt }
-        fun title(title: String) = apply { this.title = title }
         fun deepLinks(deepLinks: Array<Map<String, String>>) = apply { this.deeplinks = deepLinks }
-        fun createdBy(createdBy: String) = apply { this.created_by = createdBy }
-        fun longUrl(longUrl: String) = apply { this.long_url = longUrl }
-        fun clientId(clientId: String) = apply { this.client_id = clientId }
-        fun customBitlinks(customBitlinks: Array<String>) = apply { this.custom_bitlinks = customBitlinks }
-        fun link(link: String) = apply { this.link = link }
-        fun id(id: String) = apply { this.id = id }
+
+        /**
+         * Returns the full JSON response if `true`.
+         */
         fun toJson(toJson: Boolean) = apply { this.toJson = toJson }
 
-        fun build() = UpdateConfig(
-            bitlink,
-            references,
-            archived,
-            tags,
-            created_at,
-            title,
-            deeplinks,
-            created_by,
-            long_url,
-            client_id,
-            custom_bitlinks,
-            link,
-            id,
-            toJson
-        )
+        /**
+         * Builds the configuration.
+         */
+        fun build() = UpdateConfig(this)
     }
 }

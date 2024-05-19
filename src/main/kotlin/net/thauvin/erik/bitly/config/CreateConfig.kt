@@ -36,46 +36,67 @@ import net.thauvin.erik.bitly.Constants
 /**
  * Provides a builder to create a Bitlink.
  */
-class CreateConfig private constructor(
-    val domain: String,
-    val title: String,
-    val group_guid: String,
-    val tags: Array<String>,
-    val deepLinks: Array<Map<String, String>>,
-    val long_url: String,
+class CreateConfig private constructor(builder: Builder) {
+    val domain: String
+    val group_guid: String
+    val title: String
+    val tags: Array<String>
+    val deepLinks: Array<Map<String, String>>
+    val long_url: String
     val toJson: Boolean
-) {
+
+    init {
+        domain = builder.domain
+        group_guid = builder.group_guid
+        title = builder.title
+        tags = builder.tags
+        deepLinks = builder.deeplinks
+        long_url = builder.long_url
+        toJson = builder.toJson
+    }
+
     /**
      * Configures the creation parameters of a Bitlink.
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
      **/
-    @Suppress("ArrayInDataClass")
-    data class Builder(
-        private var domain: String = Constants.EMPTY,
-        private var title: String = Constants.EMPTY,
-        private var group_guid: String = Constants.EMPTY,
-        private var tags: Array<String> = emptyArray(),
-        private var deeplinks: Array<Map<String, String>> = emptyArray(),
-        private var long_url: String = Constants.EMPTY,
-        private var toJson: Boolean = false
-    ) {
+    data class Builder(var long_url: String) {
+        var domain: String = Constants.EMPTY
+        var group_guid: String = Constants.EMPTY
+        var title: String = Constants.EMPTY
+        var tags: Array<String> = emptyArray()
+        var deeplinks: Array<Map<String, String>> = emptyArray()
+        var toJson: Boolean = false
+
+        /**
+         * A branded short domain or `bit.ly` by default.
+         */
         fun domain(domain: String) = apply { this.domain = domain }
-        fun title(title: String) = apply { this.title = title }
+
+        /**
+         * Always include a specific group and custom domain in your shorten calls.
+         */
         fun groupGuid(group_guid: String) = apply { this.group_guid = group_guid }
+
+        fun title(title: String) = apply { this.title = title }
+
         fun tags(tags: Array<String>) = apply { this.tags = tags }
+
         fun deeplinks(deeplinks: Array<Map<String, String>>) = apply { this.deeplinks = deeplinks }
+
+        /**
+         * The long URL.
+         */
         fun longUrl(long_url: String) = apply { this.long_url = long_url }
+
+        /**
+         * Returns the full JSON response if `true`.
+         */
         fun toJson(toJson: Boolean) = apply { this.toJson = toJson }
 
-        fun build() = CreateConfig(
-            domain,
-            title,
-            group_guid,
-            tags,
-            deeplinks,
-            long_url,
-            toJson
-        )
+        /**
+         * Builds the configuration.
+         */
+        fun build() = CreateConfig(this)
     }
 }

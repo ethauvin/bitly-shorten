@@ -61,7 +61,6 @@ open class Bitlinks(private val accessToken: String) {
      * @param bitlink A Bitlink made of the domain and hash.
      * @param unit A [unit of time][Units].
      * @param units An integer representing the time units to query data for. Pass -1 to return all units available.
-     * @param size The quantity of items to be be returned.
      * @param unit_reference An ISO-8601 timestamp, indicating the most recent time for which to pull metrics.
      * Will default to current time.
      * @param toJson Returns the full JSON response if `true`.
@@ -73,7 +72,6 @@ open class Bitlinks(private val accessToken: String) {
         bitlink: String,
         unit: Units = Units.DAY,
         units: Int = -1,
-        size: Int = 50,
         unit_reference: String = Constants.EMPTY,
         toJson: Boolean = false
     ): String {
@@ -85,8 +83,7 @@ open class Bitlinks(private val accessToken: String) {
                 mapOf(
                     "unit" to unit.toString().lowercase(),
                     "units" to units.toString(),
-                    "size" to size.toString(),
-                    "unit_reference" to unit_reference
+                    "unit_reference" to URLEncoder.encode(unit_reference, StandardCharsets.UTF_8)
                 ),
                 Methods.GET
             )
@@ -106,12 +103,12 @@ open class Bitlinks(private val accessToken: String) {
     @Synchronized
     fun create(config: CreateConfig): String {
         return create(
+            config.long_url,
             config.domain,
-            config.title,
             config.group_guid,
+            config.title,
             config.tags,
             config.deepLinks,
-            config.long_url,
             config.toJson
         )
     }
@@ -121,20 +118,20 @@ open class Bitlinks(private val accessToken: String) {
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
      *
+     * @param long_url The long URL.
      * @param domain A branded short domain or `bit.ly` by default.
      * @param group_guid A GUID for a Bitly group.
-     * @param long_url The long URL.
      * @param toJson Returns the full JSON response if `true`.
      * @return The shortened URL or an empty string on error.
      */
     @Synchronized
     fun create(
+        long_url: String,
         domain: String = Constants.EMPTY,
-        title: String = Constants.EMPTY,
         group_guid: String = Constants.EMPTY,
+        title: String = Constants.EMPTY,
         tags: Array<String> = emptyArray(),
         deeplinks: Array<Map<String, String>> = emptyArray(),
-        long_url: String,
         toJson: Boolean = false
     ): String {
         var link = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
@@ -144,8 +141,8 @@ open class Bitlinks(private val accessToken: String) {
                 "bitlinks".toEndPoint(),
                 mutableMapOf<String, Any>("long_url" to long_url).apply {
                     if (domain.isNotBlank()) put("domain", domain)
-                    if (title.isNotBlank()) put("title", title)
                     if (group_guid.isNotBlank()) put("group_guid", group_guid)
+                    if (title.isNotBlank()) put("title", title)
                     if (tags.isNotEmpty()) put("tags", tags)
                     if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
                 }
@@ -211,8 +208,8 @@ open class Bitlinks(private val accessToken: String) {
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createBitlink) for more information.
      *
      * @param long_url The long URL.
-     * @param group_guid A GUID for a Bitly group.
      * @param domain A branded short domain or `bit.ly` by default.
+     * @param group_guid A GUID for a Bitly group.
      * @param toJson Returns the full JSON response if `true`.
      * @return The short URL or the [long_url] on error.
      */
@@ -220,8 +217,8 @@ open class Bitlinks(private val accessToken: String) {
     @JvmOverloads
     fun shorten(
         long_url: String,
-        group_guid: String = Constants.EMPTY,
         domain: String = Constants.EMPTY,
+        group_guid: String = Constants.EMPTY,
         toJson: Boolean = false
     ): String {
         var bitlink = if (toJson) Constants.EMPTY_JSON else long_url
@@ -231,8 +228,8 @@ open class Bitlinks(private val accessToken: String) {
             }
         } else {
             val params = mutableMapOf("long_url" to long_url).apply {
-                if (group_guid.isNotBlank()) put("group_guid", group_guid)
                 if (domain.isNotBlank()) put("domain", domain)
+                if (group_guid.isNotBlank()) put("group_guid", group_guid)
             }
 
             lastCallResponse = Utils.call(accessToken, "shorten".toEndPoint(), params)
@@ -256,18 +253,10 @@ open class Bitlinks(private val accessToken: String) {
     fun update(config: UpdateConfig): String {
         return update(
             config.bitlink,
-            config.references,
+            config.title,
             config.archived,
             config.tags,
-            config.created_at,
-            config.title,
             config.deepLinks,
-            config.created_by,
-            config.long_url,
-            config.client_id,
-            config.custom_bitlinks,
-            config.link,
-            config.id,
             config.toJson
         )
     }
@@ -284,36 +273,20 @@ open class Bitlinks(private val accessToken: String) {
     @Synchronized
     fun update(
         bitlink: String,
-        references: Map<String, String> = emptyMap(),
+        title: String = Constants.EMPTY,
         archived: Boolean = false,
         tags: Array<String> = emptyArray(),
-        created_at: String = Constants.EMPTY,
-        title: String = Constants.EMPTY,
         deeplinks: Array<Map<String, String>> = emptyArray(),
-        created_by: String = Constants.EMPTY,
-        long_url: String = Constants.EMPTY,
-        client_id: String = Constants.EMPTY,
-        custom_bitlinks: Array<String> = emptyArray(),
-        link: String = Constants.EMPTY,
-        id: String = Constants.EMPTY,
         toJson: Boolean = false
     ): String {
         var result = if (toJson) Constants.EMPTY_JSON else Constants.FALSE
         if (bitlink.isNotBlank()) {
             lastCallResponse = Utils.call(
                 accessToken, "bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
-                    if (references.isNotEmpty()) put("references", references)
+                    if (title.isNotBlank()) put("title", title)
                     if (archived) put("archived", true)
                     if (tags.isNotEmpty()) put("tags", tags)
-                    if (created_at.isNotBlank()) put("created_at", created_at)
-                    if (title.isNotBlank()) put("title", title)
                     if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
-                    if (created_by.isNotBlank()) put("created_by", created_by)
-                    if (long_url.isNotBlank()) put("long_url", long_url)
-                    if (client_id.isNotBlank()) put("client_id", client_id)
-                    if (custom_bitlinks.isNotEmpty()) put("custom_bitlinks", custom_bitlinks)
-                    if (link.isNotBlank()) put("link", link)
-                    if (id.isNotBlank()) put("id", id)
                 },
                 Methods.PATCH
             )
