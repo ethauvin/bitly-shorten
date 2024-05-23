@@ -1,5 +1,5 @@
 /*
- * Constants.kt
+ * InstallType.kt
  *
  * Copyright 2020-2024 Erik C. Thauvin (erik@thauvin.net)
  *
@@ -29,31 +29,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.thauvin.erik.bitly
+package net.thauvin.erik.bitly.deeplinks
 
-import java.time.format.DateTimeFormatter
-import java.util.*
-
-/** Provides the constants for this package. */
-object Constants {
-    /** The Bitly API base URL. */
-    const val API_BASE_URL = "https://api-ssl.bitly.com/v4"
-
-    /** The API access token environment variable. */
-    const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
-
-    /** Empty String. */
-    const val EMPTY = ""
-
-    /** Empty JSON Object. */
-    const val EMPTY_JSON = "{}"
-
-    /** False */
-    const val FALSE = false.toString()
-
-    /** True */
-    const val TRUE = true.toString()
-
-    /** ISO Timestamp format **/
-    val ISO_TIMESTAMP: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZZ", Locale.US)
+/**
+ * Defines the operating system types.
+ *
+ * @since 2.0
+ */
+enum class Os(val type: String) {
+    IOS("ios"),
+    ANDROID("android")
 }

@@ -1,5 +1,5 @@
 /*
- * Constants.kt
+ * CreateDeeplinks.kt
  *
  * Copyright 2020-2024 Erik C. Thauvin (erik@thauvin.net)
  *
@@ -29,31 +29,58 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.thauvin.erik.bitly
+package net.thauvin.erik.bitly.deeplinks
 
-import java.time.format.DateTimeFormatter
 import java.util.*
 
-/** Provides the constants for this package. */
-object Constants {
-    /** The Bitly API base URL. */
-    const val API_BASE_URL = "https://api-ssl.bitly.com/v4"
+/**
+ * Configures deeplinks used when creating [Bitlinks][net.thauvin.erik.bitly.Bitlinks].
+ *
+ * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
+ *
+ * @since 2.0
+ */
+@Suppress("FunctionName", "LocalVariableName")
+class CreateDeeplinks {
+    private val map = mutableMapOf<String, String>()
 
-    /** The API access token environment variable. */
-    const val ENV_ACCESS_TOKEN = "BITLY_ACCESS_TOKEN"
+    fun app_id(app_id: String) {
+        map["app_id"] = app_id
+    }
 
-    /** Empty String. */
-    const val EMPTY = ""
+    fun app_id(): String? = map["app_id"]
 
-    /** Empty JSON Object. */
-    const val EMPTY_JSON = "{}"
+    fun app_uri_path(app_uri_path: String) {
+        map["app_uri_path"] = app_uri_path
+    }
 
-    /** False */
-    const val FALSE = false.toString()
+    fun app_uri_path(): String? = map["app_uri_path"]
 
-    /** True */
-    const val TRUE = true.toString()
+    fun install_url(install_url: String) {
+        map["install_url"] = install_url
+    }
 
-    /** ISO Timestamp format **/
-    val ISO_TIMESTAMP: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZZ", Locale.US)
+    fun install_url(): String? = map["install_url"]
+
+    fun install_type(install_type: InstallType) {
+        map["install_type"] = install_type.type
+    }
+
+    fun install_type(): InstallType? {
+        val type = map["install_type"]
+        if (type != null) {
+            return InstallType.valueOf(type.uppercase(Locale.getDefault()))
+        }
+        return null
+    }
+
+    /**
+     * Returns `true` if there are defined links.
+     */
+    fun isNotEmpty(): Boolean = map.isNotEmpty()
+
+    /**
+     * Returns the links.
+     */
+    fun links(): Map<String, String> = map
 }
