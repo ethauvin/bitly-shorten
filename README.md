@@ -1,5 +1,5 @@
 [![License (3-Clause BSD)](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg?style=flat-square)](https://opensource.org/licenses/BSD-3-Clause)
-[![Kotlin](https://img.shields.io/badge/kotlin-1.9.24-7f52ff)](https://kotlinlang.org/)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.0.0-7f52ff)](https://kotlinlang.org/)
 [![bld](https://img.shields.io/badge/1.9.1-FA9052?label=bld&labelColor=2392FF)](https://rife2.com/bld)
 [![Release](https://img.shields.io/github/release/ethauvin/bitly-shorten.svg)](https://github.com/ethauvin/bitly-shorten/releases/latest)
 [![Maven Central](https://img.shields.io/maven-central/v/net.thauvin.erik/bitly-shorten.svg?color=blue)](https://central.sonatype.com/artifact/net.thauvin.erik/bitly-shorten)
@@ -63,7 +63,7 @@ To use with [bld](https://rife2.com/bld), include the following dependency in yo
 repositories = List.of(MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
 
 scope(compile)
-    .include(dependency("net.thauvin.erik:bitly-shorten:1.0.1"));
+    .include(dependency("net.thauvin.erik:bitly-shorten:2.0.0"));
 ```
 
 Be sure to use the [bld Kotlin extension](https://github.com/rife2/bld-kotlin) in your project.
@@ -79,7 +79,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.thauvin.erik:bitly-shorten:1.0.1")
+    implementation("net.thauvin.erik:bitly-shorten:2.0.0")
 }
 ```
 
