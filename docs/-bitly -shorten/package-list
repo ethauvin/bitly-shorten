@@ -1,5 +1,19 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums////PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/index.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/InstallType.AUTO_INSTALL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-install-type/-a-u-t-o_-i-n-s-t-a-l-l/index.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/InstallType.NO_INSTALL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-install-type/-n-o_-i-n-s-t-a-l-l/index.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/InstallType.PROMOTE_INSTALL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-install-type/-p-r-o-m-o-t-e_-i-n-s-t-a-l-l/index.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/InstallType///PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-install-type/index.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/InstallType/type/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-install-type/type.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/InstallType/valueOf/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-install-type/value-of.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/InstallType/values/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-install-type/values.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/Os.ANDROID///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-os/-a-n-d-r-o-i-d/index.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/Os.IOS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-os/-i-o-s/index.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/Os///PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-os/index.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/Os/type/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-os/type.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/Os/valueOf/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-os/value-of.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks.enums/Os/values/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks.enums/-os/values.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks////PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/index.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks///PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/index.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/CreateDeeplinks/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/-create-deeplinks.html
@@ -8,24 +22,11 @@ $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/app_id/#
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/app_uri_path/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/app_uri_path.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/app_uri_path/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/app_uri_path.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/install_type/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/install_type.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/install_type/#net.thauvin.erik.bitly.config.deeplinks.InstallType/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/install_type.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/install_type/#net.thauvin.erik.bitly.config.deeplinks.enums.InstallType/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/install_type.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/install_url/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/install_url.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/install_url/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/install_url.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/isNotEmpty/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/is-not-empty.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/CreateDeeplinks/links/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-create-deeplinks/links.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/InstallType.AUTO_INSTALL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-install-type/-a-u-t-o_-i-n-s-t-a-l-l/index.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/InstallType.NO_INSTALL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-install-type/-n-o_-i-n-s-t-a-l-l/index.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/InstallType.PROMOTE_INSTALL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-install-type/-p-r-o-m-o-t-e_-i-n-s-t-a-l-l/index.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/InstallType///PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-install-type/index.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/InstallType/type/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-install-type/type.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/InstallType/valueOf/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-install-type/value-of.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/InstallType/values/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-install-type/values.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/Os.ANDROID///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-os/-a-n-d-r-o-i-d/index.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/Os.IOS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-os/-i-o-s/index.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/Os///PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-os/index.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/Os/type/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-os/type.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/Os/valueOf/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-os/value-of.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/Os/values/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-os/values.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks///PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/index.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/UpdateDeeplinks/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/-update-deeplinks.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/app_guid/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/app_guid.html
@@ -42,7 +43,7 @@ $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/created/
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/guid/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/guid.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/guid/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/guid.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/install_type/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/install_type.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/install_type/#net.thauvin.erik.bitly.config.deeplinks.InstallType/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/install_type.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/install_type/#net.thauvin.erik.bitly.config.deeplinks.enums.InstallType/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/install_type.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/install_url/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/install_url.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/install_url/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/install_url.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/isNotEmpty/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/is-not-empty.html
@@ -51,7 +52,7 @@ $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/modified
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/modified/#java.time.ZonedDateTime/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/modified.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/modified/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/modified.html
 $dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/os/#/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/os.html
-$dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/os/#net.thauvin.erik.bitly.config.deeplinks.Os/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/os.html
+$dokka.location:net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks/os/#net.thauvin.erik.bitly.config.deeplinks.enums.Os/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config.deeplinks/-update-deeplinks/os.html
 $dokka.location:net.thauvin.erik.bitly.config////PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config/index.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder///PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config/-create-config/-builder/index.html
 $dokka.location:net.thauvin.erik.bitly.config/CreateConfig.Builder/Builder/#kotlin.String/PointingToDeclaration/-bitly -shorten/net.thauvin.erik.bitly.config/-create-config/-builder/-builder.html
@@ -176,4 +177,5 @@ $dokka.location:net.thauvin.erik.bitly/Utils/toEndPoint/kotlin.String#/PointingT
 net.thauvin.erik.bitly
 net.thauvin.erik.bitly.config
 net.thauvin.erik.bitly.config.deeplinks
+net.thauvin.erik.bitly.config.deeplinks.enums
 

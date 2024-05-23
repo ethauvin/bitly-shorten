@@ -31,6 +31,7 @@
 
 package net.thauvin.erik.bitly.config.deeplinks
 
+import net.thauvin.erik.bitly.config.deeplinks.enums.InstallType
 import java.util.*
 
 /**

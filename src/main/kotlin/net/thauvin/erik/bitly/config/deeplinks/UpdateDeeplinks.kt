@@ -32,6 +32,8 @@
 package net.thauvin.erik.bitly.config.deeplinks
 
 import net.thauvin.erik.bitly.Constants
+import net.thauvin.erik.bitly.config.deeplinks.enums.InstallType
+import net.thauvin.erik.bitly.config.deeplinks.enums.Os
 import java.time.ZonedDateTime
 import java.util.*
 

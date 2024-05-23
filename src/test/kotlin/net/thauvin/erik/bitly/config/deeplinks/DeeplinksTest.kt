@@ -36,6 +36,8 @@ import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
+import net.thauvin.erik.bitly.config.deeplinks.enums.InstallType
+import net.thauvin.erik.bitly.config.deeplinks.enums.Os
 import org.json.JSONObject
 import org.junit.Test
 import java.time.ZoneId

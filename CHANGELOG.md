@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.0.0](https://github.com/ethauvin/bitly-shorten/tree/1.0.0) (2024-05-23)
+
+[Full Changelog](https://github.com/ethauvin/bitly-shorten/compare/1.0.1...1.0.0)
+
+**Implemented enhancements:**
+
+- Implement DSL for deeplinks [\#16](https://github.com/ethauvin/bitly-shorten/issues/16)
+- Implement custom bitlink update [\#15](https://github.com/ethauvin/bitly-shorten/issues/15)
+- Update functions to match the bit.ly API [\#14](https://github.com/ethauvin/bitly-shorten/issues/14)
+
+## [1.0.1](https://github.com/ethauvin/bitly-shorten/tree/1.0.1) (2023-11-26)
+
+[Full Changelog](https://github.com/ethauvin/bitly-shorten/compare/1.0.0...1.0.1)
+
 ## [1.0.0](https://github.com/ethauvin/bitly-shorten/tree/1.0.0) (2023-09-25)
 
 [Full Changelog](https://github.com/ethauvin/bitly-shorten/compare/0.9.3...1.0.0)

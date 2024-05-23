@@ -10,4 +10,12 @@ Provides the classes necessary to access the [Bitly API v4](https://dev.bitly.co
 
 # Package net.thauvin.erik.bitly.config
 
-Provides configuration builders.
+Provides configuration builders for creating and updating Bitlinks.
+
+# Package net.thauvin.erik.bitly.config.deeplinks
+
+Provides deeplinks configurations for creating and updating Bitlinks.
+
+# Package net.thauvin.erik.bitly.config.deeplinks.enums
+
+Provides the deeplinks enumerations.

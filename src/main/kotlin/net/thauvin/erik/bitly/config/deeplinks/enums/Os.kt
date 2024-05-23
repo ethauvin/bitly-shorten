@@ -29,15 +29,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.thauvin.erik.bitly.config.deeplinks
+package net.thauvin.erik.bitly.config.deeplinks.enums
 
 /**
- * Defines the installation types.
+ * Defines the operating system types.
  *
  * @since 2.0
  */
-enum class InstallType(val type: String) {
-    NO_INSTALL("no_install"),
-    AUTO_INSTALL("auto_install"),
-    PROMOTE_INSTALL("promote_install")
+enum class Os(val type: String) {
+    IOS("ios"),
+    ANDROID("android")
 }
