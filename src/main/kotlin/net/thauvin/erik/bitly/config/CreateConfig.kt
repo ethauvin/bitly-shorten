@@ -32,7 +32,7 @@
 package net.thauvin.erik.bitly.config
 
 import net.thauvin.erik.bitly.Constants
-import net.thauvin.erik.bitly.deeplinks.CreateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
 
 /**
  * Provides a configuration to create a [Bitlink][net.thauvin.erik.bitly.Bitlinks]

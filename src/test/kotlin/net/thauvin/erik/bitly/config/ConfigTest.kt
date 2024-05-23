@@ -33,10 +33,10 @@ package net.thauvin.erik.bitly.config
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import net.thauvin.erik.bitly.deeplinks.CreateDeeplinks
-import net.thauvin.erik.bitly.deeplinks.InstallType
-import net.thauvin.erik.bitly.deeplinks.Os
-import net.thauvin.erik.bitly.deeplinks.UpdateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.InstallType
+import net.thauvin.erik.bitly.config.deeplinks.Os
+import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import org.json.JSONObject
 import kotlin.test.Test
 

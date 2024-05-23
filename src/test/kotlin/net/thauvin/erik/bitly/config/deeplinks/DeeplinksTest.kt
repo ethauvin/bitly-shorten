@@ -1,5 +1,5 @@
 /*
- * CreateDeeplinksTest.kt
+ * DeeplinksTest.kt
  *
  * Copyright 2020-2024 Erik C. Thauvin (erik@thauvin.net)
  *
@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.thauvin.erik.bitly.deeplinks
+package net.thauvin.erik.bitly.config.deeplinks
 
 import assertk.assertThat
 import assertk.assertions.contains

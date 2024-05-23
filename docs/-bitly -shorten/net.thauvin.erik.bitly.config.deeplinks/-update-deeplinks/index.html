@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>UpdateDeeplinks</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            Bitly Shorten
+                    </a>
+            </div>
+            <div class="library-version">
+2.0.0            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter="root/main">JVM</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="Bitly Shorten::net.thauvin.erik.bitly.config.deeplinks/UpdateDeeplinks///PointingToDeclaration//-1617659094">
+  <div class="breadcrumbs"><a href="../../../index.html">Bitly Shorten</a><span class="delimiter">/</span><a href="../index.html">net.thauvin.erik.bitly.config.deeplinks</a><span class="delimiter">/</span><span class="current">UpdateDeeplinks</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Update</span><wbr></wbr><span><span>Deeplinks</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">UpdateDeeplinks</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/ethauvin/bitly-shorten/tree/master/src/main/kotlin//net/thauvin/erik/bitly/config/deeplinks/UpdateDeeplinks.kt#L46">source</a>)</span></span></div><p class="paragraph">Configures deeplinks used when updating <a href="../../net.thauvin.erik.bitly/-bitlinks/index.html">Bitlinks</a>.</p><p class="paragraph">See the <a href="https://dev.bitly.com/api-reference#updateBitlink">Bit.ly API</a> for more information.</p><span class="kdoc-tag"><h4 class="">Since</h4><p class="paragraph">2.0</p></span></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1803981867%2FConstructors%2F-1617659094" anchor-label="UpdateDeeplinks" id="1803981867%2FConstructors%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-update-deeplinks.html"><span>Update</span><wbr></wbr><span><span>Deeplinks</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1803981867%2FConstructors%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="2142230008%2FFunctions%2F-1617659094" anchor-label="app_guid" id="2142230008%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="app_guid.html"><span><span>app_guid</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2142230008%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="app_guid.html"><span class="token function">app_guid</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="app_guid.html"><span class="token function">app_guid</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">app_guid<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1412818920%2FFunctions%2F-1617659094" anchor-label="app_uri_path" id="-1412818920%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="app_uri_path.html"><span><span>app_uri_path</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1412818920%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="app_uri_path.html"><span class="token function">app_uri_path</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="app_uri_path.html"><span class="token function">app_uri_path</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">app_uri_path<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1911025856%2FFunctions%2F-1617659094" anchor-label="bitlink" id="-1911025856%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bitlink.html"><span><span>bitlink</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1911025856%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="bitlink.html"><span class="token function">bitlink</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="bitlink.html"><span class="token function">bitlink</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">bitlink<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2119084488%2FFunctions%2F-1617659094" anchor-label="brand_guid" id="-2119084488%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="brand_guid.html"><span><span>brand_guid</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2119084488%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="brand_guid.html"><span class="token function">brand_guid</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="brand_guid.html"><span class="token function">brand_guid</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">brand_guid<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1269767047%2FFunctions%2F-1617659094" anchor-label="created" id="1269767047%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="created.html"><span><span>created</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1269767047%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="created.html"><span class="token function">created</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><br><div class="symbol monospace"><span class="token keyword">fun </span><a href="created.html"><span class="token function">created</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">created<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZonedDateTime.html">ZonedDateTime</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="created.html"><span class="token function">created</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">created<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">ISO timestamp.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1321489480%2FFunctions%2F-1617659094" anchor-label="guid" id="-1321489480%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="guid.html"><span><span>guid</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1321489480%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="guid.html"><span class="token function">guid</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="guid.html"><span class="token function">guid</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">guid<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1328369767%2FFunctions%2F-1617659094" anchor-label="install_type" id="1328369767%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="install_type.html"><span><span>install_type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1328369767%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="install_type.html"><span class="token function">install_type</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-install-type/index.html">InstallType</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="install_type.html"><span class="token function">install_type</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">install_type<span class="token operator">: </span><a href="../-install-type/index.html">InstallType</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-154032440%2FFunctions%2F-1617659094" anchor-label="install_url" id="-154032440%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="install_url.html"><span><span>install_url</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-154032440%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="install_url.html"><span class="token function">install_url</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="install_url.html"><span class="token function">install_url</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">install_url<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2093049895%2FFunctions%2F-1617659094" anchor-label="isNotEmpty" id="2093049895%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-not-empty.html"><span>is</span><wbr></wbr><span>Not</span><wbr></wbr><span><span>Empty</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2093049895%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="is-not-empty.html"><span class="token function">isNotEmpty</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Returns <code class="lang-kotlin">true</code> if there are defined links.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1634694134%2FFunctions%2F-1617659094" anchor-label="links" id="1634694134%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="links.html"><span><span>links</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1634694134%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="links.html"><span class="token function">links</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns the links.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2531026%2FFunctions%2F-1617659094" anchor-label="modified" id="-2531026%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="modified.html"><span><span>modified</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2531026%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="modified.html"><span class="token function">modified</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><br><div class="symbol monospace"><span class="token keyword">fun </span><a href="modified.html"><span class="token function">modified</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">modified<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/ZonedDateTime.html">ZonedDateTime</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="modified.html"><span class="token function">modified</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">modified<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">ISO timestamp.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1409955614%2FFunctions%2F-1617659094" anchor-label="os" id="-1409955614%2FFunctions%2F-1617659094" data-filterable-set="root/main"></a>
+          <div class="table-row" data-filterable-current="root/main" data-filterable-set="root/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="os.html"><span><span>os</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1409955614%2FFunctions%2F-1617659094"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable="root/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="os.html"><span class="token function">os</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-os/index.html">Os</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="os.html"><span class="token function">os</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">os<span class="token operator">: </span><a href="../-os/index.html">Os</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.thauvin.erik.bitly.deeplinks
+package net.thauvin.erik.bitly.config.deeplinks
 
 /**
  * Defines the installation types.

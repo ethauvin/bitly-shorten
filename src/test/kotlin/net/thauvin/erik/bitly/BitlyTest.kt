@@ -40,10 +40,10 @@ import net.thauvin.erik.bitly.Utils.removeHttp
 import net.thauvin.erik.bitly.Utils.toEndPoint
 import net.thauvin.erik.bitly.config.CreateConfig
 import net.thauvin.erik.bitly.config.UpdateConfig
-import net.thauvin.erik.bitly.deeplinks.CreateDeeplinks
-import net.thauvin.erik.bitly.deeplinks.InstallType
-import net.thauvin.erik.bitly.deeplinks.Os
-import net.thauvin.erik.bitly.deeplinks.UpdateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.InstallType
+import net.thauvin.erik.bitly.config.deeplinks.Os
+import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import org.json.JSONObject
 import org.junit.jupiter.api.BeforeAll
 import java.io.File

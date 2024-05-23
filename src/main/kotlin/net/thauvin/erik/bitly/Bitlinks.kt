@@ -37,8 +37,8 @@ import net.thauvin.erik.bitly.Utils.removeHttp
 import net.thauvin.erik.bitly.Utils.toEndPoint
 import net.thauvin.erik.bitly.config.CreateConfig
 import net.thauvin.erik.bitly.config.UpdateConfig
-import net.thauvin.erik.bitly.deeplinks.CreateDeeplinks
-import net.thauvin.erik.bitly.deeplinks.UpdateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URLEncoder
