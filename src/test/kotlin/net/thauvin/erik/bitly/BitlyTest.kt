@@ -40,6 +40,10 @@ import net.thauvin.erik.bitly.Utils.removeHttp
 import net.thauvin.erik.bitly.Utils.toEndPoint
 import net.thauvin.erik.bitly.config.CreateConfig
 import net.thauvin.erik.bitly.config.UpdateConfig
+import net.thauvin.erik.bitly.deeplinks.CreateDeeplinks
+import net.thauvin.erik.bitly.deeplinks.InstallType
+import net.thauvin.erik.bitly.deeplinks.Os
+import net.thauvin.erik.bitly.deeplinks.UpdateDeeplinks
 import org.json.JSONObject
 import org.junit.jupiter.api.BeforeAll
 import java.io.File
@@ -217,6 +221,24 @@ class BitlyTest {
     }
 
     @Test
+    fun `create bitlink with deeplinks`() {
+        val bl = bitly.bitlinks()
+        val dl = CreateDeeplinks().apply {
+            install_type(InstallType.NO_INSTALL)
+            app_uri_path("/store?id=123456")
+            install_url("https://play.google.com/store/apps/details?id=com.bitly.app&hl=en_US")
+        }
+
+        val config = CreateConfig.Builder(longUrl)
+            .domain("bit.ly")
+            .deeplinks(dl)
+            .build()
+
+        assertThat(bl.create(config)).isEqualTo(Constants.EMPTY)
+        assertThat(bl.lastCallResponse.isUpgradeRequired).isTrue()
+    }
+
+    @Test
     fun `shorten with invalid domain`() {
         val bl = bitly.bitlinks()
         bl.shorten("https://www.examples.com", domain = "foo.com")
@@ -266,6 +288,21 @@ class BitlyTest {
             .build()
 
         assertThat(bl.update(config), "update(tags)").contains("\"tags\":[]")
+    }
+
+    @Test
+    fun `update bitlink with deeplinks`() {
+        val bl = bitly.bitlinks()
+        val dl = UpdateDeeplinks().apply {
+            os(Os.ANDROID)
+            brand_guid("Ba1bc23dE4F")
+        }
+        val config = UpdateConfig.Builder(shortUrl)
+            .deeplinks(dl)
+            .build()
+
+        assertThat(bl.update(config)).isEqualTo(Constants.FALSE)
+        assertThat(bl.lastCallResponse.isUpgradeRequired).isTrue()
     }
 
     @Test

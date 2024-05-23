@@ -32,26 +32,29 @@
 package net.thauvin.erik.bitly.config
 
 import net.thauvin.erik.bitly.Constants
+import net.thauvin.erik.bitly.deeplinks.CreateDeeplinks
 
 /**
- * Provides a builder to create a Bitlink.
+ * Provides a configuration to create a [Bitlink][net.thauvin.erik.bitly.Bitlinks]
+ *
+ * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
  */
-class CreateConfig private constructor(builder: Builder) {
-    val domain: String
-    val group_guid: String
-    val title: String
-    val tags: Array<String>
-    val deepLinks: Array<Map<String, String>>
-    val long_url: String
-    val toJson: Boolean
-
-    init {
+@Suppress("LocalVariableName", "PropertyName")
+class CreateConfig @JvmOverloads constructor(
+    var long_url: String,
+    var domain: String = Constants.EMPTY,
+    var group_guid: String = Constants.EMPTY,
+    var title: String = Constants.EMPTY,
+    var tags: Array<String> = emptyArray(),
+    var deeplinks: CreateDeeplinks = CreateDeeplinks(),
+    var toJson: Boolean = false
+) {
+    constructor(builder: Builder) : this(builder.long_url) {
         domain = builder.domain
         group_guid = builder.group_guid
         title = builder.title
         tags = builder.tags
-        deepLinks = builder.deeplinks
-        long_url = builder.long_url
+        deeplinks = builder.deeplinks
         toJson = builder.toJson
     }
 
@@ -65,7 +68,7 @@ class CreateConfig private constructor(builder: Builder) {
         var group_guid: String = Constants.EMPTY
         var title: String = Constants.EMPTY
         var tags: Array<String> = emptyArray()
-        var deeplinks: Array<Map<String, String>> = emptyArray()
+        var deeplinks: CreateDeeplinks = CreateDeeplinks()
         var toJson: Boolean = false
 
         /**
@@ -82,7 +85,7 @@ class CreateConfig private constructor(builder: Builder) {
 
         fun tags(tags: Array<String>): Builder = apply { this.tags = tags }
 
-        fun deeplinks(deeplinks: Array<Map<String, String>>): Builder = apply { this.deeplinks = deeplinks }
+        fun deeplinks(deeplinks: CreateDeeplinks): Builder = apply { this.deeplinks = deeplinks }
 
         /**
          * The long URL.

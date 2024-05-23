@@ -37,6 +37,8 @@ import net.thauvin.erik.bitly.Utils.removeHttp
 import net.thauvin.erik.bitly.Utils.toEndPoint
 import net.thauvin.erik.bitly.config.CreateConfig
 import net.thauvin.erik.bitly.config.UpdateConfig
+import net.thauvin.erik.bitly.deeplinks.CreateDeeplinks
+import net.thauvin.erik.bitly.deeplinks.UpdateDeeplinks
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URLEncoder
@@ -48,6 +50,7 @@ import java.util.logging.Level
  *
  * See the [Bitly API](https://dev.bitly.com/api-reference) for more information.
  */
+@Suppress("LocalVariableName")
 open class Bitlinks(private val accessToken: String) {
     /**
      * The last API call response.
@@ -110,7 +113,7 @@ open class Bitlinks(private val accessToken: String) {
             config.group_guid,
             config.title,
             config.tags,
-            config.deepLinks,
+            config.deeplinks,
             config.toJson
         )
     }
@@ -127,13 +130,14 @@ open class Bitlinks(private val accessToken: String) {
      * @return The shortened URL or an empty string on error.
      */
     @Synchronized
+    @JvmOverloads
     fun create(
         long_url: String,
         domain: String = Constants.EMPTY,
         group_guid: String = Constants.EMPTY,
         title: String = Constants.EMPTY,
         tags: Array<String> = emptyArray(),
-        deeplinks: Array<Map<String, String>> = emptyArray(),
+        deeplinks: CreateDeeplinks = CreateDeeplinks(),
         toJson: Boolean = false
     ): String {
         var link = if (toJson) Constants.EMPTY_JSON else Constants.EMPTY
@@ -146,7 +150,7 @@ open class Bitlinks(private val accessToken: String) {
                     if (group_guid.isNotBlank()) put("group_guid", group_guid)
                     if (title.isNotBlank()) put("title", title)
                     if (tags.isNotEmpty()) put("tags", tags)
-                    if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
+                    if (deeplinks.isNotEmpty()) put("deeplinks", arrayOf(deeplinks.links()))
                 }
             )
             link = parseJsonResponse(lastCallResponse, "link", link, toJson)
@@ -258,7 +262,7 @@ open class Bitlinks(private val accessToken: String) {
             config.title,
             config.archived,
             config.tags,
-            config.deepLinks,
+            config.deeplinks,
             config.toJson
         )
     }
@@ -273,12 +277,13 @@ open class Bitlinks(private val accessToken: String) {
      * @return [Constants.TRUE] if the update was successful, [Constants.FALSE] otherwise.
      */
     @Synchronized
+    @JvmOverloads
     fun update(
         bitlink: String,
         title: String = Constants.EMPTY,
         archived: Boolean = false,
         tags: Array<String> = emptyArray(),
-        deeplinks: Array<Map<String, String>> = emptyArray(),
+        deeplinks: UpdateDeeplinks = UpdateDeeplinks(),
         toJson: Boolean = false
     ): String {
         var result = if (toJson) Constants.EMPTY_JSON else Constants.FALSE
@@ -288,7 +293,7 @@ open class Bitlinks(private val accessToken: String) {
                     if (title.isNotBlank()) put("title", title)
                     if (archived) put("archived", true)
                     if (tags.isNotEmpty()) put("tags", tags)
-                    if (deeplinks.isNotEmpty()) put("deeplinks", deeplinks)
+                    if (deeplinks.isNotEmpty()) put("deeplinks", arrayOf(deeplinks.links()))
                 },
                 Methods.PATCH
             )

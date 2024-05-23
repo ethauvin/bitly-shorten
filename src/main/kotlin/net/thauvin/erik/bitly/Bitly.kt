@@ -43,9 +43,10 @@ import java.util.*
  * @constructor Creates new instance.
  */
 open class Bitly() {
-    /** The API access token.
+    /**
+     * The API access token.
      *
-     * See [Generic Access Token](https://bitly.is/accesstoken) or
+     * See [Generic Access Token](https://app.bitly.com/settings/api/) or
      * [Authentication](https://dev.bitly.com/docs/getting-started/authentication).
      **/
     var accessToken: String = System.getenv(Constants.ENV_ACCESS_TOKEN)
@@ -105,7 +106,7 @@ open class Bitly() {
     /**
      * Executes an API call.
      *
-     * @param endPoint The REST endpoint path. (eg. `shorten`, `expand`, etc.)
+     * @param endPoint The REST endpoint path. (e.g. `shorten`, `expand`, etc.)
      * @param params The request parameters key/value map.
      * @param method The submission [Method][Methods].
      * @return A [CallResponse] object.

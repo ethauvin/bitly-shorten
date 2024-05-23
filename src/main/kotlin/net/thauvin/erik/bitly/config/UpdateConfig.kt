@@ -32,24 +32,26 @@
 package net.thauvin.erik.bitly.config
 
 import net.thauvin.erik.bitly.Constants
+import net.thauvin.erik.bitly.deeplinks.UpdateDeeplinks
 
 /**
- * Provides a builder to update a Bitlink.
+ * Provides a configuration to update a [Bitlink][net.thauvin.erik.bitly.Bitlinks].
+ *
+ * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
  */
-class UpdateConfig private constructor(builder: Builder) {
-    val bitlink: String
-    val title: String
-    val archived: Boolean
-    val tags: Array<String>
-    val deepLinks: Array<Map<String, String>>
-    val toJson: Boolean
-
-    init {
-        bitlink = builder.bitlink
+class UpdateConfig @JvmOverloads constructor(
+    var bitlink: String,
+    var title: String = Constants.EMPTY,
+    var archived: Boolean = false,
+    var tags: Array<String> = emptyArray(),
+    var deeplinks: UpdateDeeplinks = UpdateDeeplinks(),
+    var toJson: Boolean = false
+) {
+    constructor(builder: Builder) : this(builder.bitlink) {
         title = builder.title
         archived = builder.archived
         tags = builder.tags
-        deepLinks = builder.deeplinks
+        deeplinks = builder.deeplinks
         toJson = builder.toJson
     }
 
@@ -62,7 +64,7 @@ class UpdateConfig private constructor(builder: Builder) {
         var title: String = Constants.EMPTY
         var archived: Boolean = false
         var tags: Array<String> = emptyArray()
-        var deeplinks: Array<Map<String, String>> = emptyArray()
+        var deeplinks: UpdateDeeplinks = UpdateDeeplinks()
         var toJson: Boolean = false
 
         /**
@@ -73,7 +75,7 @@ class UpdateConfig private constructor(builder: Builder) {
         fun title(title: String): Builder = apply { this.title = title }
         fun archived(archived: Boolean): Builder = apply { this.archived = archived }
         fun tags(tags: Array<String>): Builder = apply { this.tags = tags }
-        fun deepLinks(deepLinks: Array<Map<String, String>>): Builder = apply { this.deeplinks = deepLinks }
+        fun deeplinks(deeplinks: UpdateDeeplinks): Builder = apply { this.deeplinks = deeplinks }
 
         /**
          * Returns the full JSON response if `true`.
