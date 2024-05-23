@@ -36,7 +36,6 @@ import org.junit.jupiter.api.extension.ExtensionContext
 /**
  * Disables tests on CI condition.
  *
- * @author [Erik C. Thauvin](https://erik.thauvin.net/)
  * @since 2.0
  */
 class DisableOnCiCondition : ExecutionCondition {
