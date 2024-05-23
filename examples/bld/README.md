@@ -11,7 +11,7 @@ To compile & run the Kotlin example:
 ```
 
 ## Java Example
-cd
+
 To compile & run the Java example:
 
 ```console

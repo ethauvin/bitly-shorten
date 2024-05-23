@@ -6,10 +6,6 @@ plugins {
     kotlin("jvm") version "2.0.0"
 }
 
-// ./gradlew run --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
-// ./gradlew runJava --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
-// ./gradlew runRetrieve
-
 repositories {
     mavenLocal()
     mavenCentral()
@@ -30,11 +26,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-tasks {
-    withType<KotlinCompile>().configureEach {
-        kotlinOptions.jvmTarget = java.targetCompatibility.toString()
-    }
+kotlin {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+}
 
+tasks {
     register("runJava", JavaExec::class) {
         group = "application"
         mainClass.set("com.example.BitlySample")
