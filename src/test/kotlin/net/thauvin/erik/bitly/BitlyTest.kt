@@ -41,9 +41,9 @@ import net.thauvin.erik.bitly.Utils.toEndPoint
 import net.thauvin.erik.bitly.config.CreateConfig
 import net.thauvin.erik.bitly.config.UpdateConfig
 import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import net.thauvin.erik.bitly.config.deeplinks.enums.InstallType
 import net.thauvin.erik.bitly.config.deeplinks.enums.Os
-import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import org.json.JSONObject
 import org.junit.jupiter.api.BeforeAll
 import java.io.File
