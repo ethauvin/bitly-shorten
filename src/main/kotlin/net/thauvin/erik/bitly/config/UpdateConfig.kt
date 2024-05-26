@@ -39,21 +39,13 @@ import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
  *
  * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
  */
-class UpdateConfig @JvmOverloads constructor(
-    var bitlink: String,
-    var title: String = Constants.EMPTY,
-    var archived: Boolean = false,
-    var tags: Array<String> = emptyArray(),
-    var deeplinks: UpdateDeeplinks = UpdateDeeplinks(),
-    var toJson: Boolean = false
-) {
-    constructor(builder: Builder) : this(builder.bitlink) {
-        title = builder.title
-        archived = builder.archived
-        tags = builder.tags
-        deeplinks = builder.deeplinks
-        toJson = builder.toJson
-    }
+class UpdateConfig private constructor(builder: Builder) {
+    val bitlink = builder.bitlink
+    val title = builder.title
+    val archived = builder.archived
+    val tags = builder.tags
+    val deeplinks = builder.deeplinks
+    val toJson = builder.toJson
 
     /**
      * Configures the update parameters of a Bitlink.

@@ -40,23 +40,14 @@ import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
  * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
  */
 @Suppress("LocalVariableName", "PropertyName")
-class CreateConfig @JvmOverloads constructor(
-    var long_url: String,
-    var domain: String = Constants.EMPTY,
-    var group_guid: String = Constants.EMPTY,
-    var title: String = Constants.EMPTY,
-    var tags: Array<String> = emptyArray(),
-    var deeplinks: CreateDeeplinks = CreateDeeplinks(),
-    var toJson: Boolean = false
-) {
-    constructor(builder: Builder) : this(builder.long_url) {
-        domain = builder.domain
-        group_guid = builder.group_guid
-        title = builder.title
-        tags = builder.tags
-        deeplinks = builder.deeplinks
-        toJson = builder.toJson
-    }
+class CreateConfig private constructor(builder: Builder) {
+    val long_url = builder.long_url
+    val domain = builder.domain
+    val group_guid = builder.group_guid
+    val title = builder.title
+    val tags = builder.tags
+    val deeplinks = builder.deeplinks
+    val toJson = builder.toJson
 
     /**
      * Configures the creation parameters of a Bitlink.

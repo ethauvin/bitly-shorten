@@ -34,9 +34,9 @@ package net.thauvin.erik.bitly.config
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
+import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import net.thauvin.erik.bitly.config.deeplinks.enums.InstallType
 import net.thauvin.erik.bitly.config.deeplinks.enums.Os
-import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import org.json.JSONObject
 import kotlin.test.Test
 
@@ -48,14 +48,13 @@ class ConfigTest {
             install_type(InstallType.AUTO_INSTALL)
         }
 
-        val config = CreateConfig(
-            "long_url",
-            "domain",
-            "group_guid",
-            "title",
-            arrayOf("tag", "tag2"),
-            deeplinks,
-        )
+        val config = CreateConfig.Builder("long_url")
+            .domain("domain")
+            .groupGuid("group_guid")
+            .title("title")
+            .tags(arrayOf("tag", "tag2"))
+            .deeplinks(deeplinks)
+            .build()
 
         val map = mapOf(
             "long_url" to config.long_url,
@@ -81,13 +80,13 @@ class ConfigTest {
             app_guid("app_guid")
         }
 
-        val config = UpdateConfig(
-            "blink",
-            "title",
-            true,
-            arrayOf("tag", "tag2"),
-            deeplinks
-        )
+        val config = UpdateConfig.Builder("blink")
+            .title("title")
+            .archived(true)
+            .tags(arrayOf("tag", "tag2"))
+            .deeplinks(deeplinks)
+            .build()
+
         val map = mapOf(
             "bitlink" to config.bitlink,
             "title" to config.title,
