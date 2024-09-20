@@ -51,6 +51,8 @@ class UpdateConfig private constructor(builder: Builder) {
      * Configures the update parameters of a Bitlink.
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#updateBitlink) for more information.
+     *
+     * @param bitlink A Bitlink made of the domain and hash.
      **/
     data class Builder(var bitlink: String) {
         var title: String = Constants.EMPTY

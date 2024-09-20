@@ -53,6 +53,8 @@ class CreateConfig private constructor(builder: Builder) {
      * Configures the creation parameters of a Bitlink.
      *
      * See the [Bit.ly API](https://dev.bitly.com/api-reference#createFullBitlink) for more information.
+     *
+     * @param long_url The long URL.
      **/
     data class Builder(var long_url: String) {
         var domain: String = Constants.EMPTY
