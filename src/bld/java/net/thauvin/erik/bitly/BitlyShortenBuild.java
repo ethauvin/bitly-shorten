@@ -35,11 +35,11 @@ import rife.bld.BuildCommand;
 import rife.bld.Project;
 import rife.bld.extension.CompileKotlinOperation;
 import rife.bld.extension.DetektOperation;
-import rife.bld.extension.JacocoReportOperation;
-import rife.bld.extension.dokka.DokkaOperation;
+import rife.bld.extension.DokkaOperation;
 import rife.bld.extension.dokka.LoggingLevel;
 import rife.bld.extension.dokka.OutputFormat;
 import rife.bld.extension.dokka.SourceSet;
+import rife.bld.extension.JacocoReportOperation;
 import rife.bld.operations.exceptions.ExitStatusException;
 import rife.bld.publish.PomBuilder;
 import rife.bld.publish.PublishDeveloper;
@@ -69,7 +69,7 @@ public class BitlyShortenBuild extends Project {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
         var okHttp = version(4, 12, 0);
-        final var kotlin = version(2, 0, 0);
+        final var kotlin = version(2, 0, 20);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
@@ -82,8 +82,8 @@ public class BitlyShortenBuild extends Project {
                 .include(dependency("org.json", "json", "20240303"));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
-                .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 10, 2)))
-                .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 10, 2)))
+                .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 11, 0)))
+                .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 11, 0)))
                 .include(dependency("com.willowtreeapps.assertk", "assertk-jvm", version(0, 28, 1)));
 
         publishOperation()
@@ -91,28 +91,26 @@ public class BitlyShortenBuild extends Project {
                         .withCredentials(property("sonatype.user"), property("sonatype.password"))
                         : repository(SONATYPE_RELEASES_LEGACY.location())
                         .withCredentials(property("sonatype.user"), property("sonatype.password")))
+                .repository(repository("github"))
                 .info()
                 .groupId(pkg)
                 .artifactId(name)
                 .description("A simple implementation of the Bitly link shortening API v4")
                 .url("https://github.com/ethauvin/" + name)
-                .developer(
-                        new PublishDeveloper()
-                                .id("ethauvin")
-                                .name("Erik C. Thauvin")
-                                .email("erik@thauvin.net")
-                                .url("https://erik.thauvin.net/")
+                .developer(new PublishDeveloper()
+                        .id("ethauvin")
+                        .name("Erik C. Thauvin")
+                        .email("erik@thauvin.net")
+                        .url("https://erik.thauvin.net/")
                 )
-                .license(
-                        new PublishLicense()
-                                .name("BSD 3-Clause")
-                                .url("https://opensource.org/licenses/BSD-3-Clause")
+                .license(new PublishLicense()
+                        .name("BSD 3-Clause")
+                        .url("https://opensource.org/licenses/BSD-3-Clause")
                 )
-                .scm(
-                        new PublishScm()
-                                .connection("scm:git:https://github.com/ethauvin/" + name + ".git")
-                                .developerConnection("scm:git:git@github.com:ethauvin/" + name + ".git")
-                                .url("https://github.com/ethauvin/" + name)
+                .scm(new PublishScm()
+                        .connection("scm:git:https://github.com/ethauvin/" + name + ".git")
+                        .developerConnection("scm:git:git@github.com:ethauvin/" + name + ".git")
+                        .url("https://github.com/ethauvin/" + name)
                 )
                 .signKey(property("sign.key"))
                 .signPassphrase(property("sign.passphrase"));
@@ -126,7 +124,7 @@ public class BitlyShortenBuild extends Project {
 
     @BuildCommand(summary = "Compiles the Kotlin project")
     @Override
-    public void compile() throws IOException {
+    public void compile() throws Exception {
         new CompileKotlinOperation()
                 .fromProject(this)
                 .execute();
@@ -160,17 +158,17 @@ public class BitlyShortenBuild extends Project {
                 .outputFormat(OutputFormat.HTML)
                 .sourceSet(
                         new SourceSet()
-                                .src(srcMainKotlin.getAbsolutePath())
-                                .srcLink(srcMainKotlin.getAbsolutePath(), "https://github.com/ethauvin/" + name +
+                                .src(srcMainKotlin)
+                                .srcLink(srcMainKotlin, "https://github.com/ethauvin/" + name +
                                         "/tree/master/src/main/kotlin/", "#L")
-                                .includes("config/dokka/packages.md")
+                                .includes(new File("config/dokka/packages.md"))
                                 .jdkVersion(javaRelease)
                 )
                 .execute();
     }
 
     @BuildCommand(summary = "Generates JaCoCo Reports")
-    public void jacoco() throws IOException {
+    public void jacoco() throws Exception {
         new JacocoReportOperation()
                 .fromProject(this)
                 .sourceFiles(srcMainKotlin)
