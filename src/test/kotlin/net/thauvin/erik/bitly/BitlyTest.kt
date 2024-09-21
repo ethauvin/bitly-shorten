@@ -180,12 +180,13 @@ class BitlyTest {
     fun `clicks summary`() {
         val bl = bitly.bitlinks()
         assertThat(bl.clicks(shortUrl)).isNotEqualTo(Constants.EMPTY)
-        bl.clicks(shortUrl, unit = Units.MONTH, units = 6)
+        val clicks = bl.clicks(shortUrl, unit = Units.MONTH, units = 1)
         assertThat(bl.lastCallResponse).all {
-            prop(CallResponse::isUpgradeRequired)
-            prop(CallResponse::statusCode).isEqualTo(402)
-            prop(CallResponse::description).startsWith("Metrics")
+            prop(CallResponse::isSuccessful).isTrue()
+            prop(CallResponse::statusCode).isEqualTo(200)
+            prop(CallResponse::description).isEmpty()
         }
+        assertThat(clicks.toInt()).isGreaterThanOrEqualTo(0)
     }
 
     @Test
