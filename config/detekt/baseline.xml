@@ -2,8 +2,6 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig$var group_guid: String = Constants.EMPTY</ID>
-    <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig$var long_url: String</ID>
     <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig.Builder$var long_url: String</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$bitlink_id: String</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$custom_bitlink: String</ID>
@@ -23,7 +21,6 @@
     <ID>FunctionParameterNaming:UpdateDeeplinks.kt$UpdateDeeplinks$install_url: String</ID>
     <ID>LongParameterList:Bitlinks.kt$Bitlinks$( bitlink: String, title: String = Constants.EMPTY, archived: Boolean = false, tags: Array&lt;String&gt; = emptyArray(), deeplinks: UpdateDeeplinks = UpdateDeeplinks(), toJson: Boolean = false )</ID>
     <ID>LongParameterList:Bitlinks.kt$Bitlinks$( long_url: String, domain: String = Constants.EMPTY, group_guid: String = Constants.EMPTY, title: String = Constants.EMPTY, tags: Array&lt;String&gt; = emptyArray(), deeplinks: CreateDeeplinks = CreateDeeplinks(), toJson: Boolean = false )</ID>
-    <ID>LongParameterList:CreateConfig.kt$CreateConfig$( var long_url: String, var domain: String = Constants.EMPTY, var group_guid: String = Constants.EMPTY, var title: String = Constants.EMPTY, var tags: Array&lt;String&gt; = emptyArray(), var deeplinks: CreateDeeplinks = CreateDeeplinks(), var toJson: Boolean = false )</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$200</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$201</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$299</ID>
@@ -42,6 +39,8 @@
     <ID>NestedBlockDepth:Utils.kt$Utils$@JvmStatic @JvmOverloads fun call( accessToken: String, endPoint: String, params: Map&lt;String, Any&gt; = emptyMap(), method: Methods = Methods.POST ): CallResponse</ID>
     <ID>NestedBlockDepth:Utils.kt$Utils$private fun parseResponse(response: Response, endPoint: String): CallResponse</ID>
     <ID>TooManyFunctions:UpdateDeeplinks.kt$UpdateDeeplinks</ID>
+    <ID>VariableNaming:CreateConfig.kt$CreateConfig$val group_guid = builder.group_guid</ID>
+    <ID>VariableNaming:CreateConfig.kt$CreateConfig$val long_url = builder.long_url</ID>
     <ID>VariableNaming:CreateConfig.kt$CreateConfig.Builder$var group_guid: String = Constants.EMPTY</ID>
     <ID>WildcardImport:BitlyTest.kt$import assertk.assertions.*</ID>
     <ID>WildcardImport:BitlyTest.kt$import kotlin.test.*</ID>
