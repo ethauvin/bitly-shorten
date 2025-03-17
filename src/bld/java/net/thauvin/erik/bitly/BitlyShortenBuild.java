@@ -36,10 +36,10 @@ import rife.bld.Project;
 import rife.bld.extension.CompileKotlinOperation;
 import rife.bld.extension.DetektOperation;
 import rife.bld.extension.DokkaOperation;
+import rife.bld.extension.JacocoReportOperation;
 import rife.bld.extension.dokka.LoggingLevel;
 import rife.bld.extension.dokka.OutputFormat;
 import rife.bld.extension.dokka.SourceSet;
-import rife.bld.extension.JacocoReportOperation;
 import rife.bld.operations.exceptions.ExitStatusException;
 import rife.bld.publish.PomBuilder;
 import rife.bld.publish.PublishDeveloper;
@@ -79,7 +79,7 @@ public class BitlyShortenBuild extends Project {
                 .include(dependency("com.squareup.okhttp3", "okhttp", okHttp))
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp))
                 // JSON
-                .include(dependency("org.json", "json", "20240303"));
+                .include(dependency("org.json", "json", "20250107"));
         scope(test)
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
                 .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 11, 0)))
