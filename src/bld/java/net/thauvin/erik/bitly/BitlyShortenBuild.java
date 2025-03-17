@@ -193,6 +193,12 @@ public class BitlyShortenBuild extends Project {
         pomRoot();
     }
 
+    @Override
+    public void publishLocal() throws Exception {
+        super.publishLocal();
+        pomRoot();
+    }
+
     @BuildCommand(value = "pom-root", summary = "Generates the POM file in the root directory")
     public void pomRoot() throws FileUtilsErrorException {
         PomBuilder.generateInto(publishOperation().fromProject(this).info(), dependencies(),
