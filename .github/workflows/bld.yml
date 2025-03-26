@@ -36,6 +36,7 @@ jobs:
       - name: Compile and run examples [bld examples]
         working-directory: examples/bld
         run: |
+          ./bld compile
           ./bld run --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
           ./bld run-retrieve
           ./bld run-java --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
