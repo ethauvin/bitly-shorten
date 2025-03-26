@@ -1,21 +1,21 @@
 name: bld-ci
 
-on: [push, pull_request, workflow_dispatch]
+on: [ push, pull_request, workflow_dispatch ]
 
 env:
   BITLY_ACCESS_TOKEN: ${{ secrets.BITLY_ACCESS_TOKEN }}
   COVERAGE_JDK: "21"
-  COVERAGE_KOTLIN: "2.0.0"
-  KOTLIN_HOME: /usr/share/kotlinc
+  COVERAGE_KOTLIN: "2.0.21"
 
 jobs:
   build-bld-project:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        java-version: [17, 21, 24]
-        kotlin-version: [1.9.25, 2.1.20]
+        java-version: [ 17, 21, 24 ]
+        kotlin-version: [ 1.9.25, 2.0.21, 2.1.20 ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout source repository
@@ -29,6 +29,25 @@ jobs:
           distribution: "zulu"
           java-version: ${{ matrix.java-version }}
 
+      - name: Download dependencies [bld example]
+        working-directory: examples/bld
+        run: ./bld download
+
+      - name: Compile and run examples [bld examples]
+        working-directory: examples/bld
+        run: |
+          ./bld run --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
+          ./bld run-retrieve
+          ./bld run-java --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
+
+      - name: Run examples [gradle examples]
+        working-directory: examples/gradle
+        if: matrix.java-version != '24'
+        run: |
+          ./gradlew run --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
+          ./gradlew runRetrieve
+          ./gradlew runJava --args='https://erik.thauvin.net/ https://bit.ly/2PsNMAA'
+
       - name: Download dependencies
         run: ./bld download
 
@@ -40,11 +59,13 @@ jobs:
 
       - name: Remove pom.xml
         if: success() && matrix.java-version == env.COVERAGE_JDK && matrix.kotlin-version == env.COVERAGE_KOTLIN
+          && matrix.os == 'unbuntu-latest'
         run: rm -rf pom.xml
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         if: success() && matrix.java-version == env.COVERAGE_JDK && matrix.kotlin-version == env.COVERAGE_KOTLIN
+          && matrix.os == 'unbuntu-latest'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
