@@ -174,8 +174,9 @@ object Utils {
         return false
     }
 
+
     /**
-     * Removes http(s) scheme from string.
+     * Removes the `http` or `https` schemes from a string.
      */
     @JvmStatic
     fun String.removeHttp(): String {
@@ -183,7 +184,7 @@ object Utils {
     }
 
     /**
-     * Builds the full API endpoint URL using the [Constants.API_BASE_URL].
+     * Converts a path to an API endpoint URL using the [Constants.API_BASE_URL], unless a URL is already specified.
      */
     @JvmStatic
     fun String.toEndPoint(): String {

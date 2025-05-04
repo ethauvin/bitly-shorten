@@ -31,49 +31,69 @@
 
 package net.thauvin.erik.bitly.config
 
+import assertk.all
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isTrue
+import assertk.assertions.prop
+import net.thauvin.erik.bitly.Constants
 import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
 import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import net.thauvin.erik.bitly.config.deeplinks.enums.InstallType
 import net.thauvin.erik.bitly.config.deeplinks.enums.Os
 import org.json.JSONObject
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 
 class ConfigTest {
-    @Test
-    fun `create config test`() {
-        val deeplinks = CreateDeeplinks().apply {
-            app_id("app_id")
-            install_type(InstallType.AUTO_INSTALL)
-        }
+    @Nested
+    @DisplayName("Build Configuration Tests")
+    inner class BuildConfigurationTests {
+        @Test
+        fun `Build create configuration`() {
+            val deeplinks = CreateDeeplinks().apply {
+                app_id("app_id")
+                install_type(InstallType.AUTO_INSTALL)
+            }
 
-        val config = CreateConfig.Builder("long_url")
-            .domain("domain")
-            .groupGuid("group_guid")
-            .title("title")
-            .tags(arrayOf("tag", "tag2"))
-            .deeplinks(deeplinks)
-            .build()
+            val config = CreateConfig.Builder("long_url")
+                .deeplinks(deeplinks)
+                .domain("domain")
+                .groupGuid("group_guid")
+                .tags(arrayOf("tag", "tag2"))
+                .title("title")
+                .build()
 
-        val map = mapOf(
-            "long_url" to config.long_url,
-            "domain" to config.domain,
-            "group_guid" to config.group_guid,
-            "title" to config.title,
-            "tags" to config.tags,
-            "deeplinks" to arrayOf(deeplinks.links())
-        )
+            assertThat(config).all {
+                prop(CreateConfig::deeplinks).isEqualTo(deeplinks)
+                prop(CreateConfig::domain).isEqualTo("domain")
+                prop(CreateConfig::group_guid).isEqualTo("group_guid")
+                prop(CreateConfig::long_url).isEqualTo("long_url")
+                prop(CreateConfig::tags).isEqualTo(arrayOf("tag", "tag2"))
+                prop(CreateConfig::title).isEqualTo("title")
+                prop(CreateConfig::toJson).isEqualTo(false)
+            }
 
-        assertThat(JSONObject(map).toString()).isEqualTo(
-            """
-                {"group_guid":"group_guid","long_url":"long_url","title":"title","deeplinks":[{"app_id":"app_id","install_type":"auto_install"}],"domain":"domain","tags":["tag","tag2"]}
+            val map = mapOf(
+                "deeplinks" to arrayOf(deeplinks.links()),
+                "domain" to config.domain,
+                "group_guid" to config.group_guid,
+                "long_url" to config.long_url,
+                "tags" to config.tags,
+                "title" to config.title
+            )
+
+            assertThat(JSONObject(map).toString()).isEqualTo(
+                """
+                {"group_guid":"group_guid","deeplinks":[{"app_id":"app_id","install_type":"auto_install"}],"long_url":"long_url","title":"title","domain":"domain","tags":["tag","tag2"]}
             """.trimIndent()
-        )
+            )
+        }
     }
 
     @Test
-    fun `update config test`() {
+    fun `Build update configuration`() {
         val deeplinks = UpdateDeeplinks().apply {
             os(Os.IOS)
             install_type(InstallType.PROMOTE_INSTALL)
@@ -81,25 +101,123 @@ class ConfigTest {
         }
 
         val config = UpdateConfig.Builder("blink")
-            .title("title")
             .archived(true)
-            .tags(arrayOf("tag", "tag2"))
             .deeplinks(deeplinks)
+            .tags(arrayOf("tag", "tag2"))
+            .title("title")
             .build()
 
+        assertThat(config).all {
+            prop(UpdateConfig::archived).isTrue()
+            prop(UpdateConfig::bitlink).isEqualTo("blink")
+            prop(UpdateConfig::deeplinks).isEqualTo(deeplinks)
+            prop(UpdateConfig::tags).isEqualTo(arrayOf("tag", "tag2"))
+            prop(UpdateConfig::title).isEqualTo("title")
+            prop(UpdateConfig::toJson).isEqualTo(false)
+        }
+
         val map = mapOf(
-            "bitlink" to config.bitlink,
-            "title" to config.title,
             "archived" to config.archived,
+            "bitlink" to config.bitlink,
+            "deeplinks" to arrayOf(deeplinks.links()),
             "tags" to config.tags,
-            "deeplinks" to arrayOf(deeplinks.links())
+            "title" to config.title
         )
 
         assertThat(JSONObject(map).toString()).isEqualTo(
             """
-                {"archived":true,"bitlink":"blink","title":"title","deeplinks":[{"os":"ios","app_guid":"app_guid","install_type":"promote_install"}],"tags":["tag","tag2"]}
+                {"archived":true,"bitlink":"blink","deeplinks":[{"os":"ios","app_guid":"app_guid","install_type":"promote_install"}],"title":"title","tags":["tag","tag2"]}
             """.trimIndent()
         )
+    }
 
+    @Nested
+    @DisplayName("Validate Configuration Tests")
+    inner class ValidateConfigurationTests {
+        @Test
+        fun `Validate create configuration`() {
+            val deeplinks = CreateDeeplinks().apply {
+                app_id("app_id")
+                install_type(InstallType.AUTO_INSTALL)
+            }
+
+            val config = CreateConfig.Builder("long_url")
+                .deeplinks(deeplinks)
+                .domain("domain")
+                .groupGuid("group_guid")
+                .tags(arrayOf("tag", "tag2"))
+                .title("title")
+                .toJson(true)
+
+            assertThat(config).all {
+                prop(CreateConfig.Builder::deeplinks).prop(CreateDeeplinks::links).isEqualTo(deeplinks.links())
+                prop(CreateConfig.Builder::domain).isEqualTo("domain")
+                prop(CreateConfig.Builder::group_guid).isEqualTo("group_guid")
+                prop(CreateConfig.Builder::long_url).isEqualTo("long_url")
+                prop(CreateConfig.Builder::tags).isEqualTo(arrayOf("tag", "tag2"))
+                prop(CreateConfig.Builder::title).isEqualTo("title")
+                prop(CreateConfig.Builder::toJson).isTrue()
+            }
+
+            config.longUrl("longer_url")
+            assertThat(config).prop(CreateConfig.Builder::long_url).isEqualTo("longer_url")
+        }
+
+        @Test
+        fun `Validate create default configuration`() {
+            val config = CreateConfig.Builder("long_url")
+
+            assertThat(config).all {
+                prop(CreateConfig.Builder::long_url).isEqualTo("long_url")
+                prop(CreateConfig.Builder::domain).isEqualTo(Constants.EMPTY)
+                prop(CreateConfig.Builder::group_guid).isEqualTo(Constants.EMPTY)
+                prop(CreateConfig.Builder::title).isEqualTo(Constants.EMPTY)
+                prop(CreateConfig.Builder::tags).isEqualTo(emptyArray())
+                prop(CreateConfig.Builder::deeplinks).prop(CreateDeeplinks::links).isEqualTo(CreateDeeplinks().links())
+                prop(CreateConfig.Builder::toJson).isEqualTo(false)
+            }
+        }
+
+        @Test
+        fun `Validate update configuration`() {
+            val deeplinks = UpdateDeeplinks().apply {
+                os(Os.IOS)
+                install_type(InstallType.PROMOTE_INSTALL)
+                app_guid("app_guid")
+            }
+
+            val config = UpdateConfig.Builder("bitlink")
+                .title("title")
+                .archived(true)
+                .tags(arrayOf("tag", "tag2"))
+                .deeplinks(deeplinks)
+                .toJson(true)
+
+            assertThat(config).all {
+                prop(UpdateConfig.Builder::bitlink).isEqualTo("bitlink")
+                prop(UpdateConfig.Builder::title).isEqualTo("title")
+                prop(UpdateConfig.Builder::archived).isTrue()
+                prop(UpdateConfig.Builder::tags).isEqualTo(arrayOf("tag", "tag2"))
+                prop(UpdateConfig.Builder::deeplinks).isEqualTo(deeplinks)
+                prop(UpdateConfig.Builder::toJson).isTrue()
+            }
+
+            config.bitlink("blink")
+            assertThat(config).prop(UpdateConfig.Builder::bitlink).isEqualTo("blink")
+        }
+
+        @Test
+        fun `Validate update default configuration`() {
+            val config = UpdateConfig.Builder("bitlink")
+
+            assertThat(config).all {
+                prop(UpdateConfig.Builder::bitlink).isEqualTo("bitlink")
+                prop(UpdateConfig.Builder::title).isEqualTo(Constants.EMPTY)
+                prop(UpdateConfig.Builder::archived).isEqualTo(false)
+                prop(UpdateConfig.Builder::tags).isEqualTo(emptyArray())
+                prop(UpdateConfig.Builder::deeplinks).prop(UpdateDeeplinks::links).isEqualTo(UpdateDeeplinks().links())
+                prop(UpdateConfig.Builder::toJson).isEqualTo(false)
+            }
+        }
     }
 }

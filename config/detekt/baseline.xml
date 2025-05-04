@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <SmellBaseline>
-  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <ManuallySuppressedIssues/>
   <CurrentIssues>
     <ID>ConstructorParameterNaming:CreateConfig.kt$CreateConfig.Builder$var long_url: String</ID>
     <ID>FunctionParameterNaming:Bitlinks.kt$Bitlinks$bitlink_id: String</ID>
@@ -42,7 +42,6 @@
     <ID>VariableNaming:CreateConfig.kt$CreateConfig$val group_guid = builder.group_guid</ID>
     <ID>VariableNaming:CreateConfig.kt$CreateConfig$val long_url = builder.long_url</ID>
     <ID>VariableNaming:CreateConfig.kt$CreateConfig.Builder$var group_guid: String = Constants.EMPTY</ID>
-    <ID>WildcardImport:BitlyTest.kt$import assertk.assertions.*</ID>
-    <ID>WildcardImport:BitlyTest.kt$import kotlin.test.*</ID>
+    <ID>WildcardImport:BitlinksTest.kt$import assertk.assertions.*</ID>
   </CurrentIssues>
 </SmellBaseline>

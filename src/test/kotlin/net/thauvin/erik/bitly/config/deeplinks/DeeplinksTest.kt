@@ -31,11 +31,11 @@
 
 package net.thauvin.erik.bitly.config.deeplinks
 
+import assertk.all
 import assertk.assertThat
-import assertk.assertions.contains
-import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
+import assertk.assertions.prop
 import net.thauvin.erik.bitly.config.deeplinks.enums.InstallType
 import net.thauvin.erik.bitly.config.deeplinks.enums.Os
 import org.json.JSONObject
@@ -45,88 +45,92 @@ import java.time.ZonedDateTime
 
 class DeeplinksTest {
     @Test
-    fun `create test`() {
+    fun `Create deeplink`() {
         val deeplinks = CreateDeeplinks().apply {
             app_uri_path("app_uri_path")
             install_type(InstallType.NO_INSTALL)
         }
 
-        assertThat(deeplinks.install_url()).isNull()
-        deeplinks.install_url("install_url")
-
-        assertThat(deeplinks.app_uri_path()).isEqualTo("app_uri_path")
-        assertThat(deeplinks.install_type()).isEqualTo(InstallType.NO_INSTALL)
+        assertThat(deeplinks).all {
+            prop(CreateDeeplinks::app_id).isNull()
+            prop(CreateDeeplinks::app_uri_path).isEqualTo("app_uri_path")
+            prop(CreateDeeplinks::install_type).isEqualTo(InstallType.NO_INSTALL)
+            prop(CreateDeeplinks::install_url).isNull()
+            prop(CreateDeeplinks::links).isEqualTo(deeplinks.links())
+        }
 
         assertThat(JSONObject(deeplinks.links()).toString()).isEqualTo(
             """
-                {"app_uri_path":"app_uri_path","install_type":"no_install","install_url":"install_url"}
+                {"app_uri_path":"app_uri_path","install_type":"no_install"}
             """.trimIndent()
         )
 
-        deeplinks.install_type(InstallType.PROMOTE_INSTALL)
         deeplinks.app_id("app_id")
+        deeplinks.install_type(InstallType.PROMOTE_INSTALL)
+        deeplinks.install_url("install_url")
 
-        assertThat(deeplinks.app_id()).isEqualTo("app_id")
-
-        assertThat(JSONObject(deeplinks.links()).toString()).apply {
-            doesNotContain(InstallType.NO_INSTALL.type)
-            contains(InstallType.PROMOTE_INSTALL.type)
-            contains("\"app_id\":\"app_id\"")
+        assertThat(deeplinks).all {
+            prop(CreateDeeplinks::app_id).isEqualTo("app_id")
+            prop(CreateDeeplinks::install_type).isEqualTo(InstallType.PROMOTE_INSTALL)
+            prop(CreateDeeplinks::install_url).isEqualTo("install_url")
         }
+
+        assertThat(JSONObject(deeplinks.links()).toString()).isEqualTo(
+            """
+                {"install_url":"install_url","app_id":"app_id","app_uri_path":"app_uri_path","install_type":"promote_install"}
+            """.trimIndent()
+        )
     }
 
     @Test
-    fun `update test`() {
+    fun `Update deeplink`() {
         val deeplinks = UpdateDeeplinks().apply {
             app_guid("app_guid")
-            os(Os.IOS)
-            install_type(InstallType.NO_INSTALL)
-            guid("guid")
-            install_url("install_url")
             app_uri_path("app_uri_path")
             created("created")
+            guid("guid")
+            install_type(InstallType.NO_INSTALL)
+            install_url("install_url")
             modified("modified")
+            os(Os.IOS)
         }
 
-        assertThat(deeplinks.brand_guid()).isNull()
+        assertThat(deeplinks).all {
+            prop(UpdateDeeplinks::app_guid).isEqualTo("app_guid")
+            prop(UpdateDeeplinks::app_uri_path).isEqualTo("app_uri_path")
+            prop(UpdateDeeplinks::bitlink).isNull()
+            prop(UpdateDeeplinks::brand_guid).isNull()
+            prop(UpdateDeeplinks::created).isEqualTo("created")
+            prop(UpdateDeeplinks::guid).isEqualTo("guid")
+            prop(UpdateDeeplinks::install_type).isEqualTo(InstallType.NO_INSTALL)
+            prop(UpdateDeeplinks::install_url).isEqualTo("install_url")
+            prop(UpdateDeeplinks::links).isEqualTo(deeplinks.links())
+            prop(UpdateDeeplinks::modified).isEqualTo("modified")
+            prop(UpdateDeeplinks::os).isEqualTo(Os.IOS)
+        }
+
+        val zdt = ZonedDateTime.of(1997, 8, 29, 2, 14, 0, 0, ZoneId.of("US/Eastern"))
+
+        deeplinks.bitlink("bitlink")
         deeplinks.brand_guid("brand_guid")
+        deeplinks.created(zdt)
+        deeplinks.install_type(InstallType.PROMOTE_INSTALL)
+        deeplinks.modified(zdt)
+        deeplinks.os(Os.ANDROID)
 
-        assertThat(deeplinks.app_uri_path()).isEqualTo("app_uri_path")
-        assertThat(deeplinks.install_url()).isEqualTo("install_url")
-
-        assertThat(deeplinks.os()).isEqualTo(Os.IOS)
-        assertThat(deeplinks.install_type()).isEqualTo(InstallType.NO_INSTALL)
-        assertThat(deeplinks.app_guid()).isEqualTo("app_guid")
-        assertThat(deeplinks.modified()).isEqualTo("modified")
-        assertThat(deeplinks.brand_guid()).isEqualTo("brand_guid")
-
+        assertThat(deeplinks).all {
+            prop(UpdateDeeplinks::bitlink).isEqualTo("bitlink")
+            prop(UpdateDeeplinks::brand_guid).isEqualTo("brand_guid")
+            prop(UpdateDeeplinks::created).isEqualTo("1997-08-29T02:14:00-0400")
+            prop(UpdateDeeplinks::install_type).isEqualTo(InstallType.PROMOTE_INSTALL)
+            prop(UpdateDeeplinks::modified).isEqualTo("1997-08-29T02:14:00-0400")
+            prop(UpdateDeeplinks::os).isEqualTo(Os.ANDROID)
+        }
 
         assertThat(JSONObject(deeplinks.links()).toString()).isEqualTo(
             """
-                {"app_guid":"app_guid","install_url":"install_url","os":"ios","app_uri_path":"app_uri_path","created":"created","brand_guid":"brand_guid","guid":"guid","modified":"modified","install_type":"no_install"}
+                {"app_guid":"app_guid","install_url":"install_url","bitlink":"bitlink","os":"android","app_uri_path":"app_uri_path","created":"1997-08-29T02:14:00-0400","brand_guid":"brand_guid","guid":"guid","modified":"1997-08-29T02:14:00-0400","install_type":"promote_install"}
             """.trimIndent()
         )
-
-        deeplinks.install_type(InstallType.PROMOTE_INSTALL)
-        deeplinks.os(Os.ANDROID)
-        deeplinks.bitlink("bitlink")
-
-        val zdt = ZonedDateTime.of(1997, 8, 29, 2, 14, 0, 0, ZoneId.of("US/Eastern"))
-        deeplinks.modified(zdt)
-        deeplinks.created(zdt)
-
-        assertThat(deeplinks.bitlink()).isEqualTo("bitlink")
-        assertThat(deeplinks.created()).isEqualTo("1997-08-29T02:14:00-0400")
-        assertThat(deeplinks.modified()).isEqualTo("1997-08-29T02:14:00-0400")
-
-        assertThat(JSONObject(deeplinks.links()).toString()).apply {
-            doesNotContain(InstallType.NO_INSTALL.type)
-            contains(InstallType.PROMOTE_INSTALL.type)
-
-            doesNotContain(Os.IOS.type)
-            contains("\"os\":\"android\"")
-
-            contains("\"bitlink\":\"bitlink\"")
-        }
     }
 }
