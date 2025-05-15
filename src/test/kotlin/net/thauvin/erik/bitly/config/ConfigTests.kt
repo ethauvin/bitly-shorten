@@ -1,5 +1,5 @@
 /*
- * ConfigTest.kt
+ * ConfigTests.kt
  *
  * Copyright 2020-2025 Erik C. Thauvin (erik@thauvin.net)
  *
@@ -46,7 +46,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 
-class ConfigTest {
+class ConfigTests {
     @Nested
     @DisplayName("Build Configuration Tests")
     inner class BuildConfigurationTests {

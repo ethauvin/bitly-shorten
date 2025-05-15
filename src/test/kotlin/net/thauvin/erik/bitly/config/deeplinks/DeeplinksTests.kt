@@ -1,5 +1,5 @@
 /*
- * DeeplinksTest.kt
+ * DeeplinksTests.kt
  *
  * Copyright 2020-2025 Erik C. Thauvin (erik@thauvin.net)
  *
@@ -43,7 +43,7 @@ import org.junit.Test
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class DeeplinksTest {
+class DeeplinksTests {
     @Test
     fun `Create deeplink`() {
         val deeplinks = CreateDeeplinks().apply {

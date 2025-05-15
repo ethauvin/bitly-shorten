@@ -1,5 +1,5 @@
 /*
- * BitlyTest.kt
+ * BitlyTests.kt
  *
  * Copyright 2020-2025 Erik C. Thauvin (erik@thauvin.net)
  *
@@ -39,16 +39,16 @@ import assertk.assertions.prop
 import net.thauvin.erik.bitly.Utils.removeHttp
 import net.thauvin.erik.bitly.Utils.toEndPoint
 import org.json.JSONObject
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtendWith
 import java.io.File
-import java.util.logging.Level
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class BitlyTest {
+@ExtendWith(BeforeAll::class)
+class BitlyTests {
     private val bitly = with(File("local.properties")) {
         if (exists()) {
             Bitly(toPath())
@@ -57,17 +57,6 @@ class BitlyTest {
         }
     }
     private val shortUrl = "https://bit.ly/380ojFd"
-
-    companion object {
-        @JvmStatic
-        @BeforeAll
-        fun before() {
-            with(Utils.logger) {
-                level = Level.FINE
-            }
-        }
-    }
-
 
     @Nested
     @DisplayName("API Call Tests")

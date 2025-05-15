@@ -33,14 +33,10 @@ package net.thauvin.erik.bitly;
 
 import rife.bld.BuildCommand;
 import rife.bld.Project;
-import rife.bld.extension.CompileKotlinOperation;
-import rife.bld.extension.DetektOperation;
-import rife.bld.extension.DokkaOperation;
-import rife.bld.extension.JacocoReportOperation;
+import rife.bld.extension.*;
 import rife.bld.extension.dokka.LoggingLevel;
 import rife.bld.extension.dokka.OutputFormat;
 import rife.bld.extension.dokka.SourceSet;
-import rife.bld.extension.kotlin.CompileOptions;
 import rife.bld.operations.exceptions.ExitStatusException;
 import rife.bld.publish.PomBuilder;
 import rife.bld.publish.PublishDeveloper;
@@ -50,6 +46,8 @@ import rife.tools.exceptions.FileUtilsErrorException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -68,12 +66,14 @@ public class BitlyShortenBuild extends Project {
         version = version(2, 0, 1, "SNAPSHOT");
 
         javaRelease = 11;
+
         downloadSources = true;
         autoDownloadPurge = true;
+
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
         var okHttp = version(4, 12, 0);
-        final var kotlin = version(2, 1, 20);
+        final var kotlin = version(2, 1, 21);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
@@ -140,10 +140,9 @@ public class BitlyShortenBuild extends Project {
     @BuildCommand(summary = "Compiles the Kotlin project")
     @Override
     public void compile() throws Exception {
-        new CompileKotlinOperation()
-                .fromProject(this)
-                .compileOptions(new CompileOptions().verbose(true))
-                .execute();
+        var op = new CompileKotlinOperation().fromProject(this);
+        op.compileOptions().languageVersion("1.9").verbose(true);
+        op.execute();
     }
 
     @BuildCommand(summary = "Checks source with Detekt")
@@ -219,5 +218,26 @@ public class BitlyShortenBuild extends Project {
     public void pomRoot() throws FileUtilsErrorException {
         PomBuilder.generateInto(publishOperation().fromProject(this).info(), dependencies(),
                 new File(workDirectory, "pom.xml"));
+    }
+
+    @Override
+    public void test() throws Exception {
+        var testResultsDir = "build/test-results/test/";
+
+        var op = testOperation().fromProject(this);
+        op.testToolOptions().reportsDir(new File(testResultsDir));
+        op.execute();
+
+        var xunitViewer = new File("/usr/bin/xunit-viewer");
+        if (xunitViewer.exists() && xunitViewer.canExecute()) {
+            var reportsDir = "build/reports/tests/test/";
+
+            Files.createDirectories(Path.of(reportsDir));
+
+            new ExecOperation()
+                    .fromProject(this)
+                    .command(xunitViewer.getPath(), "-r", testResultsDir, "-o", reportsDir + "index.html")
+                    .execute();
+        }
     }
 }

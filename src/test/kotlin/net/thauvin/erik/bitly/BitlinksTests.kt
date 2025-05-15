@@ -1,5 +1,5 @@
 /*
- * BitlinksTest.kt
+ * BitlinksTests.kt
  *
  * Copyright 2020-2025 Erik C. Thauvin (erik@thauvin.net)
  *
@@ -41,18 +41,18 @@ import net.thauvin.erik.bitly.config.deeplinks.CreateDeeplinks
 import net.thauvin.erik.bitly.config.deeplinks.UpdateDeeplinks
 import net.thauvin.erik.bitly.config.deeplinks.enums.InstallType
 import net.thauvin.erik.bitly.config.deeplinks.enums.Os
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+import org.junit.jupiter.api.extension.ExtendWith
 import java.io.File
-import java.util.logging.Level
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-class BitlinksTest {
+@ExtendWith(BeforeAll::class)
+class BitlinksTests {
     private val bitly = with(File("local.properties")) {
         if (exists()) {
             Bitly(toPath())
@@ -62,16 +62,6 @@ class BitlinksTest {
     }
     private val longUrl = "https://erik.thauvin.net/blog"
     private val shortUrl = "https://bit.ly/380ojFd"
-
-    companion object {
-        @JvmStatic
-        @BeforeAll
-        fun before() {
-            with(Utils.logger) {
-                level = Level.FINE
-            }
-        }
-    }
 
     @Nested
     @DisplayName("Bitlinks Tests")
@@ -319,7 +309,7 @@ class BitlinksTest {
         @Test
         @EnabledIfEnvironmentVariable(named = "CI", matches = "true")
         fun `Token not specified on CI`() {
-            val test = Bitly(Constants.EMPTY) // to void picking up the environment variable
+            val test = Bitly(Constants.EMPTY) // to avoid picking up the environment variable
 
             assertFailsWith(IllegalArgumentException::class) {
                 test.bitlinks().shorten(longUrl)
