@@ -25,7 +25,7 @@ public class ExampleBuild extends BaseProject {
 
         scope(compile)
                 .include(dependency("net.thauvin.erik:bitly-shorten:2.0.1-SNAPSHOT"))
-                .include(dependency("org.json:json:20250107"));
+                .include(dependency("org.json:json:20250517"));
     }
 
     public static void main(String[] args) {
