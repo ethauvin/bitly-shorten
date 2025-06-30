@@ -51,7 +51,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-@ExtendWith(BeforeAll::class)
+@ExtendWith(BeforeAllTests::class)
 class BitlinksTests {
     private val bitly = with(File("local.properties")) {
         if (exists()) {

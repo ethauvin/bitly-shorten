@@ -1,5 +1,5 @@
 /*
- * BeforeAll.kt
+ * BeforeAllTests.kt
  *
  * Copyright 2020-2025 Erik C. Thauvin (erik@thauvin.net)
  *
@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 
-class BeforeAll : BeforeAllCallback {
+class BeforeAllTests : BeforeAllCallback {
     private val isFirstTime: AtomicBoolean = AtomicBoolean(true)
 
     override fun beforeAll(context: ExtensionContext?) {
