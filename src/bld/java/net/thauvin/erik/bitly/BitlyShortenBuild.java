@@ -73,7 +73,7 @@ public class BitlyShortenBuild extends Project {
 
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
-        var okHttp = version(4, 12, 0);
+        var okHttp = version(5, 0, 0);
         final var kotlin = version(2, 2, 0);
         scope(compile)
                 // Kotlin
@@ -81,7 +81,7 @@ public class BitlyShortenBuild extends Project {
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-common", kotlin))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlin))
                 // OkHttp
-                .include(dependency("com.squareup.okhttp3", "okhttp", okHttp))
+                .include(dependency("com.squareup.okhttp3", "okhttp-jvm", okHttp))
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp))
                 // JSON
                 .include(dependency("org.json", "json", "20250517"));
