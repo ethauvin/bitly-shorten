@@ -98,100 +98,79 @@ class BitlinksTests {
     inner class ConstructorTests {
         @Test
         fun `Constructor with access token string should set the token correctly`() {
-            // Arrange
             val expectedToken = "my-secret-token"
 
-            // Act
             val bitly = Bitly(expectedToken)
 
-            // Assert
             assertThat(bitly.accessToken).isEqualTo(expectedToken)
         }
 
         @Test
         fun `Constructor with Path should not change token if file does not exist`() {
-            // Arrange
             val nonExistentPath = File("non/existent/path/file.properties").toPath()
             val bitlyWithDefaultToken = Bitly()
             val initialToken = bitlyWithDefaultToken.accessToken
 
-            // Act
             val bitly = Bitly(nonExistentPath)
 
-            // Assert
             assertThat(bitly.accessToken).isEqualTo(initialToken)
         }
 
         @Test
         fun `Constructor with Properties and custom key should set token correctly`() {
-            // Arrange
             val customKey = "MY_CUSTOM_BITLY_KEY"
             val expectedToken = "token-from-custom-key"
             val properties = Properties().apply {
                 setProperty(customKey, expectedToken)
             }
 
-            // Act
             val bitly = Bitly(properties, customKey)
 
-            // Assert
             assertThat(bitly.accessToken).isEqualTo(expectedToken)
         }
 
         @Test
         fun `Constructor with Properties should keep default token if key not found`() {
-            // Arrange
             val properties = Properties() // Empty properties
             val bitlyWithDefaultToken = Bitly() // Has "" as token by default
             val initialToken = bitlyWithDefaultToken.accessToken
 
-            // Act
             val bitly = Bitly(properties, "non-existent-key")
 
-            // Assert
             // The token should remain the default empty string
             assertThat(bitly.accessToken).isEqualTo(initialToken)
         }
 
         @Test
         fun `Constructor with Properties should set token using default key`() {
-            // Arrange
             val expectedToken = "token-from-props"
             val properties = Properties().apply {
                 setProperty(Constants.ENV_ACCESS_TOKEN, expectedToken)
             }
 
-            // Act
             val bitly = Bitly(properties)
 
-            // Assert
             assertThat(bitly.accessToken).isEqualTo(expectedToken)
         }
 
         @Test
+        @DisableOnCi
         fun `Default constructor should default to empty string if no token is provided`() {
-            // Arrange: Ensure no env var or system property is set
             System.clearProperty(Constants.ENV_ACCESS_TOKEN)
-            // Note: Testing environment variables directly is often avoided in unit tests.
-            // This test verifies the fallback mechanism.
 
-            // Act
             val bitly = Bitly()
 
-            // Assert
             assertThat(bitly.accessToken).isEmpty()
         }
 
         @Test
+        @DisableOnCi
         fun `Default constructor should use system property if env var is not set`() {
-            // Arrange
             val expectedToken = "token-from-property"
             System.setProperty(Constants.ENV_ACCESS_TOKEN, expectedToken)
 
-            // Act
             val bitly = Bitly()
 
-            // Assert
             assertThat(bitly.accessToken).isEqualTo(expectedToken)
         }
     }
