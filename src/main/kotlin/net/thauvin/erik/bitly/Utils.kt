@@ -124,7 +124,7 @@ object Utils {
         var message = response.message
         var description = ""
         var json = Constants.EMPTY_JSON
-        response.body?.string()?.let { body ->
+        response.body.string().let { body ->
             json = body
             if (!response.isSuccessful && body.isNotEmpty()) {
                 try {

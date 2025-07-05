@@ -60,7 +60,7 @@ class CreateConfig private constructor(builder: Builder) {
         var domain: String = Constants.EMPTY
         var group_guid: String = Constants.EMPTY
         var title: String = Constants.EMPTY
-        var tags: Array<String> = emptyArray()
+        var tags: List<String> = emptyList()
         var deeplinks: CreateDeeplinks = CreateDeeplinks()
         var toJson: Boolean = false
 
@@ -76,7 +76,7 @@ class CreateConfig private constructor(builder: Builder) {
 
         fun title(title: String): Builder = apply { this.title = title }
 
-        fun tags(tags: Array<String>): Builder = apply { this.tags = tags }
+        fun tags(tags: List<String>): Builder = apply { this.tags = tags }
 
         fun deeplinks(deeplinks: CreateDeeplinks): Builder = apply { this.deeplinks = deeplinks }
 

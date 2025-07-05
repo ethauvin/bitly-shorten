@@ -19,8 +19,8 @@
     <ID>FunctionParameterNaming:UpdateDeeplinks.kt$UpdateDeeplinks$brand_guid: String</ID>
     <ID>FunctionParameterNaming:UpdateDeeplinks.kt$UpdateDeeplinks$install_type: InstallType</ID>
     <ID>FunctionParameterNaming:UpdateDeeplinks.kt$UpdateDeeplinks$install_url: String</ID>
-    <ID>LongParameterList:Bitlinks.kt$Bitlinks$( bitlink: String, title: String = Constants.EMPTY, archived: Boolean = false, tags: Array&lt;String&gt; = emptyArray(), deeplinks: UpdateDeeplinks = UpdateDeeplinks(), toJson: Boolean = false )</ID>
-    <ID>LongParameterList:Bitlinks.kt$Bitlinks$( long_url: String, domain: String = Constants.EMPTY, group_guid: String = Constants.EMPTY, title: String = Constants.EMPTY, tags: Array&lt;String&gt; = emptyArray(), deeplinks: CreateDeeplinks = CreateDeeplinks(), toJson: Boolean = false )</ID>
+    <ID>LongParameterList:Bitlinks.kt$Bitlinks$( bitlink: String, title: String = Constants.EMPTY, archived: Boolean = false, tags: List&lt;String&gt; = emptyList(), deeplinks: UpdateDeeplinks = UpdateDeeplinks(), toJson: Boolean = false )</ID>
+    <ID>LongParameterList:Bitlinks.kt$Bitlinks$( long_url: String, domain: String = Constants.EMPTY, group_guid: String = Constants.EMPTY, title: String = Constants.EMPTY, tags: List&lt;String&gt; = emptyList(), deeplinks: CreateDeeplinks = CreateDeeplinks(), toJson: Boolean = false )</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$200</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$201</ID>
     <ID>MagicNumber:CallResponse.kt$CallResponse$299</ID>

@@ -136,7 +136,7 @@ open class Bitlinks(private val accessToken: String) {
         domain: String = Constants.EMPTY,
         group_guid: String = Constants.EMPTY,
         title: String = Constants.EMPTY,
-        tags: Array<String> = emptyArray(),
+        tags: List<String> = emptyList(),
         deeplinks: CreateDeeplinks = CreateDeeplinks(),
         toJson: Boolean = false
     ): String {
@@ -282,7 +282,7 @@ open class Bitlinks(private val accessToken: String) {
         bitlink: String,
         title: String = Constants.EMPTY,
         archived: Boolean = false,
-        tags: Array<String> = emptyArray(),
+        tags: List<String> = emptyList(),
         deeplinks: UpdateDeeplinks = UpdateDeeplinks(),
         toJson: Boolean = false
     ): String {

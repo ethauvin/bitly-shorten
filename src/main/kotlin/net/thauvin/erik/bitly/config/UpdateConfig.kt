@@ -57,7 +57,7 @@ class UpdateConfig private constructor(builder: Builder) {
     data class Builder(var bitlink: String) {
         var title: String = Constants.EMPTY
         var archived: Boolean = false
-        var tags: Array<String> = emptyArray()
+        var tags: List<String> = emptyList()
         var deeplinks: UpdateDeeplinks = UpdateDeeplinks()
         var toJson: Boolean = false
 
@@ -68,7 +68,7 @@ class UpdateConfig private constructor(builder: Builder) {
 
         fun title(title: String): Builder = apply { this.title = title }
         fun archived(archived: Boolean): Builder = apply { this.archived = archived }
-        fun tags(tags: Array<String>): Builder = apply { this.tags = tags }
+        fun tags(tags: List<String>): Builder = apply { this.tags = tags }
         fun deeplinks(deeplinks: UpdateDeeplinks): Builder = apply { this.deeplinks = deeplinks }
 
         /**

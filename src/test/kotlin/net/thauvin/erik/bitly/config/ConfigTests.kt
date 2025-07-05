@@ -61,7 +61,7 @@ class ConfigTests {
                 .deeplinks(deeplinks)
                 .domain("domain")
                 .groupGuid("group_guid")
-                .tags(arrayOf("tag", "tag2"))
+                .tags(listOf("tag", "tag2"))
                 .title("title")
                 .build()
 
@@ -70,13 +70,13 @@ class ConfigTests {
                 prop(CreateConfig::domain).isEqualTo("domain")
                 prop(CreateConfig::group_guid).isEqualTo("group_guid")
                 prop(CreateConfig::long_url).isEqualTo("long_url")
-                prop(CreateConfig::tags).isEqualTo(arrayOf("tag", "tag2"))
+                prop(CreateConfig::tags).isEqualTo(listOf("tag", "tag2"))
                 prop(CreateConfig::title).isEqualTo("title")
                 prop(CreateConfig::toJson).isEqualTo(false)
             }
 
             val map = mapOf(
-                "deeplinks" to arrayOf(deeplinks.links()),
+                "deeplinks" to listOf(deeplinks.links()),
                 "domain" to config.domain,
                 "group_guid" to config.group_guid,
                 "long_url" to config.long_url,
@@ -103,7 +103,7 @@ class ConfigTests {
         val config = UpdateConfig.Builder("blink")
             .archived(true)
             .deeplinks(deeplinks)
-            .tags(arrayOf("tag", "tag2"))
+            .tags(listOf("tag", "tag2"))
             .title("title")
             .build()
 
@@ -111,7 +111,7 @@ class ConfigTests {
             prop(UpdateConfig::archived).isTrue()
             prop(UpdateConfig::bitlink).isEqualTo("blink")
             prop(UpdateConfig::deeplinks).isEqualTo(deeplinks)
-            prop(UpdateConfig::tags).isEqualTo(arrayOf("tag", "tag2"))
+            prop(UpdateConfig::tags).isEqualTo(listOf("tag", "tag2"))
             prop(UpdateConfig::title).isEqualTo("title")
             prop(UpdateConfig::toJson).isEqualTo(false)
         }
@@ -119,7 +119,7 @@ class ConfigTests {
         val map = mapOf(
             "archived" to config.archived,
             "bitlink" to config.bitlink,
-            "deeplinks" to arrayOf(deeplinks.links()),
+            "deeplinks" to listOf(deeplinks.links()),
             "tags" to config.tags,
             "title" to config.title
         )
@@ -145,7 +145,7 @@ class ConfigTests {
                 .deeplinks(deeplinks)
                 .domain("domain")
                 .groupGuid("group_guid")
-                .tags(arrayOf("tag", "tag2"))
+                .tags(listOf("tag", "tag2"))
                 .title("title")
                 .toJson(true)
 
@@ -154,7 +154,7 @@ class ConfigTests {
                 prop(CreateConfig.Builder::domain).isEqualTo("domain")
                 prop(CreateConfig.Builder::group_guid).isEqualTo("group_guid")
                 prop(CreateConfig.Builder::long_url).isEqualTo("long_url")
-                prop(CreateConfig.Builder::tags).isEqualTo(arrayOf("tag", "tag2"))
+                prop(CreateConfig.Builder::tags).isEqualTo(listOf("tag", "tag2"))
                 prop(CreateConfig.Builder::title).isEqualTo("title")
                 prop(CreateConfig.Builder::toJson).isTrue()
             }
@@ -172,7 +172,7 @@ class ConfigTests {
                 prop(CreateConfig.Builder::domain).isEqualTo(Constants.EMPTY)
                 prop(CreateConfig.Builder::group_guid).isEqualTo(Constants.EMPTY)
                 prop(CreateConfig.Builder::title).isEqualTo(Constants.EMPTY)
-                prop(CreateConfig.Builder::tags).isEqualTo(emptyArray())
+                prop(CreateConfig.Builder::tags).isEqualTo(emptyList())
                 prop(CreateConfig.Builder::deeplinks).prop(CreateDeeplinks::links).isEqualTo(CreateDeeplinks().links())
                 prop(CreateConfig.Builder::toJson).isEqualTo(false)
             }
@@ -189,7 +189,7 @@ class ConfigTests {
             val config = UpdateConfig.Builder("bitlink")
                 .title("title")
                 .archived(true)
-                .tags(arrayOf("tag", "tag2"))
+                .tags(listOf("tag", "tag2"))
                 .deeplinks(deeplinks)
                 .toJson(true)
 
@@ -197,7 +197,7 @@ class ConfigTests {
                 prop(UpdateConfig.Builder::bitlink).isEqualTo("bitlink")
                 prop(UpdateConfig.Builder::title).isEqualTo("title")
                 prop(UpdateConfig.Builder::archived).isTrue()
-                prop(UpdateConfig.Builder::tags).isEqualTo(arrayOf("tag", "tag2"))
+                prop(UpdateConfig.Builder::tags).isEqualTo(listOf("tag", "tag2"))
                 prop(UpdateConfig.Builder::deeplinks).isEqualTo(deeplinks)
                 prop(UpdateConfig.Builder::toJson).isTrue()
             }
@@ -214,7 +214,7 @@ class ConfigTests {
                 prop(UpdateConfig.Builder::bitlink).isEqualTo("bitlink")
                 prop(UpdateConfig.Builder::title).isEqualTo(Constants.EMPTY)
                 prop(UpdateConfig.Builder::archived).isEqualTo(false)
-                prop(UpdateConfig.Builder::tags).isEqualTo(emptyArray())
+                prop(UpdateConfig.Builder::tags).isEqualTo(emptyList())
                 prop(UpdateConfig.Builder::deeplinks).prop(UpdateDeeplinks::links).isEqualTo(UpdateDeeplinks().links())
                 prop(UpdateConfig.Builder::toJson).isEqualTo(false)
             }

@@ -47,9 +47,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.junit.jupiter.api.extension.ExtendWith
 import java.io.File
+import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
+
 
 @ExtendWith(BeforeAllTests::class)
 class BitlinksTests {
@@ -92,8 +94,112 @@ class BitlinksTests {
     }
 
     @Nested
+    @DisplayName("Constructor Tests")
+    inner class ConstructorTests {
+        @Test
+        fun `Constructor with access token string should set the token correctly`() {
+            // Arrange
+            val expectedToken = "my-secret-token"
+
+            // Act
+            val bitly = Bitly(expectedToken)
+
+            // Assert
+            assertThat(bitly.accessToken).isEqualTo(expectedToken)
+        }
+
+        @Test
+        fun `Constructor with Path should not change token if file does not exist`() {
+            // Arrange
+            val nonExistentPath = File("non/existent/path/file.properties").toPath()
+            val bitlyWithDefaultToken = Bitly()
+            val initialToken = bitlyWithDefaultToken.accessToken
+
+            // Act
+            val bitly = Bitly(nonExistentPath)
+
+            // Assert
+            assertThat(bitly.accessToken).isEqualTo(initialToken)
+        }
+
+        @Test
+        fun `Constructor with Properties and custom key should set token correctly`() {
+            // Arrange
+            val customKey = "MY_CUSTOM_BITLY_KEY"
+            val expectedToken = "token-from-custom-key"
+            val properties = Properties().apply {
+                setProperty(customKey, expectedToken)
+            }
+
+            // Act
+            val bitly = Bitly(properties, customKey)
+
+            // Assert
+            assertThat(bitly.accessToken).isEqualTo(expectedToken)
+        }
+
+        @Test
+        fun `Constructor with Properties should keep default token if key not found`() {
+            // Arrange
+            val properties = Properties() // Empty properties
+            val bitlyWithDefaultToken = Bitly() // Has "" as token by default
+            val initialToken = bitlyWithDefaultToken.accessToken
+
+            // Act
+            val bitly = Bitly(properties, "non-existent-key")
+
+            // Assert
+            // The token should remain the default empty string
+            assertThat(bitly.accessToken).isEqualTo(initialToken)
+        }
+
+        @Test
+        fun `Constructor with Properties should set token using default key`() {
+            // Arrange
+            val expectedToken = "token-from-props"
+            val properties = Properties().apply {
+                setProperty(Constants.ENV_ACCESS_TOKEN, expectedToken)
+            }
+
+            // Act
+            val bitly = Bitly(properties)
+
+            // Assert
+            assertThat(bitly.accessToken).isEqualTo(expectedToken)
+        }
+
+        @Test
+        fun `Default constructor should default to empty string if no token is provided`() {
+            // Arrange: Ensure no env var or system property is set
+            System.clearProperty(Constants.ENV_ACCESS_TOKEN)
+            // Note: Testing environment variables directly is often avoided in unit tests.
+            // This test verifies the fallback mechanism.
+
+            // Act
+            val bitly = Bitly()
+
+            // Assert
+            assertThat(bitly.accessToken).isEmpty()
+        }
+
+        @Test
+        fun `Default constructor should use system property if env var is not set`() {
+            // Arrange
+            val expectedToken = "token-from-property"
+            System.setProperty(Constants.ENV_ACCESS_TOKEN, expectedToken)
+
+            // Act
+            val bitly = Bitly()
+
+            // Assert
+            assertThat(bitly.accessToken).isEqualTo(expectedToken)
+        }
+    }
+
+    @Nested
     @DisplayName("Create Bitlink Tests")
     inner class CreateBitlinkTests {
+
         @Test
         fun `Create bitlink`() {
             assertThat(bitly.bitlinks().create(long_url = longUrl), "create(longUrl)")
@@ -103,7 +209,7 @@ class BitlinksTests {
                 bitly.bitlinks().create(
                     domain = "bit.ly",
                     title = "Erik's Blog",
-                    tags = arrayOf("erik", "thauvin", "blog", "weblog"),
+                    tags = listOf("erik", "thauvin", "blog", "weblog"),
                     long_url = longUrl
                 )
             )
@@ -118,7 +224,7 @@ class BitlinksTests {
             config = CreateConfig.Builder(longUrl)
                 .domain("bit.ly")
                 .title("Erik's Blog")
-                .tags(arrayOf("erik", "thauvin", "blog", "weblog"))
+                .tags(listOf("erik", "thauvin", "blog", "weblog"))
                 .build()
             assertEquals(
                 shortUrl,
@@ -148,6 +254,7 @@ class BitlinksTests {
     @Nested
     @DisplayName("Expand Test")
     inner class ExpandTests {
+
         @Test
         fun `Expand as json`() {
             assertTrue(
@@ -165,6 +272,7 @@ class BitlinksTests {
     @Nested
     @DisplayName("Shorten Tests")
     inner class ShortenTests {
+
         @Test
         fun `Shorten as json`() {
             assertTrue(
@@ -218,17 +326,18 @@ class BitlinksTests {
     @Nested
     @DisplayName("Update Bitlink Tests")
     inner class UpdateBitlinkTests {
+
         @Test
         fun `Update bitlink`() {
             val bl = bitly.bitlinks()
             assertEquals(
                 Constants.TRUE,
                 bl.update(
-                    shortUrl, title = "Erik's Weblog", tags = arrayOf("blog", "weblog"), archived = true
+                    shortUrl, title = "Erik's Weblog", tags = listOf("blog", "weblog"), archived = true
                 )
             )
 
-            assertThat(bl.update(shortUrl, tags = emptyArray(), toJson = true), "update(tags)")
+            assertThat(bl.update(shortUrl, tags = emptyList(), toJson = true), "update(tags)")
                 .contains("\"tags\":[]")
         }
 
@@ -237,7 +346,7 @@ class BitlinksTests {
             val bl = bitly.bitlinks()
             var config = UpdateConfig.Builder(shortUrl)
                 .archived(true)
-                .tags(arrayOf("blog", "weblog"))
+                .tags(listOf("blog", "weblog"))
                 .title("Erik's Weblog")
                 .build()
 
@@ -279,6 +388,7 @@ class BitlinksTests {
     @Nested
     @DisplayName("Validation Tests")
     inner class ValidationTests {
+
         @Test
         fun `Empty URL should not shorten`() {
             assertEquals(Constants.EMPTY, bitly.bitlinks().shorten(Constants.EMPTY))
@@ -287,13 +397,6 @@ class BitlinksTests {
         @Test
         fun `Short URL should not shorten`() {
             assertEquals(shortUrl, bitly.bitlinks().shorten(shortUrl))
-        }
-
-        @Test
-        fun `Token not specified with API call`() {
-            assertFailsWith(IllegalArgumentException::class, "Utils.call()") {
-                Utils.call("", "foo")
-            }
         }
 
         @Test
@@ -313,6 +416,13 @@ class BitlinksTests {
 
             assertFailsWith(IllegalArgumentException::class) {
                 test.bitlinks().shorten(longUrl)
+            }
+        }
+
+        @Test
+        fun `Token not specified with API call`() {
+            assertFailsWith(IllegalArgumentException::class, "Utils.call()") {
+                Utils.call("", "foo")
             }
         }
 

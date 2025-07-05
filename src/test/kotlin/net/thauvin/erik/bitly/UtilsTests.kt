@@ -52,6 +52,11 @@ class UtilsTests {
         }
 
         @Test
+        fun `Convert endpoint with blank string`() {
+            assertThat(" ".toEndPoint()).isEqualTo(" ")
+        }
+
+        @Test
         fun `Convert endpoint with full URL`() {
             assertThat("https://example.com/path".toEndPoint()).isEqualTo("https://example.com/path")
         }
@@ -102,13 +107,17 @@ class UtilsTests {
         }
     }
 
-    @Test
-    fun `Validate invalid URL`() {
-        assertFalse("this is a test".isValidUrl(), "invalid url")
-    }
+    @Nested
+    @DisplayName("URL Validation Tests")
+    inner class URLValidationTests {
+        @Test
+        fun `Validate invalid URL`() {
+            assertFalse("this is a test".isValidUrl(), "invalid url")
+        }
 
-    @Test
-    fun `Validate URL`() {
-        assertTrue("https://www.example.com".isValidUrl(), "valid url")
+        @Test
+        fun `Validate URL`() {
+            assertTrue("https://www.example.com".isValidUrl(), "valid url")
+        }
     }
 }
