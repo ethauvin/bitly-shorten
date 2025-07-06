@@ -123,32 +123,29 @@ object Utils {
     private fun parseResponse(response: Response, endPoint: String): CallResponse {
         var message = response.message
         var description = ""
-        var json = Constants.EMPTY_JSON
-        response.body.string().let { body ->
-            json = body
-            if (!response.isSuccessful && body.isNotEmpty()) {
-                try {
-                    with(JSONObject(body)) {
-                        if (has("message")) {
-                            message = getString("message")
-                        }
-                        if (has("description")) {
-                            description = getString("description")
-                        }
+        val body = response.body.string().ifBlank { Constants.EMPTY_JSON }
+        if (!response.isSuccessful && body.isNotBlank()) {
+            try {
+                with(JSONObject(body)) {
+                    if (has("message")) {
+                        message = getString("message")
                     }
-                } catch (jse: JSONException) {
-                    if (logger.isSevereLoggable()) {
-                        logger.log(
-                            Level.SEVERE,
-                            "An error occurred parsing the error response from Bitly. [$endPoint]",
-                            jse
-                        )
+                    if (has("description")) {
+                        description = getString("description")
                     }
+                }
+            } catch (jse: JSONException) {
+                if (logger.isSevereLoggable()) {
+                    logger.log(
+                        Level.SEVERE,
+                        "An error occurred parsing the error response from Bitly. [$endPoint]",
+                        jse
+                    )
                 }
             }
         }
         response.close()
-        return CallResponse(json, message, description, response.code)
+        return CallResponse(body, message, description, response.code)
     }
 
     /**
