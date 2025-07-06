@@ -7,11 +7,11 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") } // only needed for SNAPSHOT
+    maven { url = uri("https://central.sonatype.com/repository/maven-snapshots/") } // only needed for SNAPSHOT
 }
 
 dependencies {
-    implementation("net.thauvin.erik:bitly-shorten:2.0.0")
+    implementation("net.thauvin.erik:bitly-shorten:2.0.1-SNAPSHOT")
     implementation("org.json:json:20240303")
 }
 
