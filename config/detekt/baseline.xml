@@ -43,5 +43,6 @@
     <ID>VariableNaming:CreateConfig.kt$CreateConfig$val long_url = builder.long_url</ID>
     <ID>VariableNaming:CreateConfig.kt$CreateConfig.Builder$var group_guid: String = Constants.EMPTY</ID>
     <ID>WildcardImport:BitlinksTests.kt$import assertk.assertions.*</ID>
+    <ID>WildcardImport:UtilsTests.kt$import org.junit.jupiter.api.*</ID>
   </CurrentIssues>
 </SmellBaseline>

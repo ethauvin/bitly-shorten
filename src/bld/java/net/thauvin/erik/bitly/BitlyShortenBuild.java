@@ -86,6 +86,7 @@ public class BitlyShortenBuild extends Project {
                 // JSON
                 .include(dependency("org.json", "json", "20250517"));
         scope(test)
+                .include(dependency("com.squareup.okhttp3", "mockwebserver", okHttp))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
                 .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 13, 3)))
                 .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 13, 3)))
