@@ -21,10 +21,10 @@ public class ExampleBuild extends BaseProject {
         javaRelease = 11;
         downloadSources = true;
         autoDownloadPurge = true;
-        repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, SONATYPE_SNAPSHOTS_LEGACY);
+        repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, CENTRAL_SNAPSHOTS);
 
         scope(compile)
-                .include(dependency("net.thauvin.erik:bitly-shorten:2.0.0"))
+                .include(dependency("net.thauvin.erik:bitly-shorten:2.0.1-SNAPSHOT"))
                 .include(dependency("org.json:json:20250517"));
     }
 
