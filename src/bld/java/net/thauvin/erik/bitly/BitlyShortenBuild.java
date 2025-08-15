@@ -74,7 +74,7 @@ public class BitlyShortenBuild extends Project {
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
         var okHttp = version(5, 1, 0);
-        final var kotlin = version(2, 2, 0);
+        final var kotlin = version(2, 2, 10);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
