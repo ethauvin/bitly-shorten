@@ -90,10 +90,14 @@ public class BitlyShortenBuild extends Project {
                         version(0, 9, 0, "SNAPSHOT")))
                 .include(dependency("com.squareup.okhttp3", "mockwebserver3", okHttp))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
-                .include(dependency("org.junit.jupiter", "junit-jupiter", version(5, 13, 3)))
-                .include(dependency("org.junit.platform", "junit-platform-console-standalone", version(1, 13, 3)))
-                .include(dependency("org.junit.platform", "junit-platform-launcher", version(1, 13, 3)))
-                .include(dependency("com.willowtreeapps.assertk", "assertk-jvm", version(0, 28, 1)));
+                .include(dependency("org.junit.jupiter", "junit-jupiter",
+                        version(5, 13, 4)))
+                .include(dependency("org.junit.platform", "junit-platform-console-standalone",
+                        version(1, 13, 4)))
+                .include(dependency("org.junit.platform", "junit-platform-launcher",
+                        version(1, 13, 4)))
+                .include(dependency("com.willowtreeapps.assertk", "assertk-jvm",
+                        version(0, 28, 1)));
 
         publishOperation()
                 .repository(version.isSnapshot() ? repository(CENTRAL_SNAPSHOTS.location())
