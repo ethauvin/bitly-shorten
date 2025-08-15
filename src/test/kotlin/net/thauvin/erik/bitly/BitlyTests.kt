@@ -42,13 +42,22 @@ import org.json.JSONObject
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.extension.RegisterExtension
+import rife.bld.extension.testing.LoggingExtension
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-@ExtendWith(BeforeAllTests::class)
+@ExtendWith(LoggingExtension::class)
 class BitlyTests {
+    companion object {
+        @Suppress("unused")
+        @JvmField
+        @RegisterExtension
+        val extension: LoggingExtension = LoggingExtension(Utils.logger)
+    }
+
     private val bitly = with(File("local.properties")) {
         if (exists()) {
             Bitly(toPath())

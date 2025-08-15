@@ -31,7 +31,6 @@
 
 package net.thauvin.erik.bitly
 
-import DisableOnCi
 import assertk.all
 import assertk.assertThat
 import assertk.assertions.*
@@ -46,6 +45,9 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.extension.RegisterExtension
+import rife.bld.extension.testing.DisabledOnCi
+import rife.bld.extension.testing.LoggingExtension
 import java.io.File
 import java.util.*
 import kotlin.test.assertEquals
@@ -53,8 +55,15 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 
-@ExtendWith(BeforeAllTests::class)
+@ExtendWith(LoggingExtension::class)
 class BitlinksTests {
+    companion object {
+        @Suppress("unused")
+        @JvmField
+        @RegisterExtension
+        val extension: LoggingExtension = LoggingExtension(Utils.logger)
+    }
+
     private val bitly = with(File("local.properties")) {
         if (exists()) {
             Bitly(toPath())
@@ -154,7 +163,7 @@ class BitlinksTests {
         }
 
         @Test
-        @DisableOnCi
+        @DisabledOnCi
         fun `Default constructor should default to empty string if no token is provided`() {
             System.clearProperty(Constants.ENV_ACCESS_TOKEN)
 
@@ -164,7 +173,7 @@ class BitlinksTests {
         }
 
         @Test
-        @DisableOnCi
+        @DisabledOnCi
         fun `Default constructor should use system property if env var is not set`() {
             val expectedToken = "token-from-property"
             System.setProperty(Constants.ENV_ACCESS_TOKEN, expectedToken)
@@ -354,7 +363,7 @@ class BitlinksTests {
         }
 
         @Test
-        @DisableOnCi
+        @DisabledOnCi
         fun `Update custom bitlink`() {
             val bl = bitly.bitlinks()
             assertEquals(
@@ -379,7 +388,7 @@ class BitlinksTests {
         }
 
         @Test
-        @DisableOnCi
+        @DisabledOnCi
         fun `Token not specified`() {
             val test = Bitly()
 
