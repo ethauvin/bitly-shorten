@@ -1,7 +1,7 @@
 plugins {
     id("application")
-    id("com.github.ben-manes.versions") version "0.51.0"
-    kotlin("jvm") version "2.2.10"
+    id("com.github.ben-manes.versions") version "0.53.0"
+    kotlin("jvm") version "2.2.21"
 }
 
 repositories {
@@ -17,15 +17,6 @@ dependencies {
 
 application {
     mainClass.set("com.example.BitlyExampleKt")
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-kotlin {
-    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
 }
 
 tasks {

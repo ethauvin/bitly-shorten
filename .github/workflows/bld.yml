@@ -5,7 +5,7 @@ on: [ push, pull_request, workflow_dispatch ]
 env:
   BITLY_ACCESS_TOKEN: ${{ secrets.BITLY_ACCESS_TOKEN }}
   COVERAGE_JDK: "21"
-  KOTLIN_VERSION: "2.2.0"
+  KOTLIN_VERSION: "2.2.21"
 
 jobs:
   build-bld-project:
