@@ -41,6 +41,9 @@ import net.thauvin.erik.bitly.Utils.removeHttp
 import net.thauvin.erik.bitly.Utils.toEndPoint
 import org.json.JSONObject
 import org.junit.jupiter.api.*
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EmptySource
+import org.junit.jupiter.params.provider.ValueSource
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -48,13 +51,13 @@ class UtilsTests {
     private lateinit var server: MockWebServer
 
     @BeforeEach
-    fun setUp() {
+    fun beforeEach() {
         server = MockWebServer()
         server.start()
     }
 
     @AfterEach
-    fun tearDown() {
+    fun afterEach() {
         server.close()
     }
 
@@ -213,14 +216,11 @@ class UtilsTests {
     @Nested
     @DisplayName("Endpoint Conversion Tests")
     inner class EndpointConversionTests {
-        @Test
-        fun `Convert endpoint with empty string`() {
-            assertThat("".toEndPoint()).isEqualTo("")
-        }
-
-        @Test
-        fun `Convert endpoint with blank string`() {
-            assertThat(" ".toEndPoint()).isEqualTo(" ")
+        @ParameterizedTest(name = "[{index}] ''{0}''")
+        @EmptySource
+        @ValueSource(strings = [" ", "  "])
+        fun `Convert endpoint with empty or blank strings`(input: String) {
+            assertThat(input.toEndPoint()).isEqualTo(input)
         }
 
         @Test
@@ -285,6 +285,11 @@ class UtilsTests {
         @Test
         fun `Validate URL`() {
             assertTrue("https://www.example.com".isValidUrl(), "valid url")
+        }
+
+        @Test
+        fun `Validate domain only URL`() {
+            assertTrue("example.com".isValidUrl(), "valid url")
         }
     }
 }

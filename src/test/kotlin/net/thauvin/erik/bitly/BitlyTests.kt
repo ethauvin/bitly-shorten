@@ -55,7 +55,7 @@ class BitlyTests {
         @Suppress("unused")
         @JvmField
         @RegisterExtension
-        val extension: LoggingExtension = LoggingExtension(Utils.logger)
+        val loggingExtension = LoggingExtension(Utils.logger)
     }
 
     private val bitly = with(File("local.properties")) {
