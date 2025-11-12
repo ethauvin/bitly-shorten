@@ -18,7 +18,7 @@ public class ExampleBuild extends BaseProject {
 
         mainClass = "com.example.BitlyExampleKt";
 
-        javaRelease = 11;
+        javaRelease = 17;
         downloadSources = true;
         autoDownloadPurge = true;
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, CENTRAL_SNAPSHOTS);
