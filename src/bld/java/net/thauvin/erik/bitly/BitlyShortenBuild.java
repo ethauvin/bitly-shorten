@@ -75,6 +75,7 @@ public class BitlyShortenBuild extends Project {
 
         final var okHttp = version(5, 3, 0);
         final var kotlin = version(2, 2, 21);
+        final var junit = version(6, 0, 1);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
@@ -90,12 +91,9 @@ public class BitlyShortenBuild extends Project {
                         version(0, 9, 0, "SNAPSHOT")))
                 .include(dependency("com.squareup.okhttp3", "mockwebserver3", okHttp))
                 .include(dependency("org.jetbrains.kotlin", "kotlin-test-junit5", kotlin))
-                .include(dependency("org.junit.jupiter", "junit-jupiter",
-                        version(5, 13, 4)))
-                .include(dependency("org.junit.platform", "junit-platform-console-standalone",
-                        version(1, 13, 4)))
-                .include(dependency("org.junit.platform", "junit-platform-launcher",
-                        version(1, 13, 4)))
+                .include(dependency("org.junit.jupiter", "junit-jupiter", junit))
+                .include(dependency("org.junit.platform", "junit-platform-console-standalone", junit))
+                .include(dependency("org.junit.platform", "junit-platform-launcher", junit))
                 .include(dependency("com.willowtreeapps.assertk", "assertk-jvm",
                         version(0, 28, 1)));
 
