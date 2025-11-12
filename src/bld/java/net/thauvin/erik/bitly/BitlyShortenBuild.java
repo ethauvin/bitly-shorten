@@ -73,7 +73,7 @@ public class BitlyShortenBuild extends Project {
 
         repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
 
-        var okHttp = version(5, 1, 0);
+        final var okHttp = version(5, 3, 0);
         final var kotlin = version(2, 2, 21);
         scope(compile)
                 // Kotlin
