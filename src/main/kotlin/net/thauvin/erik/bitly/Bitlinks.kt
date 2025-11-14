@@ -67,7 +67,7 @@ open class Bitlinks(private val accessToken: String) {
      * @param unit A [unit of time][Units].
      * @param units An integer representing the time units to query data for. Pass -1 to return all units available.
      * @param unit_reference An ISO-8601 timestamp, indicating the most recent time for which to pull metrics.
-     * Will default to current time.
+     * Will default to the current time.
      * @param toJson Returns the full JSON response if `true`.
      * @return The click counts.
      */
@@ -282,7 +282,7 @@ open class Bitlinks(private val accessToken: String) {
         bitlink: String,
         title: String = Constants.EMPTY,
         archived: Boolean = false,
-        tags: List<String> = emptyList(),
+        tags: List<String>? = null,
         deeplinks: UpdateDeeplinks = UpdateDeeplinks(),
         toJson: Boolean = false
     ): String {
@@ -292,7 +292,7 @@ open class Bitlinks(private val accessToken: String) {
                 accessToken, "bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
                     if (title.isNotBlank()) put("title", title)
                     if (archived) put("archived", true)
-                    if (tags.isNotEmpty()) put("tags", tags)
+                    if (tags != null) put("tags", tags)
                     if (deeplinks.isNotEmpty()) put("deeplinks", arrayOf(deeplinks.links()))
                 },
                 Methods.PATCH
