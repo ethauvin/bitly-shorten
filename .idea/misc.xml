@@ -8,6 +8,7 @@
     <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="detekt" />
     <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="detektBaseline" />
     <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="reporter" />
+    <pattern value="net.thauvin.erik.bitly.BitlyShortenBuild" method="spotbugs" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build" />

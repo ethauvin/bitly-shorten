@@ -31,6 +31,8 @@
 
 package net.thauvin.erik.bitly
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
+
 /**
  * Provides a data class to hold the JSON response.
  *
@@ -39,6 +41,7 @@ package net.thauvin.erik.bitly
  * @param description Bitly error description, if any.
  * @param statusCode HTTP status code,
  */
+@SuppressFBWarnings("USBR_UNNECESSARY_STORE_BEFORE_RETURN")
 data class CallResponse(
     val body: String = Constants.EMPTY_JSON,
     val message: String = "",

@@ -40,9 +40,9 @@ import java.util.*
 /**
  * Provides access to the [Bitly API v4](https://dev.bitly.com/api-reference).
  *
- * @constructor Creates new instance.
+ * @constructor Creates a new instance.
  */
-open class Bitly() {
+class Bitly() {
     /**
      * The API access token.
      *

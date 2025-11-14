@@ -148,5 +148,5 @@ class UpdateDeeplinks {
     /**
      * Returns the links.
      */
-    fun links(): Map<String, String> = map
+    fun links(): Map<String, String> = map.toMap() // Return a defensive copy
 }

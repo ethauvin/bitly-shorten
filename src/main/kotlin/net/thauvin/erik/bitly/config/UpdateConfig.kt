@@ -43,7 +43,8 @@ class UpdateConfig private constructor(builder: Builder) {
     val bitlink = builder.bitlink
     val title = builder.title
     val archived = builder.archived
-    val tags = builder.tags
+    val tags: List<String> = builder.tags.toList()
+        get() = field.toList() // Return a defensive copy
     val deeplinks = builder.deeplinks
     val toJson = builder.toJson
 
@@ -55,9 +56,12 @@ class UpdateConfig private constructor(builder: Builder) {
      * @param bitlink A Bitlink made of the domain and hash.
      **/
     data class Builder(var bitlink: String) {
+        private var _tags: List<String> = emptyList()
+
         var title: String = Constants.EMPTY
         var archived: Boolean = false
-        var tags: List<String> = emptyList()
+        val tags: List<String>
+            get() = _tags.toList()
         var deeplinks: UpdateDeeplinks = UpdateDeeplinks()
         var toJson: Boolean = false
 
@@ -68,7 +72,7 @@ class UpdateConfig private constructor(builder: Builder) {
 
         fun title(title: String): Builder = apply { this.title = title }
         fun archived(archived: Boolean): Builder = apply { this.archived = archived }
-        fun tags(tags: List<String>): Builder = apply { this.tags = tags }
+        fun tags(tags: List<String>): Builder = apply { _tags = tags.toList() }
         fun deeplinks(deeplinks: UpdateDeeplinks): Builder = apply { this.deeplinks = deeplinks }
 
         /**

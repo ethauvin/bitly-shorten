@@ -45,7 +45,8 @@ class CreateConfig private constructor(builder: Builder) {
     val domain = builder.domain
     val group_guid = builder.group_guid
     val title = builder.title
-    val tags = builder.tags
+    val tags: List<String> = builder.tags.toList()
+        get() = field.toList() // Return a defensive copy    val deeplinks = builder.deeplinks
     val deeplinks = builder.deeplinks
     val toJson = builder.toJson
 
@@ -57,10 +58,13 @@ class CreateConfig private constructor(builder: Builder) {
      * @param long_url The long URL.
      **/
     data class Builder(var long_url: String) {
+        private var _tags: List<String> = emptyList()
+
         var domain: String = Constants.EMPTY
         var group_guid: String = Constants.EMPTY
         var title: String = Constants.EMPTY
-        var tags: List<String> = emptyList()
+        val tags: List<String>
+            get() = _tags.toList()
         var deeplinks: CreateDeeplinks = CreateDeeplinks()
         var toJson: Boolean = false
 
@@ -76,7 +80,7 @@ class CreateConfig private constructor(builder: Builder) {
 
         fun title(title: String): Builder = apply { this.title = title }
 
-        fun tags(tags: List<String>): Builder = apply { this.tags = tags }
+        fun tags(tags: List<String>): Builder = apply { _tags = tags.toList() }
 
         fun deeplinks(deeplinks: CreateDeeplinks): Builder = apply { this.deeplinks = deeplinks }
 

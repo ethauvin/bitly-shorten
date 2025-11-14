@@ -52,8 +52,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static rife.bld.dependencies.Repository.*;
-import static rife.bld.dependencies.Scope.compile;
-import static rife.bld.dependencies.Scope.test;
+import static rife.bld.dependencies.Scope.*;
 
 public class BitlyShortenBuild extends Project {
     static final String TEST_RESULTS_DIR = "build/test-results/test/";
@@ -69,7 +68,7 @@ public class BitlyShortenBuild extends Project {
         downloadSources = true;
         autoDownloadPurge = true;
 
-        repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL);
+        repositories = List.of(MAVEN_LOCAL, MAVEN_CENTRAL, RIFE2_RELEASES);
 
         final var okHttp = version(5, 3, 0);
         final var kotlin = version(2, 2, 21);
@@ -84,6 +83,9 @@ public class BitlyShortenBuild extends Project {
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp))
                 // JSON
                 .include(dependency("org.json", "json", "20250517"));
+        scope(provided)
+                .include(dependency("com.github.spotbugs", "spotbugs-annotations",
+                        version(4, 9, 8)));
         scope(test)
                 .include(dependency("com.uwyn.rife2", "bld-extensions-testing-helpers",
                         version(0, 9, 4)))
@@ -235,5 +237,14 @@ public class BitlyShortenBuild extends Project {
     public void publishLocal() throws Exception {
         super.publishLocal();
         pomRoot();
+    }
+
+    @BuildCommand(summary = "Runs SpotBugs on this project")
+    public void spotbugs() throws Exception {
+        new SpotBugsOperation()
+                .fromProject(this)
+                .home("/opt/spotbugs")
+                .sourcePath(new File(srcMainDirectory(), "kotlin"))
+                .execute();
     }
 }

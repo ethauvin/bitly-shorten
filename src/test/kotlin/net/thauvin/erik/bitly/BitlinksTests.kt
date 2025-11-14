@@ -141,7 +141,7 @@ class BitlinksTests {
         @Test
         fun `Constructor with Properties should keep default token if key not found`() {
             val properties = Properties() // Empty properties
-            val bitlyWithDefaultToken = Bitly() // Has "" as token by default
+            val bitlyWithDefaultToken = Bitly() // Has empty token by default
             val initialToken = bitlyWithDefaultToken.accessToken
 
             val bitly = Bitly(properties, "non-existent-key")

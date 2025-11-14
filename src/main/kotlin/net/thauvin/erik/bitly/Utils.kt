@@ -31,6 +31,7 @@
 
 package net.thauvin.erik.bitly
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -160,9 +161,9 @@ object Utils {
     fun String.isValidUrl(): Boolean {
         if (this.isNotBlank()) {
             try {
-                URI(this)
+                URI.create(this)
                 return true
-            } catch (e: URISyntaxException) {
+            } catch (e: IllegalArgumentException) {
                 if (logger.isLoggable(Level.WARNING)) {
                     logger.log(Level.WARNING, "Invalid URL: $this", e)
                 }
@@ -176,6 +177,7 @@ object Utils {
      * Removes the `http` or `https` schemes from a string.
      */
     @JvmStatic
+    @SuppressFBWarnings("PDP_POORLY_DEFINED_PARAMETER")
     fun String.removeHttp(): String {
         return this.replaceFirst("^[Hh][Tt]{2}[Pp][Ss]?://".toRegex(), "")
     }
