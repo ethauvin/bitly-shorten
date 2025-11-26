@@ -281,7 +281,7 @@ open class Bitlinks(private val accessToken: String) {
     fun update(
         bitlink: String,
         title: String = Constants.EMPTY,
-        archived: Boolean = false,
+        archived: Boolean? = null,
         tags: List<String>? = null,
         deeplinks: UpdateDeeplinks = UpdateDeeplinks(),
         toJson: Boolean = false
@@ -291,7 +291,7 @@ open class Bitlinks(private val accessToken: String) {
             lastCallResponse = Utils.call(
                 accessToken, "bitlinks/${bitlink.removeHttp()}".toEndPoint(), mutableMapOf<String, Any>().apply {
                     if (title.isNotBlank()) put("title", title)
-                    if (archived) put("archived", true)
+                    if (archived != null) put("archived", archived)
                     if (tags != null) put("tags", tags)
                     if (deeplinks.isNotEmpty()) put("deeplinks", arrayOf(deeplinks.links()))
                 },
