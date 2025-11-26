@@ -30,7 +30,7 @@ commands:
           command: ./bld compile
       - run:
           name: Run tests
-          command: ./bld jacoco -reports-dir=<< parameters.reports-dir >>
+          command: ./bld jacoco
       - run:
           name: Run reporter
           when: on_fail
