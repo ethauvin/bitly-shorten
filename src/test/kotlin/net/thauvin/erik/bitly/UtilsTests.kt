@@ -216,7 +216,7 @@ class UtilsTests {
     @Nested
     @DisplayName("Endpoint Conversion Tests")
     inner class EndpointConversionTests {
-        @ParameterizedTest(name = "[{index}] ''{0}''")
+        @ParameterizedTest
         @EmptySource
         @ValueSource(strings = [" ", "  "])
         fun `Convert endpoint with empty or blank strings`(input: String) {
