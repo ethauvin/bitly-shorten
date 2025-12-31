@@ -82,7 +82,7 @@ public class BitlyShortenBuild extends Project {
                 .include(dependency("com.squareup.okhttp3", "okhttp-jvm", okHttp))
                 .include(dependency("com.squareup.okhttp3", "logging-interceptor", okHttp))
                 // JSON
-                .include(dependency("org.json", "json", "20250517"));
+                .include(dependency("org.json", "json", "20251224"));
         scope(provided)
                 .include(dependency("com.github.spotbugs", "spotbugs-annotations",
                         version(4, 9, 8)));
