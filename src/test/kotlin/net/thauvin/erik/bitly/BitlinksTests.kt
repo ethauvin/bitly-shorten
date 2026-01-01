@@ -102,13 +102,13 @@ class BitlinksTests {
         }
 
         @Test
-        fun `Clicks summary needs upgrade`() {
+        fun `Clicks summary with units`() {
             val bl = bitly.bitlinks()
             bl.clicks(shortUrl, unit = Units.MONTH, units = 1)
             assertThat(bl.lastCallResponse).all {
-                prop(CallResponse::description).contains("upgrade")
-                prop(CallResponse::isSuccessful).isFalse()
-                prop(CallResponse::statusCode).isEqualTo(402)
+                prop(CallResponse::description).isEmpty()
+                prop(CallResponse::isSuccessful).isTrue()
+                prop(CallResponse::statusCode).isEqualTo(200)
             }
         }
     }
