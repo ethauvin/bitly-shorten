@@ -58,7 +58,6 @@ import kotlin.test.assertTrue
 @ExtendWith(LoggingExtension::class)
 class BitlinksTests {
     companion object {
-        @Suppress("unused")
         @JvmField
         @RegisterExtension
         val loggingExtension = LoggingExtension(Utils.logger)

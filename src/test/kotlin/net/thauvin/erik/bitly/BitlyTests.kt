@@ -52,7 +52,6 @@ import kotlin.test.assertFailsWith
 @ExtendWith(LoggingExtension::class)
 class BitlyTests {
     companion object {
-        @Suppress("unused")
         @JvmField
         @RegisterExtension
         val loggingExtension = LoggingExtension(Utils.logger)
