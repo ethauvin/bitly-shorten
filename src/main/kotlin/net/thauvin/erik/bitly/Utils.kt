@@ -1,7 +1,7 @@
 /*
  * Utils.kt
  *
- * Copyright 2020-2025 Erik C. Thauvin (erik@thauvin.net)
+ * Copyright 2020-2026 Erik C. Thauvin (erik@thauvin.net)
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -42,7 +42,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URI
-import java.net.URISyntaxException
 import java.util.logging.Level
 import java.util.logging.Logger
 
