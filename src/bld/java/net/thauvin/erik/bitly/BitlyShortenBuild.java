@@ -72,7 +72,7 @@ public class BitlyShortenBuild extends Project {
 
         final var okHttp = version(5, 3, 2);
         final var kotlin = version(2, 3, 0);
-        final var junit = version(6, 0, 1);
+        final var junit = version(6, 0, 2);
         scope(compile)
                 // Kotlin
                 .include(dependency("org.jetbrains.kotlin", "kotlin-stdlib", kotlin))
