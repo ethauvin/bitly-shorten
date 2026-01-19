@@ -37,6 +37,7 @@ import rife.bld.extension.*;
 import rife.bld.extension.dokka.LoggingLevel;
 import rife.bld.extension.dokka.OutputFormat;
 import rife.bld.extension.dokka.SourceSet;
+import rife.bld.extension.tools.IOUtils;
 import rife.bld.operations.exceptions.ExitStatusException;
 import rife.bld.publish.PomBuilder;
 import rife.bld.publish.PublishDeveloper;
@@ -55,8 +56,9 @@ import static rife.bld.dependencies.Repository.*;
 import static rife.bld.dependencies.Scope.*;
 
 public class BitlyShortenBuild extends Project {
-    static final String TEST_RESULTS_DIR = "build/test-results/test/";
+
     final File srcMainKotlin = new File(srcMainDirectory(), "kotlin");
+    final File testResultsDirectory = IOUtils.resolveFile(buildDirectory(), "test-results", "test");
 
     public BitlyShortenBuild() {
         pkg = "net.thauvin.erik";
@@ -128,6 +130,45 @@ public class BitlyShortenBuild extends Project {
         jarSourcesOperation().sourceDirectories(srcMainKotlin);
     }
 
+    @BuildCommand(summary = "Compiles the Kotlin project")
+    @Override
+    public void compile() throws Exception {
+        var op = new CompileKotlinOperation().fromProject(this);
+        op.compileOptions().languageVersion("1.9").verbose(true);
+        op.execute();
+    }
+
+    @Override
+    public void test() throws Exception {
+        var op = testOperation().fromProject(this);
+        op.testToolOptions().reportsDir(testResultsDirectory);
+        op.execute();
+    }
+
+    @Override
+    public void javadoc() throws ExitStatusException, IOException, InterruptedException {
+        new DokkaOperation()
+                .fromProject(this)
+                .loggingLevel(LoggingLevel.INFO)
+                .moduleName("Bitly Shorten")
+                .moduleVersion(version.toString())
+                .outputDir(new File(buildDirectory(), "javadoc"))
+                .outputFormat(OutputFormat.JAVADOC)
+                .execute();
+    }
+
+    @Override
+    public void publish() throws Exception {
+        super.publish();
+        pomRoot();
+    }
+
+    @Override
+    public void publishLocal() throws Exception {
+        super.publishLocal();
+        pomRoot();
+    }
+
     public static void main(String[] args) {
         // Enable detailed logging for the extensions
         var level = Level.ALL;
@@ -140,14 +181,6 @@ public class BitlyShortenBuild extends Project {
         logger.setUseParentHandlers(false);
 
         new BitlyShortenBuild().start(args);
-    }
-
-    @BuildCommand(summary = "Compiles the Kotlin project")
-    @Override
-    public void compile() throws Exception {
-        var op = new CompileKotlinOperation().fromProject(this);
-        op.compileOptions().languageVersion("1.9").verbose(true);
-        op.execute();
     }
 
     @BuildCommand(summary = "Checks source with Detekt")
@@ -190,7 +223,7 @@ public class BitlyShortenBuild extends Project {
     @BuildCommand(summary = "Generates JaCoCo Reports")
     public void jacoco() throws Exception {
         var op = new JacocoReportOperation().fromProject(this);
-        op.testToolOptions("--reports-dir=" + TEST_RESULTS_DIR);
+        op.testToolOptions("--reports-dir=" + testResultsDirectory.getAbsolutePath());
         op.execute();
     }
 
@@ -206,37 +239,6 @@ public class BitlyShortenBuild extends Project {
                 .fromProject(this)
                 .failOnSummary(true)
                 .execute();
-    }
-
-    @Override
-    public void test() throws Exception {
-        var op = testOperation().fromProject(this);
-        op.testToolOptions().reportsDir(new File(TEST_RESULTS_DIR));
-        op.execute();
-    }
-
-    @Override
-    public void javadoc() throws ExitStatusException, IOException, InterruptedException {
-        new DokkaOperation()
-                .fromProject(this)
-                .loggingLevel(LoggingLevel.INFO)
-                .moduleName("Bitly Shorten")
-                .moduleVersion(version.toString())
-                .outputDir(new File(buildDirectory(), "javadoc"))
-                .outputFormat(OutputFormat.JAVADOC)
-                .execute();
-    }
-
-    @Override
-    public void publish() throws Exception {
-        super.publish();
-        pomRoot();
-    }
-
-    @Override
-    public void publishLocal() throws Exception {
-        super.publishLocal();
-        pomRoot();
     }
 
     @BuildCommand(summary = "Runs SpotBugs on this project")
